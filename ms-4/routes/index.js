@@ -1,0 +1,147 @@
+var express = require('express');
+var router = express.Router();
+var orderModel  =  require("../model/Order.js");
+
+
+/*-------------------------------START Order--------------------------------------------------------*/
+
+router.get('/order', function(req, res, next) {
+ 
+ // if (!req.isAuthenticated()) {
+ //        return res.status(200).json({
+ //            status: false,
+ //            message:'Access Denied'
+ //        });
+ //    }
+
+	var response={};
+	orderModel.find({}, null, {sort: {created_at: -1}},function(err,data){
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			response = {"error" : false,"message" : data};
+		};
+		res.json(response);
+	});	
+});
+
+router.post('/driverorders', function(req, res, next) {
+ 	var response={};
+	orderModel.find({'restaurantid':{$in:req.body.rids}}, null, {sort: {created_at: -1}},function(err,data){
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			response = {"error" : false,"message" : data};
+		};
+		res.json(response);
+	});	
+});
+
+
+router.get('/customerorder/:id', function(req, res, next) {
+ 	var response={};
+	orderModel.find({customerid: req.params.id}, null, {sort: {created_at: -1}}, function(err,data){
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			response = {"error" : false,"message" : data};
+		};
+		res.json(response);
+	});	
+});
+
+
+router.post('/order',function(req, res){
+ 	var response={};
+    var order = new orderModel(req.body);
+    order.save(function(err, data){
+    	if(err) {
+            response = {"error" : true,"message" : err};
+        } else {
+            response = {"error" : false,"message" : data};
+        }
+        res.json(response);
+    });
+});
+
+
+router.put('/order/:id',function(req, res){
+
+ // if (!req.isAuthenticated()) {
+ //        return res.status(200).json({
+ //            status: false,
+ //            message:'Access Denied'
+ //        });
+ //    }
+
+	var response={};
+	orderModel.findByIdAndUpdate(req.params.id, req.body, function(err, order) {
+	    	if(err) {
+	            response = {"error" : true,"message" : err};
+	        } else {
+	            response = {"error" : false,"message" : "Data Update"};
+	        }
+	        res.json(response);
+        });
+});
+
+
+
+
+router.get('/order/:id',function(req,res){
+ 
+ // if (!req.isAuthenticated()) {
+ //        return res.status(200).json({
+ //            status: false,
+ //            message:'Access Denied'
+ //        });
+ //    }
+
+	var response={};
+	console.log(req.params.id);
+	orderModel.findById(req.params.id,function(err,data){
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			response = {"error" : false,"message" : data};
+		};
+		res.json(response);
+	});	
+});
+
+
+router.delete('/order/:id',function(req,res){
+ 
+ // if (!req.isAuthenticated()) {
+ //        return res.status(200).json({
+ //            status: false,
+ //            message:'Access Denied'
+ //        });
+ //    }
+ 
+	var response={};
+	console.log(req.params.id);
+	orderModel.remove({_id:req.params.id},function(err,data){
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			response = {"error" : false,"message" : "Deleted Successfully"};
+		};
+		res.json(response);
+	});	
+});
+/*-------------------------------END Order--------------------------------------------------------*/
+
+router.get('/restaurantorders/:id',function(req, res){
+var response={};
+orderModel.find({ restaurantid: req.params.id}, null, {sort: {created_at: -1}}, function(err,data){
+	if (err) {
+		response = {"error" : true,"message" : err};
+	} else{
+		response = {"error" : false,"message" : data};
+	};
+	res.json(response);
+  });	
+});
+
+module.exports = router;
