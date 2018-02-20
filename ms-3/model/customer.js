@@ -8,6 +8,7 @@ var CustomerSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   dob: String,
+  profilePic:String,
   homephone: String,
   cellphone: String,
   gender : String,
