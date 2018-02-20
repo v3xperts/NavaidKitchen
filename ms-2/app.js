@@ -40,7 +40,7 @@ app.use(allowCrossDomain);
 
 var storage = multer.diskStorage({ //multers disk storage settings
     destination: function (req, file, cb) {
-         cb(null, '/Kitchen/ms-2/public/uploads/');
+         cb(null, '/NavaidKitchen/ms-2/public/uploads/');
         //cb(null, './public/uploads/');
     },
     filename: function (req, file, cb) {

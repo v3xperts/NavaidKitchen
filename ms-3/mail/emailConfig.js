@@ -4,7 +4,7 @@ var randomstring = require("randomstring");
 
 var emailFrom = 'navaidkitchen@gmail.com';
 
-var templateDir = '/Kitchen/ms-3/email_template';
+var templateDir = '/NavaidKitchen/ms-3/email_template';
 //var templateDir = '../ms-3/email_template';
 
 var transporter = nodemailer.createTransport({
