@@ -23,6 +23,7 @@ router.post('/multiple', function(req, res, next) {
 router.post('/signup',function(req, res) {
 	
     var response = {};
+    req.body.username = req.body.username.toLowerCase();
 	var cust = new Customer(req.body);
 
 	cust.save(function (err, data) {
@@ -41,7 +42,7 @@ router.post('/signup',function(req, res) {
 
 
 router.post('/login', function(req, res, next) {
-    Customer.find({ username:req.body.username, password:req.body.password},function(err,customer) {
+    Customer.find({ username: req.body.username.toLowerCase(), password:req.body.password},function(err,customer) {
         if (err) {
             res.json({error:true, data: err});
             }else{

@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var orderModel  =  require("../model/Order.js");
-
+const keyPublishable = 'pk_test_zd2LWmkl0Z6DKHbBGUjXooyo';
+const keySecret = 'sk_test_zjKxMUcCsGAG2uEN0xKz8mlU';
+const stripe = require("stripe")(keySecret);
 
 /*-------------------------------START Order--------------------------------------------------------*/
 
@@ -63,6 +65,26 @@ router.post('/order',function(req, res){
         res.json(response);
     });
 });
+
+
+router.post("/charge", (req, res) => {
+	let token = req.body.token;
+	let amount = req.body.amount;
+	stripe.charges.create({
+	amount: amount,
+	currency: "usd",
+	description: "Payment Charge for MealDaay.com",
+	source: token,
+	}, function(err, charge) {    		
+	// asynchronously called
+	if(err){
+	res.status(500).json(err);
+	}else{
+	res.status(200).json(charge);
+	}
+	});
+});
+
 
 
 router.put('/order/:id',function(req, res){
@@ -143,5 +165,7 @@ orderModel.find({ restaurantid: req.params.id}, null, {sort: {created_at: -1}}, 
 	res.json(response);
   });	
 });
+
+
 
 module.exports = router;

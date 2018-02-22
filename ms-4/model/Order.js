@@ -21,7 +21,8 @@ fulladdress : Object,
 driverDetail : Object,
 cardinfo : Object,
 status : {type : String, default : 'received'},
-created_at: { type: Date, default: Date.now } 
+created_at: { type: Date, default: Date.now },
+cardPaidStatus: Object 
 });
 
 var Order = mongoose.model('Order', OrderSchema);
