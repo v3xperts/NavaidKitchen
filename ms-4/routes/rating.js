@@ -216,5 +216,16 @@
 		});	
 		});
 
+		router.get('/orderrating/:id',function(req,res){
+		var response={};			
+		ratingModel.find({"orderId" : req.params.id}, function(err,data){
+			if (err) {
+				response = {"error" : true,"message" : "Error fetching data"};
+			} else{
+				response = {"error" : false,"message" : data};
+			};
+			res.json(response);
+		});	
+		});
 
 module.exports = router;
