@@ -501,7 +501,15 @@ router.post('/kitchenfiltersstr',function(req,res){
 });
 
 
-
+router.get("/heatmaplatlng", (req, res) => {
+	kitchenModel.find({}, 'lat lng', (err, data)=> {
+	if(err){
+		res.json({"error" : true,"message" : err});
+		} else {
+		res.json({"error" : false,"message" : data});
+	}
+	});
+});
 
 /*-------------------------------END referral--------------------------------------------------------*/
 
