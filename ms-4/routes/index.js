@@ -132,6 +132,30 @@ router.get('/order/:id',function(req,res){
 });
 
 
+
+router.get('/orderbussiness',function(req,res){
+	var response={};
+
+	orderModel.aggregate([
+        {$match: {"status" : "completed"}},
+        {
+        $group: {
+            _id: '$restaurantid', // grouping key - group by field district                
+            subtotal: { $sum: '$subtotal' }
+        }
+        }
+    ]).exec((err,data) => {
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			response = {"error" : false,"message" : data};
+		};
+		res.json(response);
+	});
+
+});
+
+
 router.delete('/order/:id',function(req,res){
  
  // if (!req.isAuthenticated()) {
