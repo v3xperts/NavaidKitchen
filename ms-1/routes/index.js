@@ -322,14 +322,20 @@ router.delete('/kitchen/:id',function(req,res){
 
 
 router.post('/kitchenfilters',function(req,res){
- 
+    console.log(req.body);
     var conditions = {}; 
-
+    var conditions2 = {};
     conditions.activestatus = true;
     if((req.body.city != '') && (typeof req.body.city != 'undefined')){
             conditions.city = req.body.city;
      }
             
+    if((req.body.sortby != '') && (typeof req.body.sortby != 'undefined') && (req.body.sortby != 'rating')){
+    	     var newsort = req.body.sortby;
+    	     var newsorttype = (newsort == 'created_at' ? -1 : 1);
+             conditions2[newsort] = newsorttype;
+     }
+
     if(typeof req.body.cousine != 'undefined' && req.body.cousine.length > 0){
        conditions.cuisines = {$in: req.body.cousine};     
     }
@@ -342,9 +348,10 @@ router.post('/kitchenfilters',function(req,res){
      }
       
     console.log(conditions);
+    console.log(conditions2);
 
 	var response={};
-     kitchenModel.find(conditions).exec(function(err, locations) {
+     kitchenModel.find(conditions).sort(conditions2).exec(function(err, locations) {
       if (err) {
 			response = {"error" : true,"message" : "Error fetching data"};
 		} else{
