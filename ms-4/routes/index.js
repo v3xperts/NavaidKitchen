@@ -16,8 +16,9 @@ function setValues(){
 	} else{
 		console.log("ff", data);
 		if(data.length == 1){
-		//keyPublishable = data[0].keypublishable;
-		//keySecret = data[0].keysecret;
+		keyPublishable = data[0].keypublishable;
+		keySecret = data[0].keysecret;
+		const stripe = require("stripe")(keySecret);
 		console.log("keyAssign");
 		}
 	  };
@@ -25,7 +26,7 @@ function setValues(){
   }
 
 setValues();
-const stripe = require("stripe")(keySecret);
+
 
 router.get('/stripeconfig', function(req, res, next) {
  	var response={};
