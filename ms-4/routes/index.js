@@ -14,9 +14,10 @@ function setValues(){
 	if (err) {
 		console.log("error");
 	} else{
+		console.log("ff", data);
 		if(data.length == 1){
-		keyPublishable = data[0].keypublishable;
-		keySecret = data[0].keysecret;
+		//keyPublishable = data[0].keypublishable;
+		//keySecret = data[0].keysecret;
 		console.log("keyAssign");
 		}
 	  };
