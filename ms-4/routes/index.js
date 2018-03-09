@@ -1,9 +1,75 @@
 var express = require('express');
 var router = express.Router();
 var orderModel  =  require("../model/Order.js");
-const keyPublishable = 'pk_test_zd2LWmkl0Z6DKHbBGUjXooyo';
-const keySecret = 'sk_test_zjKxMUcCsGAG2uEN0xKz8mlU';
+var StripeConfigModel  =  require("../model/StripeConfig.js");
+var keyPublishable = '';
+var keySecret = '';
+
+
+
+/*-------------------------------Start Stripe--------------------------------------------------------*/
+
+function setValues(){
+	StripeConfigModel.find({},function(err,data){
+	if (err) {
+		console.log("error");
+	} else{
+		keyPublishable = data[0].keypublishable;
+		keySecret = data[0].keysecret;
+		console.log("keyAssign");
+	  };
+	});
+  }
+
+setValues();
 const stripe = require("stripe")(keySecret);
+
+router.get('/stripeconfig', function(req, res, next) {
+ 	var response={};
+ 	StripeConfigModel.find({},function(err,data){
+	if (err) {
+		res.json({error: true, message: err});
+	} else{
+		res.json({error: false, message: data});
+	};
+	});
+  });
+
+router.post('/stripeconfig', function(req, res, next) {
+ 	var response={};
+	StripeConfigModel.find({},function(err,fdata){
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			if(fdata.length == 1){
+            StripeConfigModel.findByIdAndUpdate(fdata[0]._id, req.body, {new:true}, (err, udata)=>{
+            	if(err){
+				res.json({"error" : true,"message" : err});
+            	}else{
+            		setValues();
+            	res.json({"error" : false,"message" : udata});
+            	}
+            });
+			}else{
+				var ConfigModel = new StripeConfigModel(req.body);
+				ConfigModel.save(function(err, sdata){
+				if(err) {
+				response = {"error" : true,"message" : err};
+				} else {
+					setValues();
+				response = {"error" : false,"message" : sdata};
+				}
+				res.json(response);
+				});			
+			}
+		};
+	});	
+});
+
+/*-------------------------------END Stripe--------------------------------------------------------*/
+
+
+
 
 /*-------------------------------START Order--------------------------------------------------------*/
 
@@ -189,6 +255,8 @@ orderModel.find({ restaurantid: req.params.id}, null, {sort: {created_at: -1}}, 
 	res.json(response);
   });	
 });
+
+
 
 
 
