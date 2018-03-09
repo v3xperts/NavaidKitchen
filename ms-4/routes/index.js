@@ -4,7 +4,7 @@ var orderModel  =  require("../model/Order.js");
 var StripeConfigModel  =  require("../model/StripeConfig.js");
 var keyPublishable = '';
 var keySecret = '';
-
+var stripe;
 
 
 /*-------------------------------Start Stripe--------------------------------------------------------*/
@@ -18,7 +18,7 @@ function setValues(){
 		if(data.length == 1){
 		keyPublishable = data[0].keypublishable;
 		keySecret = data[0].keysecret;
-		const stripe = require("stripe")(keySecret);
+		stripe = require("stripe")(keySecret);
 		console.log("keyAssign");
 		}
 	  };
