@@ -14,9 +14,11 @@ function setValues(){
 	if (err) {
 		console.log("error");
 	} else{
+		if(data.length == 1){
 		keyPublishable = data[0].keypublishable;
 		keySecret = data[0].keysecret;
 		console.log("keyAssign");
+		}
 	  };
 	});
   }
