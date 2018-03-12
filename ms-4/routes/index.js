@@ -142,7 +142,7 @@ router.post("/charge", (req, res) => {
 	let amount = req.body.amount;
 	stripe.charges.create({
 	amount: amount,
-	currency: "usd",
+	currency: "USD",
 	description: "Payment Charge for MealDaay.com",
 	source: token,
 	}, function(err, charge) {    		
@@ -150,6 +150,7 @@ router.post("/charge", (req, res) => {
 	if(err){
 	res.status(500).json(err);
 	}else{
+		
 	res.status(200).json(charge);
 	}
 	});
