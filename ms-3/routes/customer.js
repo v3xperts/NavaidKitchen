@@ -48,7 +48,9 @@ router.post('/login', function(req, res, next) {
             }else{
             if(customer && customer.length > 0){
                 if(customer[0].status){
-                res.json({error:false, data: customer[0]});
+                Customer.update({ "_id": customer[0]._id },{"timezone": req.body.timezone}, function(err, data){
+                    res.json({error:false, data: customer[0]});
+                });
                 }else{
                  res.json({error: true, data: 'Account not activated Yet. Please Check Your email And Activate account.'})   
                 }
