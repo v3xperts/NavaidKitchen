@@ -165,6 +165,8 @@ text-transform: capitalize;
    }
    .pricepadd{
     padding-top: 10px;
+    position: absolute;
+    bottom: 0;
    }
    .gkl{
     float: left;
