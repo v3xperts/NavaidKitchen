@@ -41,7 +41,7 @@ router.post('/login', function(req, res, next) {
 			}
 			});
 		}else{ 
-			partnerModel.find({username:req.body.username,password:req.body.password,status:true},function(err,partner) {
+			partnerModel.find({username:req.body.username,password:req.body.password},function(err,partner) {
 			if(err){
 			res.json({status:false, data: 'error', type:'partner'});
 			}   		
@@ -49,10 +49,14 @@ router.post('/login', function(req, res, next) {
 		    var partnerinfo = partner[0];		
 			kitchenModel.find({ownerId: partnerinfo.OwnerId}).populate('ownerId').exec(function(err, data){
 			//	console.log(data[0].ownerId.username);
-			console.log("owner test2", data);	
+			// console.log("owner test2", data);	
 			data[0].ownerId.username = partner[0]["username"];
-			console.log(data[0]["restaurantname"] , partner[0]["username"]);
+			// console.log(data[0]["restaurantname"] , partner[0]["username"]);
+			if(partner[0].status){
 			res.json({status:true,data: data[0],type:'partner'});	
+			}else{
+		    res.json({status:true,data: data[0],type:'partner', 'notapprove': true});			
+			}
 			});
 			}else{
 			res.json({status:false, data:''});    
