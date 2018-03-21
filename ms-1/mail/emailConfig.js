@@ -17,7 +17,7 @@ var transporter = nodemailer.createTransport("SMTP", {
 
 
 module.exports = {
-
+    
     emailShoot: function(emailTo, username, id) {
 
         console.log(emailTo, username, id);
@@ -36,6 +36,30 @@ module.exports = {
             from: emailFrom,
             to: emailTo,
             subject: 'Mealdaay Owner Activate Account',
+            html: html,
+            text: 'text'
+        };
+        sendmail(options);
+    },
+
+    referalShoot: function(emailTo, id) {
+
+        console.log(emailTo, username, id);
+
+        // rendering html template (same way can be done for subject, text)
+        var html = ejs.renderFile(templateDir + '/referal.ejs', { username: username , token: id},
+            function(err, data) {
+                if (err) {
+                    console.log(err);
+                }
+                return data;
+            });
+
+        //build options
+        var options = {
+            from: emailFrom,
+            to: emailTo,
+            subject: 'Mealdaay Owner Referral link',
             html: html,
             text: 'text'
         };

@@ -62,6 +62,7 @@ router.post('/owner/forget-password',function(req,res,next){
         	console.log(data);
             if (data.length>0) {
                 emails.forgetEmailShoot(data[0],'owner');
+                res.json({error:false,message:'send email'});
                 /*var name = data[0].firstname+" <"+data[0].email+" >";
                 var content = "Password reset Link <a href='http://mealdaay.com:3004/owner/resetpassword/"+data[0]._id+"'>Click Here</a>"
                 req.mail.sendMail({  //email options
@@ -432,7 +433,6 @@ router.post('/ownerreferral',function(req,res,next) {
 		       "error" : true,"message" : 'Email Already exist'
 		    });
     }else{
-
     	 ownerModel.find({email:req.body.emailto},function (err,data2) {
     	if(data2.length>0){
     		res.status(200).json({
@@ -445,7 +445,9 @@ router.post('/ownerreferral',function(req,res,next) {
 		            response = {"error" : true,"message" : err};
 		        } else {
 		             if (data) {
-		                var content = "Referral Link <a href='http://mealdaay.com:3004/owner/referralregister/"+data._id+"'>Click Here</a>"
+                       emails.referalShoot(req.body.emailto ,data._id);
+
+		               /* var content = "Referral Link <a href='http://mealdaay.com:3004/owner/referralregister/"+data._id+"'>Click Here</a>"
 		                console.log(content);
 		                req.mail.sendMail({  //email options 
 		                    from: "Restaurant Team <navaidkitchen@gmail.com>", // sender address.  Must be the same as authenticated user if using GMail.
@@ -460,11 +462,13 @@ router.post('/ownerreferral',function(req,res,next) {
 		                   }
 		                   req.mail.close(); // shut down the connection pool, no more messages.  Comment this line out to continue sending emails.
 		                   //res.json({error:false});                  
-		                });
+		                });*/
+
+		                console.log(req.body.referralfrom);
+		               
 		             }
-		             response = {"error" : false,"message" : data};
 		        }
-		        res.json(response);
+		        
 		    });
     	}
     });
