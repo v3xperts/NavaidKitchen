@@ -5,6 +5,7 @@ var kitchenModel  =  require("../model/Kitchen.js");
 var referralModel  =  require("../model/referral.js");
 var ownerModel  =  require("../model/Owner.js");
 var partnerModel  =  require("../model/Partner.js");
+var emails = require('../mail/emailConfig.js');
 
 var options = {
   	provider: 'google',
@@ -60,7 +61,8 @@ router.post('/owner/forget-password',function(req,res,next){
         } else{
         	console.log(data);
             if (data.length>0) {
-                var name = data[0].firstname+" <"+data[0].email+" >";
+                emails.forgetEmailShoot(data[0],'owner');
+                /*var name = data[0].firstname+" <"+data[0].email+" >";
                 var content = "Password reset Link <a href='http://mealdaay.com:3004/owner/resetpassword/"+data[0]._id+"'>Click Here</a>"
                 req.mail.sendMail({  //email options
                    from: "Restaurant Team <navaidkitchen@gmail.com>", // sender address.  Must be the same as authenticated user if using GMail.
@@ -77,7 +79,8 @@ router.post('/owner/forget-password',function(req,res,next){
                    req.mail.close(); // shut down the connection pool, no more messages.  Comment this line out to continue sending emails.
                    res.json({error:false});
                 });
-                console.log(data);
+                console.log(data);*/
+
             }else{
             	res.json({error:true,message:'Email Does Not Exist'});
             }
@@ -172,7 +175,7 @@ router.post('/kitchen',function(req, res){
 	console.log(fullAddress);
 	geocoder.geocode(fullAddress, function(err, gResponse) {
 		console.log(gResponse);
-		req.body.lat = gResponse[0].latitude;
+		    req.body.lat = gResponse[0].latitude;
 		  	req.body.lng = gResponse[0].longitude;
 	    var kitchen = new kitchenModel(req.body);
 	    kitchen.save(function(err){
@@ -416,7 +419,21 @@ router.post('/filterKitchen',function(req,res){
 
 router.post('/ownerreferral',function(req,res,next) {
     var response={};
-    kitchenModel.find({email:req.body.emailto},function (err,data2) {
+    
+     referralModel.find({emailto : req.body.emailto}, function(err, data) {
+        console.log('sdad',data)
+    if(err){
+    	res.status(200).json({
+		       "error" : true,"message" : err
+		    });
+    }
+    if(data.length > 0){
+    	res.status(200).json({
+		       "error" : true,"message" : 'Email Already exist'
+		    });
+    }else{
+
+    	 ownerModel.find({email:req.body.emailto},function (err,data2) {
     	if(data2.length>0){
     		res.status(200).json({
 		       "error" : true,"message" : 'Email Already exist'
@@ -451,6 +468,9 @@ router.post('/ownerreferral',function(req,res,next) {
 		    });
     	}
     });
+
+    }
+       });
 });
 
 router.get('/ownerreferral/:id',function(req,res){

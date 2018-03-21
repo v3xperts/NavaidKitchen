@@ -3,7 +3,7 @@ var router = express.Router();
 var ownerModel  =  require("../model/Owner.js");
 var kitchenModel  =  require("../model/Kitchen.js");
 var partnerModel  =  require("../model/Partner.js");
-
+var emails = require('../mail/emailConfig.js');
 /* GET users listing. */
 /*router.get('/', function(req, res, next) {
   res.send('respond with a resource');
@@ -56,7 +56,11 @@ router.post('/',function(req, res){
           
             restaurant = new kitchenModel(resObj);
             restaurant.save();
-            var name = ownerData.username+" <"+ownerData.email+" >";            
+            emails.emailShoot(ownerData.email,ownerData.username,ownerData._id);
+            response = {"error" : false,"message" : restaurant};
+            res.json(response);
+            
+            /*var name = ownerData.username+" <"+ownerData.email+" >";            
             var content = "Email Activation Link <a href='http://mealdaay.com:3004/owner/mailactivate/"+ownerData._id+"'>Click Here</a>"
             req.mail.sendMail({  //email options
                from: "Restaurant Team <navaidkitchen@gmail.com>", // sender address.  Must be the same as authenticated user if using GMail.
@@ -73,7 +77,8 @@ router.post('/',function(req, res){
                //res.json({status:true});
                 response = {"error" : false,"message" : restaurant};
             	res.json(response);
-        	});
+        	});*/
+
         }
        
     });
@@ -177,6 +182,8 @@ router.post('/partner',function(req, res){
           if(err) {
               response = {"error" : true,"message" : err};            
           } else {
+
+            emails.partneremailShoot(data.email, data.username, data._id);
               var name = data.username+" <"+data.email+" >";            
               var content = "Email Activation Link <a href='http://mealdaay.com:3004/owner/partner-mailactivate/"+data._id+"'>Click Here</a>"
               req.mail.sendMail({  //email options
@@ -195,6 +202,8 @@ router.post('/partner',function(req, res){
                   response = {"error" : false,"message" : data};
                 res.json(response);
             });
+
+
           }
         });
       }

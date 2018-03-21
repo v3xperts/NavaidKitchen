@@ -374,28 +374,33 @@ router.post('/country',function(req, res){
 
 router.put('/country/:id',function(req, res){
 
- // if (!req.isAuthenticated()) {
- //        return res.status(200).json({
- //            status: false,
- //            message:'Access Denied'
- //        });
- //    }
 	 if(req.body.countryname){
 	    var countryc = req.body.countryname;
 	    req.body.countryname = countryc.replace(/\b[a-z]/g,function(f){return f.toUpperCase();}); 	
 	}
 	var response={};
-	countryModel.findByIdAndUpdate(req.params.id, req.body, function(err, country) {
-	    	if(err) {
+	countryModel.find({countryname: req.body.countryname}, function(err, country) {
+		if(err) {
 	            response = {"error" : true,"message" : err};
+	            res.json(response);
 	        } else {
-	            response = {"error" : false,"message" : "Data Update"};
+	        	if(country.length > 0){
+	            response = {"error" : true,"message" : "Already exist."};
+	            res.json(response);
+	        	}else{
+						countryModel.findByIdAndUpdate(req.params.id, req.body, function(err, country) {
+						if(err) {
+						response = {"error" : true,"message" : err};
+						} else {
+						response = {"error" : false,"message" : "Data Update"};
+						}
+						res.json(response);
+						});
+	        	}
 	        }
-	        res.json(response);
-        });
-
-
 });
+});
+
 
 router.get('/country/:id',function(req,res){
 	// if (!req.isAuthenticated()) {

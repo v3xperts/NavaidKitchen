@@ -36,22 +36,22 @@ var KitchenSchema = new Schema({
   advertisepolicychangesandlegal: String,
   advertisepromotions: String,
   openinghours : [],  
- openingstatus : String,
+ openingstatus : {type: String, default:'open'},
  kitchenservices: Array,
  kitchencapacity : String,
  cateringcapacity : String,
  offerings : Array,
  fastestdelivery : {type : Boolean, default: false},
- minimumorder : String,
+ minimumorder : {type: String, default: 0},
  mindeliveryime : String,
- bakeryitems :String,
+ bakeryitems : {type : Boolean, default: false},
  foodtype : Array,
  deliveryservice : {status : "", value : ""},
  documentation : Array,
  bankinginformation : Array,
  tax: {status : "", value : ""},
  serviceAllow: {"daliymenuservice": {type: Boolean, default: false}, "cateringservice": {type: Boolean, default: false}, "mealpackageservice": {type: Boolean, default: false}, "comboservice": {type: Boolean, default: false}}
-});
+ });
 
 // the schema is useless so far
 // we need to create a model using it

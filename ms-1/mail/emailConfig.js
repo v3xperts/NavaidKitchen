@@ -35,7 +35,32 @@ module.exports = {
         var options = {
             from: emailFrom,
             to: emailTo,
-            subject: 'Activate Account',
+            subject: 'Mealdaay Owner Activate Account',
+            html: html,
+            text: 'text'
+        };
+        sendmail(options);
+    },
+
+
+    partneremailShoot: function(emailTo, username, id) {
+
+        console.log(emailTo, username, id);
+
+        // rendering html template (same way can be done for subject, text)
+        var html = ejs.renderFile(templateDir + '/partner.ejs', { username: username , token: id},
+            function(err, data) {
+                if (err) {
+                    console.log(err);
+                }
+                return data;
+            });
+
+        //build options
+        var options = {
+            from: emailFrom,
+            to: emailTo,
+            subject: 'Mealdaay Partner Activate Account',
             html: html,
             text: 'text'
         };
@@ -65,16 +90,7 @@ emailAdminDriverShoot: function(username) {
     },
 
     forgetEmailShoot: function(customer, type) {
-        console.log(customer);
-        if (type == 'cust') {
-            customer['resetPassLink'] = 'http://mealdaay.com:3004/customers/reset-password/'+customer._id;
-            /*customer['resetPassLink'] = 'http://localhost:4200/customer/reset-password/'+customer._id;*/
-        }else{
-            customer['resetPassLink'] = 'http://mealdaay.com:3004/admin/reset-password/'+customer._id;
-            /*customer['resetPassLink'] = 'http://localhost:4200/admin/reset-password/'+customer._id;*/
-        }
-
-        console.log(customer);
+            customer['resetPassLink'] = 'http://mealdaay.com:3004/owner/reset-password/'+customer._id;
 
         // rendering html template (same way can be done for subject, text)
         var html = ejs.renderFile(templateDir + '/forgetPassword.ejs', {customer : customer},
@@ -88,7 +104,7 @@ emailAdminDriverShoot: function(username) {
         //build options
         var options = {
             from: emailFrom,
-            to: customer.firstname + " <" + customer.email + " >",
+            to: customer.username + " <" + customer.email + " >",
             subject: 'Reset Password',
             html: html,
             text: 'text'
