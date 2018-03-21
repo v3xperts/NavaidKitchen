@@ -35,7 +35,7 @@ module.exports = {
         var options = {
             from: emailFrom,
             to: emailTo,
-            subject: 'Mealdaay Owner Activate Account',
+            subject: 'MealDaay - Restaurant Activation',
             html: html,
             text: 'text'
         };

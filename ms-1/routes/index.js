@@ -23,27 +23,40 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/login', function(req, res, next) {
-console.log(req.body);
-	ownerModel.find({username:req.body.username,password:req.body.password,status:true},function(err,owner) {       
+	ownerModel.find({username: req.body.username,password: req.body.password},function(err,owner) { 
+	    if(err){
+	    	res.json({status:false, data: 'error', type:'owner'});
+	    }      
 		if (owner.length>0) { 
 			var ownerdetail = owner[0];        
-			kitchenModel.find({ownerId: ownerdetail._id}).populate('ownerId').exec(function(err, data){				
-			res.json({status:true,data: data[0],type:'owner'});	
+			kitchenModel.find({ownerId: ownerdetail._id}).populate('ownerId').exec(function(err, data){	
+			  if(err){
+	    	   res.json({status:false, data: 'error', type:'owner'});
+	          }   			
+			console.log("owner test1", data);	
+			if(owner[0].status){
+			res.json({status:true, data: data[0], type:'owner'});	
+			}else{
+		    res.json({status:true, data: data[0], type:'owner','notapprove': true});			
+			}
 			});
 		}else{ 
 			partnerModel.find({username:req.body.username,password:req.body.password,status:true},function(err,partner) {
+			if(err){
+			res.json({status:false, data: 'error', type:'partner'});
+			}   		
 			if (partner.length>0) {
 		    var partnerinfo = partner[0];		
 			kitchenModel.find({ownerId: partnerinfo.OwnerId}).populate('ownerId').exec(function(err, data){
 			//	console.log(data[0].ownerId.username);
+			console.log("owner test2", data);	
 			data[0].ownerId.username = partner[0]["username"];
 			console.log(data[0]["restaurantname"] , partner[0]["username"]);
 			res.json({status:true,data: data[0],type:'partner'});	
 			});
 			}else{
-			res.json({status:false,data:''});    
-			}   
-
+			res.json({status:false, data:''});    
+			}  
 			});
 		}
 	});
