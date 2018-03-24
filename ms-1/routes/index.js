@@ -593,8 +593,7 @@ router.post('/order-email',function(req,res,next){
 
                  req.mail.sendMail({  //email options
                    from: "Restaurant Team <navaidkitchen@gmail.com>", // sender address.  Must be the same as authenticated user if using GMail.
-                  to: req.body.customeremail, // receiver
-                   to : 'ankurkumar195@gmail.com',
+                   to: req.body.customeremail, // receiver
                    subject: "Your Order received", // subject
                    //text: "Email Example with nodemailer" // body
                    html: customercontent

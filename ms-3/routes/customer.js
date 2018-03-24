@@ -77,7 +77,8 @@ router.post('/forget-password', function(req,res,next){
             req.flash('error', 'something went wrong!');            
         } else{
             if (data.length>0) {
-                var name = data[0].firstname+" <"+data[0].email+" >";
+                emails.forgetEmailShoot(data[0], 'cust');
+               /* var name = data[0].firstname+" <"+data[0].email+" >";
                 var content = "Hi, <br> <br> Your userId <b>"+ data[0].username +"</b> Please click the below link to reset your password. <a href='http://mealdaay.com:3004/customer/reset-password/"+data[0]._id+"'>Click Here</a>"
                 req.mail.sendMail({  //email options
                    from: "Restaurant Team <navaidkitchen@gmail.com>", // sender address.  Must be the same as authenticated user if using GMail.
@@ -93,9 +94,10 @@ router.post('/forget-password', function(req,res,next){
                        console.log("Message sent: " + response.message);
                    }
                    req.mail.close(); // shut down the connection pool, no more messages.  Comment this line out to continue sending emails.
-                   res.json({error:false});
-                });
-                console.log(data);
+                   
+                });*/
+                // console.log(data);
+                res.json({error:false});
             }else{
                 res.json({error:true,message:'Email does not exist'});
             }

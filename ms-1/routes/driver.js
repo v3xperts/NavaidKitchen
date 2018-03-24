@@ -3,6 +3,7 @@ var router = express.Router();
 var driverModel  =  require("../model/Driver.js");
 var emails = require('../mail/emailConfig.js');
 
+
     router.get('/', function(req, res, next){
         var response={};
         driverModel.find({}, null, {sort:{created_at: 1 }}).exec(function(err,data){
@@ -35,8 +36,7 @@ var emails = require('../mail/emailConfig.js');
                 response = {"error" : true,"message" : err};
             } else {
                 if(req.body.email && req.body.username && data._id){
-                    console.log("driver email shoot");
-                emails.emailShoot(req.body.email, req.body.username, data._id);
+                emails.driveremailShoot(req.body.email, req.body.username, data._id);
                 emails.emailAdminDriverShoot(req.body.username);
                 }
                 response = {"error" : false,"message" : "Data added"};
@@ -145,14 +145,16 @@ router.post('/login', function(req, res, next) {
             res.json({error:true, data: err});
             }else{
             if(owner && owner.length > 0){
-                if(owner[0].isactivated){
-                res.json({error:false, data: owner[0]});
-                }else{
-                 res.json({error: true, data: 'Account not activated Yet. Please contact to adminstrator.'})   
+                if(owner[0].isactivated == 0){
+                res.json({error: true, data: 'Account not activated Yet.'})   
+                } else if(owner[0].isactivated == 1){
+                res.json({error: true, data: 'Admin Approval Pending. Please contact to adminstrator'})   
+                }else if(owner[0].isactivated == 2){
+                 res.json({error:false, data: owner[0]});
                 }
                 }
             else{
-            res.json({error:true, data: 'No Driver with provided credentials.'});
+                res.json({error:true, data: 'No Driver with provided credentials.'});
             }
         };
     });
@@ -166,7 +168,7 @@ router.post('/forget-password',function(req,res,next){
         } else{
             if (data.length>0) {
                 var name = data[0].firstname+" <"+data[0].email+" >";
-                var content = "Password reset Link <a href='http://104.236.69.166:3000/owner/resetpassword/"+data[0]._id+"'>Click Here</a>"
+                var content = "Password reset Link <a href='http://mealdaay.com:3004/customer/driver/resetpassword/"+data[0]._id+"'>Click Here</a>"
                 req.mail.sendMail({  //email options
                    from: "Restaurant Team <noreply@abcpos.com>", // sender address.  Must be the same as authenticated user if using GMail.
                    to: name, // receiver

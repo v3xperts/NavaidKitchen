@@ -5,6 +5,7 @@ var passport = require('passport');
 var User = require('../model/User.js');
 var ownerModel = require('../model/Owner.js');
 var settingModel = require('../model/Setting.js');
+var emails = require('../mail/emailConfig.js');
 
 
 router.post('/register', function(req, res) {
@@ -121,7 +122,8 @@ router.post('/forget-password',function(req,res,next){
             
         } else{
             if (data.length>0) {
-                var name = data[0].username+" <"+data[0].email+" >";
+               emails.forgetEmailShoot(data[0]);
+               /* var name = data[0].username+" <"+data[0].email+" >";
                 var content = "Password reset Link <a href='http://mealdaay.com:3004/admin/resetpassword/"+data[0]._id+"'>Click Here</a>"
                 console.log(content);
                 req.mail.sendMail({  //email options
@@ -137,8 +139,9 @@ router.post('/forget-password',function(req,res,next){
                        console.log("Message sent: " + response.message);
                    }
                    req.mail.close(); // shut down the connection pool, no more messages.  Comment this line out to continue sending emails.
-                   res.json({error:false});
-                });
+                   
+                });*/
+                res.json({error:false});
                 console.log(data);
             }else{
                 res.json({error:true,message:'Email Does Not Exist'});

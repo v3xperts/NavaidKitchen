@@ -1,42 +1,10 @@
-<style>
-    /* CSS used here will be applied after bootstrap.css */
-    
-    .qlt-confirmation {
-        width: 30%;
-        margin: 10px auto;
-    }
-    
-    .qlt-confirmation .panel-body {
-        width: 99%;
-        margin: 0 auto;
-        padding: 40px 10px;
-    }
-    
-    .qlt-confirmation .panel-body .desc {
-        margin: 10px auto;
-    }
-    
-    .qlt-confirmation .panel-body .notice {
-        padding: 0px 20px;
-        margin-top: 50px;
-        text-align: left;
-        font-style: italic;
-        color: gray;
-    }
-</style>
-<div class="qlt-confirmation">
+<div>
     <div class="panel panel-default">
-        <div class="panel-body">
-            <center>
-                <img src="https://cdn4.iconfinder.com/data/icons/social-communication/142/open_mail_letter-512.png" style="width:30px; height: 30px;">Now you are registered with Mealdaay.
-                <p class="desc">Hello Partner, <b><%= username %></b> <br> Click on this link to Activate your Account. <br><a href='http://mealdaay.com:3004/owner/partner-mailactivate/<%= token %>'>CLICK HERE</a> 
-
+        <div class="panel-body">                
+                <p class="desc">Hello <b><%= username %>,</b> </br></br>You are registered as Partner with Mealdaay. Please click the below link to Activate your Account. </br></br><a href='http://mealdaay.com:3004/owner/partner-mailactivate/<%= token %>'>CLICK HERE</a> 
                 <br><br>
-                <p>Thanks,</p>
-                <p><b>Mealdaay.com</b></p>
-                <img style="width: 40px; height: 40px" src="http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons/glossy-black-icons-business/080840-glossy-black-icon-business-mailbox.png">.</p>
-            </center>
-            <p class="notice">Note:<br>Using our <b>social login</b>, you will be ask to add your email address during authentication. This is part of our security policy.</p>
+                <p>Thanks,</br>
+                <b>Mealdaay.com</b></p>                
         </div>
     </div>
 </div>

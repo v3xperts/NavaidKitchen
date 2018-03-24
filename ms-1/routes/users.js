@@ -184,7 +184,9 @@ router.post('/partner',function(req, res){
           } else {
 
             emails.partneremailShoot(data.email, data.username, data._id);
-              var name = data.username+" <"+data.email+" >";            
+            response = {"error" : false,"message" : data};
+            res.json(response);
+              /*var name = data.username+" <"+data.email+" >";            
               var content = "Email Activation Link <a href='http://mealdaay.com:3004/owner/partner-mailactivate/"+data._id+"'>Click Here</a>"
               req.mail.sendMail({  //email options
                  from: "Restaurant Team <navaidkitchen@gmail.com>", // sender address.  Must be the same as authenticated user if using GMail.
@@ -199,11 +201,8 @@ router.post('/partner',function(req, res){
                  }
                  req.mail.close();
                  //res.json({status:true});
-                  response = {"error" : false,"message" : data};
-                res.json(response);
-            });
-
-
+            
+            });*/
           }
         });
       }

@@ -8,7 +8,7 @@ var Kitchen = require('../model/Kitchen.js');
 var DriverSchema = new Schema({
     firstname: String,
     lastname: String,
-    email: {type: String, required: true, unique: true},
+    email: {type: String, required: true, unique: true, lowercase: true},
     username: {type: String, required: true, unique: true},
     password: {type: String, required: true},
     address : String,
@@ -24,7 +24,7 @@ var DriverSchema = new Schema({
     lng : String,
     orderIds : [], 
     image : String,   
-    isactivated: {type: Boolean, default: false},
+    isactivated: {type: String, default: 0},
     kitchensallow: [{ resId: { type: Schema.Types.ObjectId, ref: 'Kitchen' }, status: {type: Boolean, default: false}}]
     });
 
