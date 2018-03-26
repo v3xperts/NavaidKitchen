@@ -9,6 +9,18 @@ var cuisinesModel  =  require("../model/Cuisines.js");
 var pageModel  =  require("../model/Page.js");
 
 
+router.post('/cuisines/multiple',function(req, res){
+	console.log(req.body);
+		var response={};
+		cuisinesModel.find({_id: {$in: req.body.cuisines}},function(err,data){
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			response = {"error" : false,"message" : data};
+		};
+		res.json(response);
+		});
+	});
 
 router.get('/countrylist', function(req, res, next) {
  
@@ -790,17 +802,7 @@ router.post('/cuisines',function(req, res){
 });
 
 
-router.post('/cuisinesmultiple',function(req, res){
-	var response={};
-	cuisinesModel.find({_id: {$in: req.body.cuisines}},function(err,data){
-		if (err) {
-			response = {"error" : true,"message" : "Error fetching data"};
-		} else{
-			response = {"error" : false,"message" : data};
-		};
-		res.json(response);
-	});
-});
+
 
 router.put('/cuisines/:id',function(req, res){
 	// if (!req.isAuthenticated()) {
