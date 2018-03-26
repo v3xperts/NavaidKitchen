@@ -68,17 +68,14 @@ module.exports = {
 
     referalShoot: function(emailTo, id) {
 
-        console.log(emailTo, username, id);
-
         // rendering html template (same way can be done for subject, text)
-        var html = ejs.renderFile(templateDir + '/referal.ejs', { username: username , token: id},
+        var html = ejs.renderFile(templateDir + '/referal.ejs', {token: id},
             function(err, data) {
                 if (err) {
                     console.log(err);
                 }
                 return data;
             });
-
         //build options
         var options = {
             from: emailFrom,

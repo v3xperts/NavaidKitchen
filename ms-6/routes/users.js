@@ -142,7 +142,7 @@ router.post('/forget-password',function(req,res,next){
                    
                 });*/
                 res.json({error:false});
-                console.log(data);
+                //console.log(data);
             }else{
                 res.json({error:true,message:'Email Does Not Exist'});
             }

@@ -789,6 +789,19 @@ router.post('/cuisines',function(req, res){
     });
 });
 
+
+router.post('/cuisinesmultiple',function(req, res){
+	var response={};
+	cuisinesModel.find({_id: {$in: [req.body.cuisines]}},function(err,data){
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			response = {"error" : false,"message" : data};
+		};
+		res.json(response);
+	});
+});
+
 router.put('/cuisines/:id',function(req, res){
 	// if (!req.isAuthenticated()) {
  //        return res.status(200).json({

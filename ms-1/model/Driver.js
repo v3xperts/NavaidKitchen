@@ -24,7 +24,7 @@ var DriverSchema = new Schema({
     lng : String,
     orderIds : [], 
     image : String,   
-    isactivated: {type: String, default: 0},
+    isactivated: {type: Number, default: 0},
     kitchensallow: [{ resId: { type: Schema.Types.ObjectId, ref: 'Kitchen' }, status: {type: Boolean, default: false}}]
     });
 
