@@ -792,7 +792,7 @@ router.post('/cuisines',function(req, res){
 
 router.post('/cuisinesmultiple',function(req, res){
 	var response={};
-	cuisinesModel.find({_id: {$in: [req.body.cuisines]}},function(err,data){
+	cuisinesModel.find({_id: {$in: req.body.cuisines}},function(err,data){
 		if (err) {
 			response = {"error" : true,"message" : "Error fetching data"};
 		} else{
