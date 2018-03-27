@@ -146,9 +146,9 @@ router.post('/login', function(req, res, next) {
             }else{
             if(owner && owner.length > 0){
                 if(owner[0].isactivated == 0){
-                res.json({error: true, data: 'Account not activated Yet.'})   
+                res.json({error: true, data: 'You did not active your account yet by sent email.'})   
                 } else if(owner[0].isactivated == 1){
-                res.json({error: true, data: 'Admin Approval Pending. Please contact to adminstrator'})   
+                res.json({error: true, data: 'Admin Approval Pending. Please contact to adminstrator.'})   
                 }else if(owner[0].isactivated == 2){
                  res.json({error:false, data: owner[0]});
                 }
