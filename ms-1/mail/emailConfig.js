@@ -44,6 +44,7 @@ module.exports = {
 
     customerOrderEmailShoot: function(emailTo, username, order) {
         // rendering html template (same way can be done for subject, text)
+        console.log("order", order);
         var html = ejs.renderFile(templateDir + '/customerOrder.ejs', { username: username , token: order._id.substr(order._id.length-6), order: order},
             function(err, data) {
                 if (err) {
@@ -82,7 +83,6 @@ module.exports = {
         };
         sendmail(options);
     },
-
     driveremailShoot: function(emailTo, username, id) {
 
         console.log(emailTo, username, id);
