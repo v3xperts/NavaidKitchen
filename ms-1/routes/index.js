@@ -572,7 +572,7 @@ router.post('/order-email',function(req,res,next){
         } else{  
                 //console.log("eml", data);      	
             if (data.length>0) {
-            	emails.restroOrderEmailShoot(data.[0].ownerId.email,data[0].username,req.body.order);
+            	emails.restroOrderEmailShoot(data[0].ownerId.email,data[0].username,req.body.order);
             	emails.customerOrderEmailShoot(req.body.customeremail,data[0].username,req.body.order);
                 res.json({error: false, message: 'Email send successfully.'});
                 }else{
