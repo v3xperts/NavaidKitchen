@@ -64,6 +64,7 @@ module.exports = {
         sendmail(options);
     }, 
     restroOrderEmailShoot: function(emailTo, username, order) {
+        console.log("order", order);
         // rendering html template (same way can be done for subject, text)
         var html = ejs.renderFile(templateDir + '/restroOrder.ejs', { username: username , token: order._id.substr(order._id.length-6), order: order},
             function(err, data) {
