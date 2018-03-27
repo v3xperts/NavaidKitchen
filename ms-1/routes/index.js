@@ -569,10 +569,11 @@ router.post('/order-email',function(req,res,next){
     kitchenModel.find({ _id : req.body.restaurantid },function(err,data){
         if (err) {
             res.json({error: true, message: err});          
-        } else{        	
+        } else{  
+                console.log("eml", data);      	
             if (data.length>0) {
             	emails.restroOrderEmailShoot(data[0].email,data[0].username,req.body.order);
-            	emails.customerOrderEmailShoot(data[0].email,data[0].username,req.body.order);
+            	emails.customerOrderEmailShoot(req.body.customeremail,data[0].username,req.body.order);
                 res.json({error: false, message: 'Email send successfully.'});
                 }else{
                 res.json({error: true, message: 'It did not find any restaurant.'});
