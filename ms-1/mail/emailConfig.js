@@ -176,7 +176,7 @@ emailAdminDriverShoot: function(username) {
     },
 
     forgetEmailShoot: function(customer, type) {
-            var customer = {};
+            
             customer['resetPassLink'] = 'http://mealdaay.com:3004/owner/reset-password/'+customer._id;
 
         // rendering html template (same way can be done for subject, text)
@@ -214,7 +214,7 @@ emailAdminDriverShoot: function(username) {
         //build options
         var options = {
             from: emailFrom,
-            to: username + " <" + customer.email + " >",
+            to: username + " <" + emialTo + " >",
             subject: 'Reset Password',
             html: html,
             text: 'text'
