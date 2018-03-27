@@ -566,13 +566,13 @@ router.get("/heatmaplatlng", (req, res) => {
 /*-------------------------------Start Email for successfully-----------------------------------------------------------*/
 router.post('/order-email',function(req,res,next){
     var response={};
-    kitchenModel.find({ _id : req.body.restaurantid },function(err,data){
+    kitchenModel.find({ _id : req.body.restaurantid }).populate('ownerId').exec(function(err,data){
         if (err) {
             res.json({error: true, message: err});          
         } else{  
-                console.log("eml", data);      	
+                //console.log("eml", data);      	
             if (data.length>0) {
-            	emails.restroOrderEmailShoot(data[0].email,data[0].username,req.body.order);
+            	emails.restroOrderEmailShoot(data.[0].ownerId.email,data[0].username,req.body.order);
             	emails.customerOrderEmailShoot(req.body.customeremail,data[0].username,req.body.order);
                 res.json({error: false, message: 'Email send successfully.'});
                 }else{
