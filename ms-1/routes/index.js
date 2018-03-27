@@ -565,51 +565,18 @@ router.get("/heatmaplatlng", (req, res) => {
 
 /*-------------------------------Start Email for successfully-----------------------------------------------------------*/
 router.post('/order-email',function(req,res,next){
-    
     var response={};
     kitchenModel.find({ _id : req.body.restaurantid },function(err,data){
         if (err) {
-            req.flash('error', 'something went wrong!');            
+            res.json({error: true, message: err});          
         } else{        	
             if (data.length>0) {
-                var name = data[0].username+" <"+data[0].email+" >";
-                var content = "You receive An New Order which Order Id :" + req.body.orderid;
-                var customercontent = "We received your Order which Order Id :" + req.body.orderid;
-                req.mail.sendMail({  //email options
-                   from: "Restaurant Team <navaidkitchen@gmail.com>", // sender address.  Must be the same as authenticated user if using GMail.
-                   to: name, // receiver                  
-                   subject: "New Order receive", // subject
-                   //text: "Email Example with nodemailer" // body
-                   html: content
-                }, function(error, response){  //callback
-                   if(error){
-                       console.log(error);
-                   }else{
-                      console.log("Message sent: " + response.message);
-                   }
-                   req.mail.close(); // shut down the connection pool, no more messages.  Comment this line out to continue sending emails.
-                   //res.json({error:false});
-                });
-
-                 req.mail.sendMail({  //email options
-                   from: "Restaurant Team <navaidkitchen@gmail.com>", // sender address.  Must be the same as authenticated user if using GMail.
-                   to: req.body.customeremail, // receiver
-                   subject: "Your Order received", // subject
-                   //text: "Email Example with nodemailer" // body
-                   html: customercontent
-                }, function(error, response){  //callback
-                   if(error){
-                       console.log(error);
-                   }else{
-                       console.log("Message sent: " + response.message);
-                       res.json({error:false});
-                   }
-                   req.mail.close(); // shut down the connection pool, no more messages.  Comment this line out to continue sending emails.
-                   
-                   });
-
-                console.log(data);
-            }
+            	emails.restroEmailShoot(data[0].email,data[0].username,req.body.orderid);
+            	emails.customerEmailShoot(data[0].email,data[0].username,req.body.orderid);
+                res.json({error: false, message: 'Email send successfully.'});
+                }else{
+                res.json({error: true, message: 'It did not find any restaurant.'});
+            } 
         };
     }); 
 });

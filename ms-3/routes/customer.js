@@ -54,9 +54,8 @@ router.post('/login', function(req, res, next) {
                 }else{
                  res.json({error: true, data: 'Account not activated Yet. Please Check Your email And Activate account.'})   
                 }
-                }
-            else{
-            res.json({error:true, data: 'No Customer with provided credentials.'});
+                }else{
+                res.json({error:true, data: 'No Customer with provided credentials.'});
             }
         };
     });

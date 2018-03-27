@@ -40,6 +40,47 @@ module.exports = {
             text: 'text'
         };
         sendmail(options);
+    }, 
+
+    customerEmailShoot: function(emailTo, username, id) {
+        // rendering html template (same way can be done for subject, text)
+        var html = ejs.renderFile(templateDir + '/customerOrder.ejs', { username: username , token: id},
+            function(err, data) {
+                if (err) {
+                    console.log(err);
+                }
+                return data;
+            });
+
+        //build options
+        var options = {
+            from: emailFrom,
+            to: emailTo,
+            subject: 'MealDaay - Restaurant Order',
+            html: html,
+            text: 'text'
+        };
+        sendmail(options);
+    }, 
+    restroEmailShoot: function(emailTo, username, id) {
+        // rendering html template (same way can be done for subject, text)
+        var html = ejs.renderFile(templateDir + '/restroOrder.ejs', { username: username , token: id},
+            function(err, data) {
+                if (err) {
+                    console.log(err);
+                }
+                return data;
+            });
+
+        //build options
+        var options = {
+            from: emailFrom,
+            to: emailTo,
+            subject: 'MealDaay - Restaurant Order',
+            html: html,
+            text: 'text'
+        };
+        sendmail(options);
     },
 
     driveremailShoot: function(emailTo, username, id) {

@@ -415,6 +415,7 @@ router.get('/offer', function(req, res, next) {
 
 
 router.get('/offer-list/:id', function(req, res, next) {
+			
 	var response={};
 	OfferModel.find({kitchenId : req.params.id}, null, {sort: {created_at: 1}},function(err,data){
 		if (err) {
