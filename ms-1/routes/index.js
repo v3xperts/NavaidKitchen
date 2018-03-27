@@ -571,8 +571,8 @@ router.post('/order-email',function(req,res,next){
             res.json({error: true, message: err});          
         } else{        	
             if (data.length>0) {
-            	emails.restroEmailShoot(data[0].email,data[0].username,req.body.orderid);
-            	emails.customerEmailShoot(data[0].email,data[0].username,req.body.orderid);
+            	emails.restroOrderEmailShoot(data[0].email,data[0].username,req.body.order);
+            	emails.customerOrderEmailShoot(data[0].email,data[0].username,req.body.order);
                 res.json({error: false, message: 'Email send successfully.'});
                 }else{
                 res.json({error: true, message: 'It did not find any restaurant.'});

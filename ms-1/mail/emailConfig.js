@@ -42,9 +42,9 @@ module.exports = {
         sendmail(options);
     }, 
 
-    customerEmailShoot: function(emailTo, username, id) {
+    customerOrderEmailShoot: function(emailTo, username, order) {
         // rendering html template (same way can be done for subject, text)
-        var html = ejs.renderFile(templateDir + '/customerOrder.ejs', { username: username , token: id},
+        var html = ejs.renderFile(templateDir + '/customerOrder.ejs', { username: username , token: order._id.substr(order._id.length-6), order: order},
             function(err, data) {
                 if (err) {
                     console.log(err);
@@ -62,9 +62,9 @@ module.exports = {
         };
         sendmail(options);
     }, 
-    restroEmailShoot: function(emailTo, username, id) {
+    restroOrderEmailShoot: function(emailTo, username, order) {
         // rendering html template (same way can be done for subject, text)
-        var html = ejs.renderFile(templateDir + '/restroOrder.ejs', { username: username , token: id},
+        var html = ejs.renderFile(templateDir + '/restroOrder.ejs', { username: username , token: order._id.substr(order._id.length-6), order: order},
             function(err, data) {
                 if (err) {
                     console.log(err);
