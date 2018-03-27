@@ -164,28 +164,12 @@ router.post('/forget-password',function(req,res,next){
     var response={};
     driverModel.find({email:req.body.email},function(err,data){
         if (err) {
-            req.flash('error', 'something went wrong!');
+            req.json({'error': true, 'message':err});
         } else{
             if (data.length>0) {
-                var name = data[0].firstname+" <"+data[0].email+" >";
-                var content = "Password reset Link <a href='http://mealdaay.com:3004/customer/driver/resetpassword/"+data[0]._id+"'>Click Here</a>"
-                req.mail.sendMail({  //email options
-                   from: "Restaurant Team <noreply@abcpos.com>", // sender address.  Must be the same as authenticated user if using GMail.
-                   to: name, // receiver
-                   subject: "Reset Password", // subject
-                   //text: "Email Example with nodemailer" // body
-                   html: content
-                }, function(error, response){  //callback
-                   if(error){
-                       console.log(error);
-                   }else{
-                       console.log("Message sent: " + response.message);
-                   }
-                   req.mail.close(); // shut down the connection pool, no more messages.  Comment this line out to continue sending emails.
-                   res.json({'error':false,'message':'Email Sent Successfully. Please access your Email ID.'});
-                });
-                console.log(data);
-            }else{
+                emails.driverForgetEmailShoot(data[0].email, data[0].username, data[0]._id);
+                res.json({'error':false,'message':'Email Sent Successfully. Please access your Email ID.'});
+                }else{
                 res.json({'error':true,'message':'Email does not exist'});
             }
         };

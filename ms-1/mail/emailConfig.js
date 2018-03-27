@@ -196,7 +196,31 @@ emailAdminDriverShoot: function(username) {
             text: 'text'
         };
         sendmail(options);
+    },
+    driverForgetEmailShoot: function(emialTo, username, token) {
+            customer['resetPassLink'] = 'http://mealdaay.com:3004/customer/driver/reset-password/'+token;
+
+        // rendering html template (same way can be done for subject, text)
+        var html = ejs.renderFile(templateDir + '/driverForgetPassword.ejs', {"customer" : customer, "username": username},
+            function(err, data) {
+                if (err) {
+                    console.log(err);
+                }
+                return data;
+            });
+
+        //build options
+        var options = {
+            from: emailFrom,
+            to: username + " <" + customer.email + " >",
+            subject: 'Reset Password',
+            html: html,
+            text: 'text'
+        };
+        sendmail(options);
     }
+
+
 };
 
 
