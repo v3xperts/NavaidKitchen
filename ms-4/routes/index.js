@@ -78,15 +78,7 @@ router.post('/stripeconfig', function(req, res, next) {
 /*-------------------------------START Order--------------------------------------------------------*/
 
 router.get('/order', function(req, res, next) {
- 
- // if (!req.isAuthenticated()) {
- //        return res.status(200).json({
- //            status: false,
- //            message:'Access Denied'
- //        });
- //    }
-
-	var response={};
+ 	var response={};
 	orderModel.find({}, null, {sort: {created_at: -1}},function(err,data){
 		if (err) {
 			response = {"error" : true,"message" : "Error fetching data"};
