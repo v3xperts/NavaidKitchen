@@ -24,6 +24,7 @@ var KitchenSchema = new Schema({
               lastname : String
             }],
   status: { type: Boolean, default: true },
+  preorderforlater: { type: Boolean, default: true },
   created_at : { type: Date, default: Date.now }, 
   updated_at : { type: Date, default: Date.now }, 
   cuisines : [],
@@ -50,7 +51,7 @@ var KitchenSchema = new Schema({
  documentation : Array,
  bankinginformation : Array,
  tax: {status : "", value : ""},
- serviceAllow: {"daliymenuservice": {type: Boolean, default: false}, "cateringservice": {type: Boolean, default: false}, "mealpackageservice": {type: Boolean, default: false}, "comboservice": {type: Boolean, default: false}}
+ serviceAllow: {"daliymenuservice": {type: Boolean, default: true}, "cateringservice": {type: Boolean, default: false}, "mealpackageservice": {type: Boolean, default: false}, "comboservice": {type: Boolean, default: false}}
  });
 
 // the schema is useless so far
