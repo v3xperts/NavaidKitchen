@@ -456,6 +456,7 @@ router.post('/offer/redeem',function(req, res){
         		ind.setHours(0,0,0,0);
         		end.setHours(0,0,0,0);
         		date1.setHours(0,0,0,0);
+        		console.log(ind, date1, end);
 	        		if((ind <= date1) && (date1 <= end)){
 	            	response = {"error" : false,"message" : data};        			
 	        		}else{
