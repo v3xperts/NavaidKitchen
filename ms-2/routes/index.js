@@ -449,20 +449,21 @@ router.post('/offer/redeem',function(req, res){
  		if(err) {
             response = {"error" : true,"message" : err};
         } else {
-        	if(data.length > 0){
-        		
+        	if(data.length > 0){        		
         		var ind = new Date(data[0].indate);
         		var end = new Date(data[0].expirydate);
         		ind.setHours(0,0,0,0);
         		end.setHours(0,0,0,0);
-        		date1.setHours(0,0,0,0);
-        		console.log(ind, date1, end);
+        		date1.setHours(0,0,0,0);        		
 	        		if((ind <= date1) && (date1 <= end)){
+	                console.log(ind, date1, end);			
 	            	response = {"error" : false,"message" : data};        			
 	        		}else{
+	        	    console.log(ind, date1, end);		
 	        		 response = {"error" : true,"message" : "Offer not available!"};		
 	        		}
 	        	}else{
+	            console.log(ind, date1, end);		
 	            response = {"error" : true,"message" : "Offer not available!"};		
 	        	}
         }
