@@ -73,8 +73,6 @@ router.post('/stripeconfig', function(req, res, next) {
 /*-------------------------------END Stripe--------------------------------------------------------*/
 
 
-
-
 /*-------------------------------START Order--------------------------------------------------------*/
 
 router.get('/order', function(req, res, next) {
@@ -112,7 +110,7 @@ router.get('/customerorder/:id', function(req, res, next) {
 		};
 		res.json(response);
 	});	
-});
+   });
 
 
 router.post('/order',function(req, res){
@@ -126,7 +124,7 @@ router.post('/order',function(req, res){
         }
         res.json(response);
     });
-});
+   });
 
 
 router.post("/charge", (req, res) => {
@@ -151,14 +149,6 @@ router.post("/charge", (req, res) => {
 
 
 router.put('/order/:id',function(req, res){
-
- // if (!req.isAuthenticated()) {
- //        return res.status(200).json({
- //            status: false,
- //            message:'Access Denied'
- //        });
- //    }
-
 	var response={};
 	orderModel.findByIdAndUpdate(req.params.id, req.body, function(err, order) {
 	    	if(err) {
@@ -168,7 +158,7 @@ router.put('/order/:id',function(req, res){
 	        }
 	        res.json(response);
         });
-});
+       });
 
 
 

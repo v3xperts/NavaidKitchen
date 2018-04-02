@@ -51,7 +51,8 @@ var KitchenSchema = new Schema({
  documentation : Array,
  bankinginformation : Array,
  tax: {status : "", value : ""},
- serviceAllow: {"daliymenuservice": {type: Boolean, default: true}, "cateringservice": {type: Boolean, default: false}, "mealpackageservice": {type: Boolean, default: false}, "comboservice": {type: Boolean, default: false}}
+ serviceAllow: {"daliymenuservice": {type: Boolean, default: true}, "cateringservice": {type: Boolean, default: false}, "mealpackageservice": {type: Boolean, default: false}, "comboservice": {type: Boolean, default: true}},
+ completeprofile : {"restaurantbasic" : {type: Number, dafault : 0}, "kitchenservice" : {type: Number, dafault : 0}}
  });
 
 // the schema is useless so far

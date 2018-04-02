@@ -452,9 +452,9 @@ router.post('/offer/redeem',function(req, res){
         	if(data.length > 0){        		
         		var ind = new Date(data[0].indate);
         		var end = new Date(data[0].expirydate);
-        		ind.setHours(0,0,0,0);
-        		end.setHours(0,0,0,0);
-        		date1.setHours(0,0,0,0);        		
+        		ind.setHours(0,0,1,0);
+        		end.setHours(0,0,1,0);
+        		date1.setHours(0,0,1,0);        		
 	        		if((ind <= date1) && (date1 <= end)){
 	                console.log(ind, date1, end);			
 	            	response = {"error" : false,"message" : data};        			
