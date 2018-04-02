@@ -52,7 +52,7 @@ var KitchenSchema = new Schema({
  bankinginformation : Array,
  tax: {status : "", value : ""},
  serviceAllow: {"daliymenuservice": {type: Boolean, default: true}, "cateringservice": {type: Boolean, default: false}, "mealpackageservice": {type: Boolean, default: false}, "comboservice": {type: Boolean, default: true}},
- completeprofilenameaddress : {type: Number, dafault : 0}
+ completeprofilenameaddress : {type: Number, dafault : 0},
  completeprofileservice : {type: Number, dafault : 0}
  });
 
