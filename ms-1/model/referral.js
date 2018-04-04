@@ -1,11 +1,11 @@
 // grab the things we need
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var KitchenModel = require("../model/Kitchen.js");
+var KitchenModel = require("../model/Owner.js");
 
 // create a schema
 var RefSchema = new Schema({
-    referralfrom : {type: Schema.Types.ObjectId, ref:'Kitchen', required: true},
+    referralfrom : {type: Schema.Types.ObjectId, ref:'Owner', required: true},
     status :  { type: Boolean, default: false },
     emailto : String,
     type : String

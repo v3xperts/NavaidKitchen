@@ -515,6 +515,18 @@ router.get('/ownerreferral/:id',function(req,res){
 
 });
 
+router.get('/ownerreferral-ownerlist/:restaurantid',function(req,res){
+	var response={};	
+	referralModel.find({"referralfrom":req.params.restaurantid}).populate('referralfrom').exec((err, data)=>{
+		console.log(data);
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			response = {"error" : false,"message" : data};
+		};
+		res.json(response);
+	});	
+});
 
 
 router.put('/ownerreferral/:id',function(req, res){
