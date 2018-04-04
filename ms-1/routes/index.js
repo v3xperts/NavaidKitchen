@@ -515,9 +515,9 @@ router.get('/ownerreferral/:id',function(req,res){
 
 });
 
-router.get('/ownerreferral-ownerlist/:restaurantid',function(req,res){
+router.get('/ownerreferral-ownerlist/:id',function(req,res){
 	var response={};	
-	referralModel.find({"referralfrom":req.params.restaurantid}).exec((err, data)=>{
+	referralModel.find({"referralfrom":req.params.id}).lean().exec((err, data)=>{
 		console.log(data);
 		if (err) {
 			response = {"error" : true,"message" : "Error fetching data"};
