@@ -6,10 +6,10 @@ var Schema = mongoose.Schema;
 var KitchenSchema = new Schema({
   restaurantname: String,
   address: String,
-  city: { type : String, lowercase: true, trim: true },
-  ownerId : { type: Schema.Types.ObjectId, ref:'Owner', required: true},
+  city: { type : String, lowercase: true, trim: true},
+  ownerId : {type: Schema.Types.ObjectId, ref:'Owner', required: true},
   zipcode: String,
-  country: { type : String, lowercase: true, trim: true },
+  country: {type : String, lowercase: true, trim: true},
   lat: String,
   lng: String,
   loc : {type: [Number], index: '2d'},
