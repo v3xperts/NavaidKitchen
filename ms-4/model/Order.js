@@ -23,7 +23,8 @@ cardinfo : Object,
 status : {type : String, default : 'received'},
 created_at: { type: Date, default: Date.now },
 cardPaidStatus: Object,
-timezone: String 
+timezone: String,
+currency: String
 });
 
 var Order = mongoose.model('Order', OrderSchema);
