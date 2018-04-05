@@ -128,13 +128,15 @@ router.post('/order',function(req, res){
 
 
 router.post("/charge", (req, res) => {
+	console.log(req.body.currency);
 	let token = req.body.token;
 	let amount = ((req.body.currency == 'USD') ? (req.body.amount * 100) : req.body.amount);
+	console.log("amount", amount);
 	let currency = req.body.currency;
 	stripe.charges.create({
 	amount: amount,
 	currency: currency,
-	description: "Payment Charge for MealDaay.com",
+	description: "Payment Charge for MealDaay.com.",
 	source: token,
 	}, function(err, charge) {    		
 	// asynchronously called
