@@ -602,7 +602,7 @@ router.post('/city',function(req, res){
  //        });
  //    }
     var cityc = req.body.cityName;
-    req.body.cityName = cityc.replace(/\b[a-z]/g,function(f){return f.toUpperCase();});
+    req.body.cityName = cityc.toLowerCase();
 	var response={};
     var city = new cityModel(req.body);
     city.save(function(err){
@@ -626,7 +626,7 @@ router.put('/city/:id',function(req, res){
 
 	 if(req.body.cityName){
 	 	var cityc = req.body.cityName;
-	    req.body.cityName = cityc.replace(/\b[a-z]/g,function(f){return f.toUpperCase();});
+	    req.body.cityName = cityc.toLowerCase();
 	 }
     
 	var response={};
