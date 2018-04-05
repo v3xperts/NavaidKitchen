@@ -348,7 +348,11 @@ router.post('/kitchenfilters',function(req,res){
     var conditions2 = {};
     conditions.activestatus = true;
     if((req.body.city != '') && (typeof req.body.city != 'undefined')){
-            conditions.city = req.body.city;
+            conditions.city = req.body.city.toLowerCase();;
+     }
+
+     if((req.body.country != '') && (typeof req.body.country != 'undefined')){
+            conditions.country = req.body.country.toLowerCase();
      }
             
     if((req.body.sortby != '') && (typeof req.body.sortby != 'undefined') && (req.body.sortby != 'rating')){

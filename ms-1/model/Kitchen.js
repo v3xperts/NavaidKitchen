@@ -6,10 +6,10 @@ var Schema = mongoose.Schema;
 var KitchenSchema = new Schema({
   restaurantname: String,
   address: String,
-  city: String,
+  city: { type : String, lowercase: true, trim: true },
   ownerId : { type: Schema.Types.ObjectId, ref:'Owner', required: true},
   zipcode: String,
-  country: String,
+  country: { type : String, lowercase: true, trim: true },
   lat: String,
   lng: String,
   loc : {type: [Number], index: '2d'},
@@ -53,7 +53,9 @@ var KitchenSchema = new Schema({
  tax: {status : "", value : ""},
  serviceAllow: {"daliymenuservice": {type: Boolean, default: true}, "cateringservice": {type: Boolean, default: false}, "mealpackageservice": {type: Boolean, default: false}, "comboservice": {type: Boolean, default: true}},
  completeprofilenameaddress : {type: Number, dafault : 0},
- completeprofileservice : {type: Number, dafault : 0}
+ completeprofileservice : {type: Number, dafault : 0},
+ currency: { type : String, uppercase: true, trim: true },
+ shortName: { type : String, uppercase: true, trim: true }
  });
 
 // the schema is useless so far

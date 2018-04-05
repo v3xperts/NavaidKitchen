@@ -9,6 +9,31 @@ var cuisinesModel  =  require("../model/Cuisines.js");
 var pageModel  =  require("../model/Page.js");
 
 
+
+
+
+router.post('/getcountryid', function(req, res, next) {
+    console.log(req.body);
+
+	var countryi = {};
+	countryi.activestatus = true;
+	if(req.body.countryname && req.body.countryname != '' && typeof req.body.countryname != 'undefined'){
+       countryi.countryName = req.body.countryname.toLowerCase();
+	}
+
+    console.log(countryi);
+
+	var response={};
+	countryModel.find(countryi, function (err, data) {
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			response = {"error" : false,"message" : data};
+		};
+		res.json(response);
+});
+});
+
 router.post('/cuisines/multiple',function(req, res){
 	console.log(req.body);
 		var response={};
@@ -96,27 +121,6 @@ router.post('/getcitylist', function(req, res, next) {
 });*/
 
 
-router.post('/getcountryid', function(req, res, next) {
-    console.log(req.body);
-
-	var countryi = {};
-	countryi.activestatus = true;
-	if(req.body.countryname != '' && req.body.countryname != 'undefined'){
-       countryi.countryName = req.body.countryname.replace(/\b[a-z]/g,function(f){return f.toUpperCase();});;
-	}
-
-    console.log(countryi);
-
-	var response={};
-	countryModel.find(countryi, function (err, data) {
-		if (err) {
-			response = {"error" : true,"message" : "Error fetching data"};
-		} else{
-			response = {"error" : false,"message" : data};
-		};
-		res.json(response);
-});
-});
 
 
 /*-------------------------------START PAGE--------------------------------------------------------*/
@@ -358,7 +362,7 @@ router.get('/country', function(req, res, next) {
 router.post('/country',function(req, res){
 	
 	var countryc = req.body.countryName;
-    req.body.countryName = countryc.replace(/\b[a-z]/g,function(f){return f.toUpperCase();});
+    req.body.countryName = countryc.toLowerCase();
     console.log(req.body.countryName);
     
 	var response={};
@@ -388,8 +392,9 @@ router.put('/country/:id',function(req, res){
 
 	 if(req.body.countryname){
 	    var countryc = req.body.countryname;
-	    req.body.countryname = countryc.replace(/\b[a-z]/g,function(f){return f.toUpperCase();}); 	
+	    req.body.countryname = countryc.toLowerCase(); 	
 	}
+	conso
 	var response={};
 	countryModel.find({countryname: req.body.countryname}, function(err, country) {
 		if(err) {
@@ -413,6 +418,18 @@ router.put('/country/:id',function(req, res){
 });
 });
 
+
+router.put('/country-update/:id',function(req, res){
+    var response = {};
+	countryModel.findByIdAndUpdate(req.params.id, req.body, function(err, country) {
+						if(err) {
+						response = {"error" : true,"message" : err};
+						} else {
+						response = {"error" : false,"message" : "Data Update"};
+						}
+						res.json(response);
+						});
+                     });
 
 router.get('/country/:id',function(req,res){
 	// if (!req.isAuthenticated()) {
