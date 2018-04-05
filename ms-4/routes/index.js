@@ -129,10 +129,10 @@ router.post('/order',function(req, res){
 
 router.post("/charge", (req, res) => {
 	let token = req.body.token;
-	let amount = req.body.amount;
+	let amount = ((req.body.currency == 'USD') ? (req.body.amount * 100) : req.body.amount);
 	let currency = req.body.currency;
 	stripe.charges.create({
-	amount: currency == 'USD' ? amount * 100 : amount,
+	amount: amount,
 	currency: currency,
 	description: "Payment Charge for MealDaay.com",
 	source: token,
