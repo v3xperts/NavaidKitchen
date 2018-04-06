@@ -245,33 +245,21 @@ router.delete('/page/:id',function(req,res){
 /*-------------------------------START LANGUAGE--------------------------------------------------------*/
 
 router.get('/language', function(req, res, next) {
-	// if (!req.isAuthenticated()) {
- //        return res.status(200).json({
- //            status: false,
- //            message:'Access Denied'
- //        });
- //    }
 	var response={};
 	languageModel.find({}, null, {sort: {created_at: 1}},function(err,data){
 		if (err) {
 			response = {"error" : true,"message" : "Error fetching data"};
 		} else{
-			response = {"error" : false,"message" : data};
+			response = {"error" : false,"message" : data };
 		};
 		res.json(response);
 	});	
 });
 
 router.post('/language',function(req, res){
-	// if (!req.isAuthenticated()) {
- //        return res.status(200).json({
- //            status: false,
- //            message:'Access Denied'
- //        });
- //    }
 	var response={};
     var language = new languageModel(req.body);
-    language.save(function(err){
+    language.save(function(err, data){
     	if(err) {
             response = {"error" : true,"message" : err};
         } else {
@@ -282,12 +270,6 @@ router.post('/language',function(req, res){
 });
 
 router.put('/language/:id',function(req, res){
-	// if (!req.isAuthenticated()) {
- //        return res.status(200).json({
- //            status: false,
- //            message:'Access Denied'
- //        });
- //    }
 	var response={};
 	languageModel.findByIdAndUpdate(req.params.id, req.body, function(err, language) {
 	    	if(err) {
@@ -412,24 +394,25 @@ router.put('/country/:id',function(req, res){
 				response = {"error" : false,"message" : "Data Update"};
 				}
 				res.json(response);
-						});
+				});
 	        	}
 	        }
-});
+      });
 });
 
 
 router.put('/country-update/:id',function(req, res){
-    var response = {};
-	countryModel.findByIdAndUpdate(req.params.id, req.body, function(err, country) {
-						if(err) {
-						response = {"error" : true,"message" : err};
-						} else {
-						response = {"error" : false,"message" : "Data Update"};
-						}
-						res.json(response);
-						});
-                     });
+var response = {};
+req.body.countryName = req.body.countryName.toLowerCase();
+countryModel.findByIdAndUpdate(req.params.id, req.body, function(err, country) {
+	if(err) {
+	response = {"error" : true,"message" : err};
+	} else {
+	response = {"error" : false,"message" : "Data Update"};
+	}
+	res.json(response);
+	});
+ });
 
 router.get('/country/:id',function(req,res){
 	// if (!req.isAuthenticated()) {
