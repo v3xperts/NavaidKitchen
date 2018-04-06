@@ -301,14 +301,7 @@ router.get('/language/:id',function(req,res){
 });
 
 router.delete('/language/:id',function(req,res){
-	// if (!req.isAuthenticated()) {
- //        return res.status(200).json({
- //            status: false,
- //            message:'Access Denied'
- //        });
- //    }
 	var response={};
-	console.log(req.params.id);
 	languageModel.remove({_id:req.params.id},function(err,data){
 		if (err) {
 			response = {"error" : true,"message" : "Error fetching data"};
@@ -372,12 +365,11 @@ router.post('/country',function(req, res){
 
 router.put('/country/:id',function(req, res){
 
-	 if(req.body.countryname){
-	    var countryc = req.body.countryname;
-	    req.body.countryname = countryc.toLowerCase(); 	
-	}
+	 if(req.body.countryName){
+	    req.body.countryName = req.body.countryName.toLowerCase(); 	
+	    }
 	var response={};
-	countryModel.find({countryName: req.body.countryname}, function(err, country) {
+	countryModel.find({countryName: req.body.countryName}, function(err, country) {
 		if(err) {
 	            response = {"error" : true,"message" : err};
 	            res.json(response);
@@ -386,7 +378,6 @@ router.put('/country/:id',function(req, res){
 	            response = {"error" : true,"message" : "Already exist."};
 	            res.json(response);
 	        	}else{
-	            req.body["countryName"] = req.body.countryname; 		
 				countryModel.findByIdAndUpdate(req.params.id, req.body, function(err, country) {
 				if(err) {
 				response = {"error" : true,"message" : err};
