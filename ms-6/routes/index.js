@@ -394,7 +394,6 @@ router.put('/country/:id',function(req, res){
 
 router.put('/country-update/:id',function(req, res){
 var response = {};
-req.body.countryName = req.body.countryName.toLowerCase();
 countryModel.findByIdAndUpdate(req.params.id, req.body, function(err, country) {
 	if(err) {
 	response = {"error" : true,"message" : err};
