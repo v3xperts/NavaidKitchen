@@ -393,7 +393,7 @@ router.put('/country/:id',function(req, res){
 	 if(req.body.countryname){
 	    var countryc = req.body.countryname;
 	    req.body.countryname = countryc.toLowerCase(); 	
-	}	
+	}
 	var response={};
 	countryModel.find({countryName: req.body.countryname}, function(err, country) {
 		if(err) {
@@ -404,13 +404,14 @@ router.put('/country/:id',function(req, res){
 	            response = {"error" : true,"message" : "Already exist."};
 	            res.json(response);
 	        	}else{
-						countryModel.findByIdAndUpdate(req.params.id, req.body, function(err, country) {
-						if(err) {
-						response = {"error" : true,"message" : err};
-						} else {
-						response = {"error" : false,"message" : "Data Update"};
-						}
-						res.json(response);
+	            req.body["countryName"] = req.body.countryname; 		
+				countryModel.findByIdAndUpdate(req.params.id, req.body, function(err, country) {
+				if(err) {
+				response = {"error" : true,"message" : err};
+				} else {
+				response = {"error" : false,"message" : "Data Update"};
+				}
+				res.json(response);
 						});
 	        	}
 	        }
