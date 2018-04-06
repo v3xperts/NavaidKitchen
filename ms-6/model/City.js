@@ -5,7 +5,7 @@ StateSchema = require('../model/State.js');
 
 // create a schema
 var CitySchema = new Schema({
-    cityName  :  { type: String, required: true,  lowercase: true, trim: true},
+    cityName  :  { type: String, required: true, lowercase: true, trim: true},
 	stateId:  { type: Schema.Types.ObjectId, ref: 'State' },
 	countryId:  { type: Schema.Types.ObjectId, ref: 'Country' }
 });
