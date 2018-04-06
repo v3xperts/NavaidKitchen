@@ -393,8 +393,7 @@ router.put('/country/:id',function(req, res){
 	 if(req.body.countryname){
 	    var countryc = req.body.countryname;
 	    req.body.countryname = countryc.toLowerCase(); 	
-	}
-	conso
+	}	
 	var response={};
 	countryModel.find({countryname: req.body.countryname}, function(err, country) {
 		if(err) {
