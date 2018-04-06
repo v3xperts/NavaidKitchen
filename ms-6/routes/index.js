@@ -395,7 +395,7 @@ router.put('/country/:id',function(req, res){
 	    req.body.countryname = countryc.toLowerCase(); 	
 	}	
 	var response={};
-	countryModel.find({countryname: req.body.countryname}, function(err, country) {
+	countryModel.find({countryName: req.body.countryname}, function(err, country) {
 		if(err) {
 	            response = {"error" : true,"message" : err};
 	            res.json(response);
