@@ -27,6 +27,7 @@ var KitchenSchema = new Schema({
   preorderforlater: { type: Boolean, default: true },
   preorderforlaterafterdays: { type: Number, default: 0 },
   preorderforlatertodays: { type: Number, default: 0 },
+  mealpackageallowdays: { type: Number, default: 0 },
   created_at : { type: Date, default: Date.now }, 
   updated_at : { type: Date, default: Date.now }, 
   cuisines : [],
