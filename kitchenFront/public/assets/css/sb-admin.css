@@ -560,7 +560,7 @@ padding: 5px;
 }
 
 nav.navbar-default, nav.navbar-default div.container div.navbar-header button {
-    box-shadow: 1px 2px 3px #151515;
+    box-shadow: -3px 2px 3px #151515;
 }
 
 div.classinputserch:first-child > div.btn-group > button.btn-default{
