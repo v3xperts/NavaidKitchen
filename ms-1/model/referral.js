@@ -7,7 +7,7 @@ var KitchenModel = require("../model/Owner.js");
 var RefSchema = new Schema({
     referralfrom : {type: Schema.Types.ObjectId, ref:'Owner', required: true},
     status :  { type: Boolean, default: false },
-    emailto : String,
+    emailto : { type : String, lowercase: true },
     type : String
     });
 

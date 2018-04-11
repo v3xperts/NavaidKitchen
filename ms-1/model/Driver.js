@@ -8,8 +8,8 @@ var Kitchen = require('../model/Kitchen.js');
 var DriverSchema = new Schema({
     firstname: String,
     lastname: String,
-    email: {type: String, required: true, unique: true, lowercase: true},
-    username: {type: String, required: true, unique: true},
+    email: {type: String, lowercase: true, required: true, unique: true, lowercase: true},
+    username: {type: String, lowercase: true, required: true, unique: true},
     password: {type: String, required: true},
     address : String,
     phoneNo : String,
