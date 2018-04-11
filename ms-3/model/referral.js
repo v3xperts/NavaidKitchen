@@ -8,7 +8,7 @@ var CustomerModel  =  require("../model/customer.js");
 var CustomerSchema = new Schema({
     referralfrom : [{type: Schema.Types.ObjectId, ref:'customer', required: true}],
     status :  { type: Boolean, default: false },
-    emailto : String,
+    emailto : {type: String, default: true, lowercase: true},
     type : String
     });
 

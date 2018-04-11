@@ -193,76 +193,124 @@ router.post('/favouriteitem/:id',function(req, res){
 
 
 router.post('/customer-address/:id',function(req, res){
-
-  // if (!req.isAuthenticated()) {
- //        return res.status(200).json({
- //            status: false,
- //            message:'Access Denied'
- //        });
- //    }
-
- var response = {};
- var fullAddress = req.body.address+" "+req.body.zipcode+" "+req.body.city+" "+req.body.country;    
- geocoder.geocode(fullAddress, function(err, gResponse) {
-  if(err){
-    console.log("err not get address");
-  }else{   
-   if(gResponse.length == 0){
-    req.body.lat = "";
-    req.body.lng = "";
-  }else{
-   req.body.lat = gResponse[0].latitude;
-   req.body.lng = gResponse[0].longitude;
- }   
- Customer.findById({"_id": req.params.id}, function(err, doc){
-  if(doc.customeraddresses.length > 0){
-    var index = doc.customeraddresses.findIndex(addr => {
-      return addr.address == req.body.address;
-    });        
-    if(index != -1){ 
-      if((doc.customeraddresses[index].city == req.body.city) && (doc.customeraddresses[index].country == req.body.country)){
-       res.json({"error" : true, "message" : "Address Already Existing!"}); 
-      }else{
-          doc.customeraddresses.push(req.body);
-      doc.save(function(err, data){
-       if(err) {
+  var response = {};
+  if(typeof req.body.lat == 'undefined' && typeof req.body.lng == 'undefined'){
+    var fullAddress = req.body.address+" "+req.body.zipcode+" "+req.body.city+" "+req.body.country;    
+    geocoder.geocode(fullAddress, function(err, gResponse) {
+      if(err){
         response = {"error" : true,"message" : err};
-      } else {
-        response = {"error" : false,"message" : data};
-      }     
-      res.json(response);
-    });
+        res.json(response);
+      }else{   
+        if(gResponse.length == 0){
+          response = {"error" : true,"message" : "Address not found."};
+          res.json(response);
+        }else{
+
+          req.body.lat = gResponse[0].latitude;
+          req.body.lng = gResponse[0].longitude;
+
+          Customer.findById({"_id": req.params.id}, function(err, doc){
+            if(typeof doc.customeraddresses != 'undefined' && doc.customeraddresses.length > 0){
+              var index = doc.customeraddresses.findIndex(addr => {
+                return addr.address == req.body.address;
+              });
+              if(index != -1){
+                if((doc.customeraddresses[index].city == req.body.city) && (doc.customeraddresses[index].country == req.body.country)){
+                  res.json({"error" : true, "message" : "Address Already Existing!"}); 
+                }else{
+                  doc.customeraddresses.push(req.body);
+                  doc.save(function(err, data){
+                    if(err) {
+                      response = {"error" : true,"message" : err};
+                    } else {
+                      response = {"error" : false,"message" : data};
+                    }     
+                    res.json(response);
+                  });
+                }
+              }else{
+                doc.customeraddresses.push(req.body);
+                doc.save(function(err, data){
+                  if(err) {
+                    response = {"error" : true,"message" : err};
+                  } else {
+                    response = {"error" : false,"message" : data};
+                  }     
+                  res.json(response);
+                });
+              }     
+            }else{
+              doc.customeraddresses = [];
+              doc.customeraddresses.push(req.body);
+              doc.save(function(err, data){
+                if(err) {
+                  response = {"error" : true,"message" : err};
+                } else {
+                  response = {"error" : false,"message" : data};
+                }     
+                res.json(response);
+              });
+            }   
+          });
+        } 
       }
-    }else{
-      doc.customeraddresses.push(req.body);
-      doc.save(function(err, data){
-       if(err) {
-        response = {"error" : true,"message" : err};
-      } else {
-        response = {"error" : false,"message" : data};
-      }     
-      res.json(response);
-    });
-    }     
+    });   
   }else{
-   doc.customeraddresses.push(req.body);
-   doc.save(function(err, data){
-    if(err) {
-     response = {"error" : true,"message" : err};
-   } else {
-     response = {"error" : false,"message" : data};
-   }     
-   res.json(response);
- });
- }   
-});
+    let addObj = {};
+    for (var i in req.body) {
+      addObj[i] = req.body[i];
+    }
 
+    if(typeof addObj['houseNo'] != 'undefined' && addObj['houseNo'] != null && addObj['houseNo'] != ''){
+      addObj['address'] = addObj['houseNo'] + ' ' + addObj['address'];
+    }
 
-}
-
-
-});   
-
+    Customer.findById({"_id": req.params.id}, function(err, doc){
+      delete addObj.houseNo;
+      delete addObj.stateee;
+      if(typeof doc.customeraddresses != 'undefined' && doc.customeraddresses.length > 0){
+        var index = doc.customeraddresses.findIndex(addr => {
+          return addr.address == addObj.address;
+        });
+        if(index != -1){
+          if((doc.customeraddresses[index].city == addObj.city) && (doc.customeraddresses[index].country == addObj.country)){
+            res.json({"error" : true, "message" : "Address Already Existing!"}); 
+          }else{
+            doc.customeraddresses.push(addObj);
+            doc.save(function(err, data){
+              if(err) {
+                response = {"error" : true,"message" : err};
+              } else {
+                response = {"error" : false,"message" : data};
+              }     
+              res.json(response);
+            });
+          }
+        }else{
+          doc.customeraddresses.push(addObj);
+          doc.save(function(err, data){
+            if(err) {
+              response = {"error" : true,"message" : err};
+            } else {
+              response = {"error" : false,"message" : data};
+            }     
+            res.json(response);
+          });
+        }     
+      }else{
+        doc.customeraddresses = [];
+        doc.customeraddresses.push(addObj);
+        doc.save(function(err, data){
+          if(err) {
+            response = {"error" : true,"message" : err};
+          } else {
+            response = {"error" : false,"message" : data};
+          }     
+          res.json(response);
+        });
+      }   
+    });
+  }
 });
 
 

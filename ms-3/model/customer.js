@@ -4,8 +4,8 @@ var Schema = mongoose.Schema;
 var CustomerSchema = new Schema({
   firstname: String,
   lastname: String,
-  username: { type: String, required: true, unique: true },
-  email: { type: String, required: true, unique: true },
+  username: { type: String, lowercase: true, required: true, unique: true },
+  email: { type: String, lowercase: true, required: true, unique: true },
   password: { type: String, required: true },
   dob: String,
   homephone: String,
