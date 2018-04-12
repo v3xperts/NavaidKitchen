@@ -2,27 +2,22 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-var mongoose = require('mongoose');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var passport = require('passport');
-var localStrategy = require('passport-local' ).Strategy;
-var multer = require('multer');
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var owners = require('./routes/owners');
-var slides = require('./routes/slides');
-var intro = require('./routes/intro');
+var mongoose = require('mongoose');
 
-var User = require('./model/User.js');
+var customers = require('./routes/customer');
+var routes = require('./routes/index');
 
 var app = express();
+
 var multer = require('multer');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-var db  = mongoose.connect('mongodb://localhost:27017/navedkitchen');
+var db  = mongoose.connect('mongodb://localhost:27017/navedkitchen3');
 app.use(function(req,res,next){
     req.db = db;
     next();
@@ -42,13 +37,11 @@ allowCrossDomain = function(req, res, next) {
 
 app.use(allowCrossDomain);
 
-
-
-
 var storage = multer.diskStorage({ //multers disk storage settings
-    destination: function (req, file, cb) {
-        cb(null, '/NavaidKitchen/ms-6/public/uploads/');
-        //cb(null, './public/uploads/');
+    destination: function (req, file, cb) { 
+
+        cb(null, '/NavaidKitchen/ms-3/public/uploads/');
+       // cb(null, './public/uploads/');
     },
     filename: function (req, file, cb) {
         var datetimestamp = Date.now();
@@ -59,7 +52,6 @@ var storage = multer.diskStorage({ //multers disk storage settings
 var upload = multer({ //multer settings
     storage: storage
 }).single('file');
-
 
 /** API path that will upload the files */
 app.post('/upload', function(req, res) {
@@ -73,10 +65,9 @@ app.post('/upload', function(req, res) {
     });
 });
 
-
 /*mail configure start*/
 var nodemailer = require("nodemailer");
-var smtpTransport = nodemailer.createTransport("SMTP",{
+var smtpTransport = nodemailer.createTransport({
    service: "Gmail",  // sets automatically host, port and connection security settings
    auth: {
        user: "navaidkitchen@gmail.com",
@@ -87,7 +78,10 @@ app.use(function(req, res, next) {
     req.mail = smtpTransport;
     next();
 });
+
 /*mail configure stop*/
+
+
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -95,23 +89,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
-app.use(require('express-session')({
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: false
-}));
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
-passport.use(new localStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+
 app.use('/', routes);
-app.use('/users', users);
-app.use('/owners', owners);
-app.use('/slides', slides);
-app.use('/intro', intro);
+app.use('/customers', customers);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

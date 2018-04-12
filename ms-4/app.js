@@ -2,27 +2,23 @@ var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
-var mongoose = require('mongoose');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var passport = require('passport');
-var localStrategy = require('passport-local' ).Strategy;
-var multer = require('multer');
-var routes = require('./routes/index');
-var users = require('./routes/users');
-var owners = require('./routes/owners');
-var slides = require('./routes/slides');
-var intro = require('./routes/intro');
+var mongoose = require('mongoose');
 
-var User = require('./model/User.js');
+var routes = require('./routes/index');
+var rating = require('./routes/rating');
+
 
 var app = express();
+
 var multer = require('multer');
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
-var db  = mongoose.connect('mongodb://localhost:27017/navedkitchen');
+var db  = mongoose.connect('mongodb://localhost:27017/navedkitchen4');
 app.use(function(req,res,next){
     req.db = db;
     next();
@@ -42,13 +38,11 @@ allowCrossDomain = function(req, res, next) {
 
 app.use(allowCrossDomain);
 
-
-
-
 var storage = multer.diskStorage({ //multers disk storage settings
     destination: function (req, file, cb) {
-        cb(null, '/NavaidKitchen/ms-6/public/uploads/');
-        //cb(null, './public/uploads/');
+      cb(null, '/NavaidKitchen/ms-4/public/uploads/');
+     // cb(null, './public/uploads/');
+        
     },
     filename: function (req, file, cb) {
         var datetimestamp = Date.now();
@@ -59,7 +53,6 @@ var storage = multer.diskStorage({ //multers disk storage settings
 var upload = multer({ //multer settings
     storage: storage
 }).single('file');
-
 
 /** API path that will upload the files */
 app.post('/upload', function(req, res) {
@@ -72,7 +65,6 @@ app.post('/upload', function(req, res) {
          res.json({error_code:0,err_desc:null,filename:req.file.filename});
     });
 });
-
 
 /*mail configure start*/
 var nodemailer = require("nodemailer");
@@ -95,23 +87,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-
-app.use(require('express-session')({
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: false
-}));
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
-passport.use(new localStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+
 app.use('/', routes);
-app.use('/users', users);
-app.use('/owners', owners);
-app.use('/slides', slides);
-app.use('/intro', intro);
+app.use('/rating', rating);
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
