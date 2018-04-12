@@ -6,8 +6,8 @@ var Schema = mongoose.Schema;
 var OwnerSchema = new Schema({
   firstname: String,
   lastname: String,
-  username: { type: String, required: true, unique: true },
-  email: { type: String, required: true, unique: true },
+  username: { type: String, required: true, lowercase: true, unique: true },
+  email: { type: String, required: true, lowercase: true, unique: true },
   password: { type: String, required: true },
   status: { type: Boolean, default: true },
   created_at: Date,

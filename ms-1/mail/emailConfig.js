@@ -45,7 +45,7 @@ module.exports = {
     customerOrderEmailShoot: function(emailTo, username, order) {
         // rendering html template (same way can be done for subject, text)
         console.log("order", order);
-        var html = ejs.renderFile(templateDir + '/customerOrder.ejs', { username: username , token: order._id.substr(order._id.length-6), order: order},
+        var html = ejs.renderFile(templateDir + '/customerOrder.ejs', { username: username , token: order._id.substr(18,6), order: order},
             function(err, data) {
                 if (err) {
                     console.log(err);
@@ -66,7 +66,7 @@ module.exports = {
     restroOrderEmailShoot: function(emailTo, username, order) {
         console.log("order", order);
         // rendering html template (same way can be done for subject, text)
-        var html = ejs.renderFile(templateDir + '/restroOrder.ejs', { username: username , token: order._id.substr(order._id.length-6), order: order},
+        var html = ejs.renderFile(templateDir + '/restroOrder.ejs', { username: username , token: order._id.substr(18,6), order: order},
             function(err, data) {
                 if (err) {
                     console.log(err);
