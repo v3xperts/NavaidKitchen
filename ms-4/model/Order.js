@@ -21,7 +21,7 @@ fulladdress : Object,
 driverDetail : Object,
 cardinfo : Object,
 status : {type : String, default : 'received'},
-created_at: { type: Date },
+created_at: { type: String },
 cardPaidStatus: Object,
 timezone: String,
 currency: String
