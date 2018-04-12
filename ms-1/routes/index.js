@@ -23,6 +23,7 @@ router.get('/', function(req, res, next) {
 
 
 router.post('/login', function(req, res, next) {
+	req.body.username = req.body.username.toLowerCase();
 	ownerModel.find({username: req.body.username,password: req.body.password},function(err,owner) { 
 	    if(err){
 	    	res.json({status:false, data: 'error', type:'owner'});
