@@ -6,7 +6,7 @@ var Schema = mongoose.Schema;
 var OwnerSchema = new Schema({
   ownerfirstname: String,
   ownerlastname: String,
-  ownergovids : Array,
+  ownergovids : [{"documentname": { type: String , default: ""}, "filename":{ type: String, default: ""}}],
   owneraddress : String,
   ownerphoneno : String,
   username: { type: String, lowercase: true, required: true, unique: true },

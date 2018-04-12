@@ -51,7 +51,7 @@ var KitchenSchema = new Schema({
  bakeryitems : {type : Boolean, default: false},
  foodtype : Array,
  deliveryservice : {status : {type : Boolean, default: true}, value : ""},
- documentation : [{"documentname": { type: String , default: ""}, "filename":{ type: String, default: "" } } ],
+ documentation : [{"documentname": { type: String , default: ""}, "filename":{ type: String, default: ""}}],
  bankinginformation : Array,
  tax: {status : "", value : ""},
  serviceAllow: {"daliymenuservice": {type: Boolean, default: true}, "cateringservice": {type: Boolean, default: false}, "mealpackageservice": {type: Boolean, default: false}, "comboservice": {type: Boolean, default: true}},
