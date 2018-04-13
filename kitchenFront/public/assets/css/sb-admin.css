@@ -790,4 +790,16 @@ div.classinputserch:first-child > div.btn-group > button.btn-default{
     padding-right: 0;
     text-align: left;
 }
+.coldoc1{
+    height: 30px;
+}
+.coldoc{
+    margin: 5px;
+    border-radius: 17px;
+    padding: 10px;
+    box-shadow: 0px 0px 10px grey;
+    }
 
+.p-15{
+  margin: 15px;
+}
