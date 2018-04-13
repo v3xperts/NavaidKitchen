@@ -39,7 +39,15 @@ var KitchenSchema = new Schema({
   advertisementpolicy: String,
   advertisepolicychangesandlegal: String,
   advertisepromotions: String,
-  openinghours : [],  
+  openinghours : [
+                  {name : {type : String , default: "monday"}, status: {type: Boolean, default: false}, times : { type : Array, default : [{open: {type: String, default: "12:00 AM"} , close: {type: String, default: "11:59 PM"}}]}},  
+                  {name : {type : String , default: "tuesday"}, status: {type: Boolean, default: false}, times : { type : Array, default : [{open: {type: String, default: "12:00 AM"} , close: {type: String, default: "11:59 PM"}}]}},  
+                  {name : {type : String , default: "wednesday"}, status: {type: Boolean, default: false}, times : { type : Array, default : [{open: {type: String, default: "12:00 AM"} , close: {type: String, default: "11:59 PM"}}]}},  
+                  {name : {type : String , default: "thursday"}, status: {type: Boolean, default: false}, times : { type : Array, default : [{open: {type: String, default: "12:00 AM"} , close: {type: String, default: "11:59 PM"}}]}},  
+                  {name : {type : String , default: "friday"}, status: {type: Boolean, default: false}, times : { type : Array, default : [{open: {type: String, default: "12:00 AM"} , close: {type: String, default: "11:59 PM"}}]}},  
+                  {name : {type : String , default: "saturday"}, status: {type: Boolean, default: false}, times : { type : Array, default : [{open: {type: String, default: "12:00 AM"} , close: {type: String, default: "11:59 PM"}}]}},  
+                  {name : {type : String , default: "sunday"}, status: {type: Boolean, default: false}, times : { type : Array, default : [{open: {type: String, default: "12:00 AM"} , close: {type: String, default: "11:59 PM"}}]}}
+                 ],  
  openingstatus : {type: String, default:'open'},
  kitchenservices: Array,
  kitchencapacity : String,
