@@ -256,20 +256,14 @@ router.put('/change-password/:id',function(req, res){
 
 router.put('/kitchen/:id',function(req, res){
 
-	// if (!req.isAuthenticated()) {
- //        return res.status(200).json({
- //            status: false,
- //            message:'Access Denied'
- //        });
- //    }
-
-       console.log(req.body);
-
 	    var response={}; 
 	    if(typeof req.body.lat != 'undefined') {
              req.body.loc = [req.body.lat, req.body.lng];
 	    }        
-
+        if(req.body.city && req.body.country){
+           req.body.city = req.body.city.toLowerCase();
+           req.body.country = req.body.country.toLowerCase();
+        }
 		kitchenModel.findByIdAndUpdate({_id : req.params.id}, req.body, function(err, kitchen) {
 	    	if(err) {
 	            response = {"error" : true,"message" : err};
