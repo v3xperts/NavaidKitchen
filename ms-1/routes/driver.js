@@ -140,6 +140,9 @@ var emails = require('../mail/emailConfig.js');
 
 router.post('/login', function(req, res, next) {
     var response={};
+    if(req.body.username){
+        req.body.username = req.body.username.toLowerCase();
+    }
     driverModel.find({ username:req.body.username, password:req.body.password},function(err,owner) {
         if (err) {
             res.json({error:true, data: err});
