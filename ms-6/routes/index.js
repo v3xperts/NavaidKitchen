@@ -35,8 +35,7 @@ router.post('/deliverycharges', function(req, res, next) {
             deliveryModel.findByIdAndUpdate(fdata[0]._id, req.body, {new:true}, (err, udata)=>{
             	if(err){
 				res.json({"error" : true,"message" : err});
-            	}else{
-            		setValues();
+            	}else{            		
             	res.json({"error" : false,"message" : udata});
             	}
             });
@@ -45,8 +44,7 @@ router.post('/deliverycharges', function(req, res, next) {
 				ConfigModel.save(function(err, sdata){
 				if(err) {
 				response = {"error" : true,"message" : err};
-				} else {
-					setValues();
+				} else {					
 				response = {"error" : false,"message" : sdata};
 				}
 				res.json(response);
