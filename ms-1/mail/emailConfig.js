@@ -67,7 +67,7 @@ module.exports = {
     customerOrderRejectedEmailShoot: function(emailTo, order) {
         // rendering html template (same way can be done for subject, text)
         console.log("order", order);
-        var html = ejs.renderFile(templateDir + '/customerOrderRejected.ejs', {token: order._id.substr(18,6), order: order},
+        var html = ejs.renderFile(templateDir + '/customerOrderRejected.ejs', {username: order.customerid.email, token: order._id.substr(18,6), order: order},
             function(err, data) {
                 if (err) {
                     console.log(err);

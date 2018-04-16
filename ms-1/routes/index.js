@@ -326,7 +326,7 @@ router.delete('/kitchen/:id',function(req,res){
  //    }
 	var response={};
 	console.log(req.params.id);
-	kitchenModel.remove({_id:req.params.id},function(err,data){
+	kitchenModel.remove({_id: req.params.id},function(err,data){
 		if (err) {
 			response = {"error" : true,"message" : "Error fetching data"};
 		} else{
