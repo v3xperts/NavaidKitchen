@@ -31,9 +31,10 @@ router.post('/signup',function(req, res) {
 
 			response = {"error": true, "message": err};
 		} else {
-            console.log("data");
-            console.log(data);
+            if(req.body.accounttype){
+            }else{
             emails.emailShoot(req.body.email, req.body.username, data._id);
+            }
 			response = {"error": false, "message": "Registration successful"};
 		}
 		res.json(response);
