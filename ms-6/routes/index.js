@@ -7,10 +7,54 @@ var ownerModel  =  require("../model/Owner.js");
 var languageModel  =  require("../model/Multilanguage.js");
 var cuisinesModel  =  require("../model/Cuisines.js");
 var pageModel  =  require("../model/Page.js");
+var deliveryModel  =  require("../model/Deliverycharges.js");
 
 
 
 
+
+
+router.get('/deliverycharges', function(req, res, next) {
+ 	var response={};
+ 	deliveryModel.find({},function(err,data){
+	if (err) {
+		res.json({error: true, message: err});
+	} else{
+		res.json({error: false, message: data});
+	};
+	});
+  });
+
+router.post('/deliverycharges', function(req, res, next) {
+ 	var response={};
+	deliveryModel.find({},function(err,fdata){
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			if(fdata.length == 1){
+            deliveryModel.findByIdAndUpdate(fdata[0]._id, req.body, {new:true}, (err, udata)=>{
+            	if(err){
+				res.json({"error" : true,"message" : err});
+            	}else{
+            		setValues();
+            	res.json({"error" : false,"message" : udata});
+            	}
+            });
+			}else{
+				var ConfigModel = new deliveryModel(req.body);
+				ConfigModel.save(function(err, sdata){
+				if(err) {
+				response = {"error" : true,"message" : err};
+				} else {
+					setValues();
+				response = {"error" : false,"message" : sdata};
+				}
+				res.json(response);
+				});			
+			}
+		};
+	});	
+});
 
 router.post('/getcountryid', function(req, res, next) {
     console.log(req.body);
