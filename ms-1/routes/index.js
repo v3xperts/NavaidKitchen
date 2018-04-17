@@ -352,7 +352,7 @@ router.post('/kitchenfilters',function(req,res){
             
     if((req.body.sortby != '') && (typeof req.body.sortby != 'undefined') && (req.body.sortby != 'rating')){
     	     var newsort = req.body.sortby;
-    	     var newsorttype = ((newsort == 'created_at') || (newsort == 'minimumorder') ? -1 : 1);
+    	     var newsorttype = ((newsort == 'created_at') ? -1 : 1);
              conditions2[newsort] = newsorttype;
      }
 
