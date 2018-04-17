@@ -1,0 +1,53 @@
+<div class="col-lg-12">
+    <div class="panel panel-default">
+    <div class="panel-body">
+      <table class="table">
+    <thead>
+      <tr>
+        <th>Sr.No.</th>
+        <th>Order Id</th>
+        <th>Customer</th>
+        <th>Amount</th>
+        <th>Type</th>
+        <th>Time</th>
+        <th>Status</th>
+        <th>#</th>
+        <!-- <th>#</th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders; let i = index; ">
+        <td> {{i+1}}</td>
+        <td> <span *ngIf="order._id">{{order._id.substr(18,6)}}</span></td>
+        <td><p class="capitalize2" *ngIf="order.customerid.firstname"> {{order.customerid.firstname}} {{order.customerid.lastname}}</p> </td>
+        <td><small style="font-size: 10px;" *ngIf="order.currency"><b>{{order.currency}}</b></small>{{order.total}}</td>
+        <td class="capitalize2">{{order.paymenttype}}</td>
+        <td>{{order.created_at | date :'medium' }}</td>
+        <td class="capitalize2"> 
+          
+          <span class="text-success capitalize2" *ngIf="order.status == 'completed' || order.status == 'driverrejected'"> <strong>Order Prepared</strong> <span>Waiting for Driver!</span>  </span>
+
+           <span class="text-success capitalize2" *ngIf="order.status == 'rejected'"> Order Rejected &nbsp; </span>
+
+           <span class="text-success capitalize2" *ngIf="order.status == 'received' && order.paymenttype == 'cash'"> Order Placed &nbsp; </span>
+
+           <span class="text-success capitalize2" *ngIf="order.status == 'received' && order.paymenttype == 'card'"> Payment Received &nbsp; </span>
+
+          <span class="text-success capitalize2" *ngIf="order.status == 'accepted'"> Preparing your Order &nbsp; </span>
+           
+
+          <span class="text-success capitalize2" *ngIf="order.status == 'driveraccepted'"> On the Way &nbsp; </span>
+
+          <span class="text-success capitalize2" *ngIf="order.status == 'delivered'"> Order Delivered </span>
+
+          <span class="text-success capitalize2" *ngIf="order.status == 'cancelled'"> Order Cancelled </span>
+
+        </td>
+        <th> <a style="color: #5AC15E;" [routerLink]="['/owner/report/order/', order._id]"> View Detail </a> </th>
+        <!-- <th><a class="btn btn-sm btn-success" (click)="deleteOrder(order._id)"> Delete </a> </th> -->
+      </tr>      
+    </tbody>
+  </table>
+    </div>
+    </div>
+  </div>

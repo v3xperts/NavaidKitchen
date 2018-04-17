@@ -1,0 +1,39 @@
+<div id="wrapper">
+  	<app-header></app-header>
+  	<div id="page-wrapper">
+    	<!-- <router-outlet></router-outlet> -->
+    	<div class="container-fluid">
+	<div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">
+                Delivery Charges
+            </h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+        	<div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title"><i class="fa fa-list"></i> Delivery Charges Add</h3>
+                </div>
+                <div class="panel-body">
+                    <form [formGroup]="deliveryChargesAddModel" (ngSubmit)="addDeliveryCharges()">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1"> Menu Items Charges<b class="redclass">*</b></label>
+                    <input formControlName="itemcharge" type="text" class="form-control" id="exampleInputEmail1" placeholder="items charges">
+                        </div> 
+
+                        <div class="form-group">
+                            <label for="exampleInputEmail2"> Meal Package per day Charges <b class="redclass">*</b></label>
+                            <input formControlName="mealpackagecharge" type="text" class="form-control" id="exampleInputEmail2" placeholder="Per day charges" required>
+                        </div> 
+                        <button type="submit" class="btn btn-default"  [disabled]="!deliveryChargesAddModel.valid">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  	</div>
+</div>

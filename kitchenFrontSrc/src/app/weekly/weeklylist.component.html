@@ -1,0 +1,85 @@
+<app-headerowner></app-headerowner>
+<div class="rightMenu col-lg-9 col-md-9 col-sm-9">
+<div style="margin-top: 10px;">
+<!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px;">
+    <div class="alert alert-info alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        Kitchen owner has to enable the Meal package, before he can setup his menu.
+    </div>            
+</div>  -->   
+<div class="alert alert-info"  *ngIf="items.length > 0 && weeklyObj.length == 0">
+<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+There are no Meal Package, click Add Meal Package to add a new Add Meal Package. 
+</div>
+
+<div class="alert alert-danger" *ngIf="items.length == 0">
+Kitchen owner has to setup the menu, before Meal Package.
+</div>
+</div>
+
+   <div class="menuSetup" id="Menu18" style="margin-top: 10px;"> 
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">  
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 10px;">
+                <a class="btn btn-primary"  [routerLink]="['/owner/weekly-add']"  [attr.disabled]="items.length < 1 ? true : null">Add Meal Package</a>            
+                <a class="btn btn-primary pull-right" [routerLink]="['/owner/activate-offering']">Next</a> 
+                <a class="btn btn-primary pull-right" style="margin-right: 10px;" [routerLink]="['/owner/combo']">Previous</a>
+            </div>
+            <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="weeklyObj.length > 0">
+                <div *ngFor="let package of weeklyObj" style="margin-top: 10px;">
+                    <div class="mainMenuItem" style="margin-top: 0px;min-height: 89px;"> 
+
+
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2" 
+                         >
+
+                            <img *ngIf="package.image"  src="{{imageUrl}}/{{package.image}}" class="combo-img ownerimg1" />
+                            
+                            <img *ngIf="!package.image" src="./assets/image/menu.jpg" class="combo-img ownerimg1">
+
+                        </div>              
+                        <div class="itemDesc col-lg-8 col-md-8 col-sm-8 col-xs-8" style="vertical-align: middle;"><span style="text-transform: capitalize;">{{package.name}}</span> &nbsp; <span class="badge">{{package.type}} </span> 
+
+                            <div style="font-size: 15px;" *ngIf="package.type == 'fixed'"> <small style="font-size:14px;"> {{ package.startdate && package.enddate && package.type == 'fixed' ? '(' +package.startdate + ') - (' + package.enddate + ')' : ''}} </small>
+                            </div>
+
+                            <div style="font-size: 15px;" *ngIf="package.type == 'fixed'"> <b>Price : </b> &nbsp; <small style="font-size: 10px;" *ngIf="restaurantDetail.currency"><b>{{restaurantDetail.currency}}</b></small> {{package.totalprice}} &nbsp; &nbsp;  <b> Discounted Price : </b> <small style="font-size: 10px;" *ngIf="restaurantDetail.currency"><b>{{restaurantDetail.currency}}</b></small>{{package.packageprice}}
+                            </div>
+
+                            <div style="font-size: 15px;" *ngIf="package.type != 'fixed'"> <b> Discount : </b> {{package.discount ? package.discount+'%' : ''}}</div>
+
+
+                        </div>
+                        <div class="icons col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <a [routerLink]="['/owner/weekly-dayedit',package.type,package._id]"><i class="fa fa-pencil" aria-hidden="true" title="edit"></i></a>
+                            <a (click)="deletePackage(package._id)" href="javascript:void(0)"><i class="fa fa-trash" aria-hidden="true" title="delete"></i></a>
+                        </div>
+
+                    </div> 
+                </div>        
+            </div>
+           <div></div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <div class="stepwizard col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                <div class="stepwizard-row col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                    <div class="stepwizard-step height65px col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 padding0"><a class="btn btn-success btn-circle" [routerLink]="['/owner/menu/list']">1</a></div>
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10 paddingRight0">Create Category and Add menu item</div>
+                    </div>
+                    <div class="stepwizard-step height65px col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 padding0"><a class="btn btn-success btn-circle" [routerLink]="['/owner/combo']">2</a></div>
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10 paddingRight0">Manage Combos</div>
+                    </div>  
+                    <div class="stepwizard-step height65px col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 padding0"><a type="button" class="btn btn-success btn-circle" [routerLink]="['/owner/weekly']">3</a></div>
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10 paddingRight0">Meal Packages</div>
+                    </div>                  
+                    <div class="stepwizard-step height65px col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 padding0"><button type="button" class="btn btn-default btn-circle" disabled="disabled">4</button></div>
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10 paddingRight0">Activate Offerings</div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,190 @@
+<app-headerowner></app-headerowner>
+<div class="rightMenu col-lg-9 col-md-9 col-sm-9 col-lg-9" style="padding:0px; z-index: -1;">		
+	<div class="nameAndAddress" id="Menu1" style="position: absolute; z-index: 0;max-height: 525px;overflow: auto;">
+		<form [formGroup]="restaurantData" (ngSubmit)="restaurantUpdate()">
+				<div class="firstDiv">
+					<span class="">Kitchen Basic Information</span>				
+				</div>
+				<div class="secondDiv">
+					<div class="input-group gfe-input">
+						<span class="input-group-addon">
+		    				<i class="fa fa-cutlery" aria-hidden="true"></i>
+		  				</span>
+		  				<input type="text" class="form-control" formControlName="restaurantname">
+		  				<span class="gfe-input-placeholder">Restaurant Name <b class="redclass">*</b></span>
+					</div>
+					
+					 <div *ngIf="formErrors.restaurantname" class="alert alert-danger">
+                               {{ formErrors.restaurantname }}
+                     </div>
+
+					<div class="input-group gfe-input">
+						<span class="input-group-addon">
+		    				<i class="fa fa-phone" aria-hidden="true"></i>
+		  				</span>
+		  				<input type="text" class="form-control" formControlName="phoneno1">
+		  				<span class="gfe-input-placeholder">Restaurant Phone Number1 <b class="redclass">*</b></span>
+					</div>
+					 
+					 <div *ngIf="formErrors.phoneno1" class="alert alert-danger">
+                               {{ formErrors.phoneno1 }}
+                     </div>
+                    
+                    <div class="input-group gfe-input">
+						<span class="input-group-addon">
+		    				<i class="fa fa-phone" aria-hidden="true"></i>
+		  				</span>
+		  				<input type="text" class="form-control" formControlName="phoneno2">
+		  				<span class="gfe-input-placeholder">Restaurant Phone Number2 <b>*</b></span>
+					</div>
+					 
+					 <div *ngIf="formErrors.phoneno2" class="alert alert-danger">
+                               {{ formErrors.phoneno2 }}
+                     </div>
+                      
+
+                      <div class="input-group gfe-input">
+						<span class="input-group-addon">
+		    				<i class="fa fa-phone" aria-hidden="true"></i>
+		  				</span>
+		  				<input type="text" class="form-control" formControlName="phoneno3">
+		  				<span class="gfe-input-placeholder">Restaurant Phone Number3 <b>*</b></span>
+					</div>
+					 
+					 <div *ngIf="formErrors.phoneno3" class="alert alert-danger">
+                               {{ formErrors.phoneno3 }}
+                     </div>
+
+                     <div class="input-group gfe-input">
+						<span class="input-group-addon">
+		    				<i class="fa fa-phone" aria-hidden="true"></i>
+		  				</span>
+		  				<input type="text" class="form-control" formControlName="phoneno4">
+		  				<span class="gfe-input-placeholder">Cell Phone Number <b>*</b></span>
+					</div>
+					 
+					 <div *ngIf="formErrors.phoneno4" class="alert alert-danger">
+                               {{ formErrors.phoneno4 }}
+                     </div>
+
+                     
+					<div class="input-group gfe-input">
+						<span class="input-group-addon">
+							<i class="fa fa-road" aria-hidden="true"></i>
+		  				</span>
+		  				
+
+		  			<!-- <input type="text" class="form-control" formControlName="address"  formControlName="address" id="autocomplete" placeholder="Enter your address"  type="text" (focus)="geolocate()" > -->
+
+		  			<!-- <input formControlName="address" placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control" #search [formControl]="searchControl" (keyup)="clearinputs(searchControl)">	 -->	
+
+
+					<input id="pac-input" type="text"
+					placeholder="Enter a location" autocorrect="off" spellcheck="off" autocapitalize="off" #search class="form-control" formControlName="address" />  
+
+		  			<span class="gfe-input-placeholder">Street Name & Number <b class="redclass">*</b></span>
+					</div>
+
+					<div class="input-group gfe-input">
+						<span class="input-group-addon">
+		    				<i class="fa fa-flag" aria-hidden="true"></i>
+		  				</span>
+
+		  				<input type="text" id="locality" [readonly]="true" class="form-control capitalize2" formControlName="city" style="width: 50%">
+
+		  				<span class="gfe-input-placeholder">City <b>*</b></span>
+
+		  				<input type="text" id="postal_code" class="form-control" formControlName="zipcode" style="width: 50%">
+		  				<span class="gfe-input-placeholder" style="left: 290px;">ZIP / Postal Code *</span>
+					</div>
+
+					<div class="input-group gfe-input">
+						<span class="input-group-addon">
+		    				<i class="fa fa-flag" aria-hidden="true"></i>
+		  				</span>
+		  				<input id="country" [readonly]="true" type="text" class="form-control capitalize2" formControlName="country">
+		  				<span class="gfe-input-placeholder">Country <b class="redclass">*</b></span>
+					</div>
+
+					<div class="input-group gfe-input">
+						<span class="input-group-addon">
+		    				<i class="fa fa-flag" aria-hidden="true"></i>
+		  				</span>
+		  				<input type="file" class="form-control" name="single" ng2FileSelect [uploader]="uploader" (change)="onChangeImg($event)" accept="image/x-png,image/jpeg,image/jpg,image/x-PNG,image/JPEG,image/JPG"/>
+		  				<span class="gfe-input-placeholder">Image <b class="redclass">*</b></span>
+					</div>
+					<p class="rederr" *ngIf="file_type">File type should only image jpg, jpeg, png .This type file not allowed.</p>
+
+					<div class="progress progress-barn" *ngIf="progress > 0 && progress < 100">
+					<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50"
+					aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width': progress + '%'}">
+					{{progress }}%
+					</div>
+					</div>
+
+					<div class="row">
+		            <div *ngIf="ownerinfo.image.length > 0">
+		            <div *ngFor="let myPhoto of ownerinfo.image" class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+		            <img src="{{url1}}{{myPhoto}}" style="width:100%">
+		            </div>
+		            </div>
+		            </div>  
+        
+        
+			<!-- <sebm-google-map [latitude]="latitude" [longitude]="longitude" [zoom]="m.zoom" (zoomChange)="zoomChange($event)">
+			<sebm-google-map-marker [latitude]="latitude" [longitude]="longitude" [label]="'M'" [markerDraggable]="m.drag"
+			(dragEnd)="markerDragEnd(m, $event)">
+			</sebm-google-map-marker>
+			</sebm-google-map> -->
+
+
+			 <div id="map" style="min-height: 500px;"></div>
+
+            </div>	 
+            
+				<div class="row button-position7" *ngIf="ownerinfo.restaurantname == ''">
+                <input type="submit" class="btn btn-success" value="Save" style="float: right;" [disabled]="!restaurantData.valid">
+				</div>
+
+				<div class="row button-position7" *ngIf="ownerinfo.restaurantname != ''">
+                <input type="submit" class="btn btn-success" value="Save" style="float: right;" [disabled]="!restaurantData.valid">
+				</div>
+
+			</form>
+		
+
+			   <table id="address" style="display: none;">
+			      <tr>
+			        <td class="label">Street address</td>
+			        <td class="slimField"><input class="field" id="street_number"
+			              disabled="true"></td>
+			        <td class="wideField" colspan="2"><input class="field" id="route"
+			              disabled="true"></td>
+			      </tr>
+			      <tr>
+			        <td class="label">City</td>     
+			        <td class="wideField" colspan="3"><input class="field" id="locality"
+			              disabled="true"></td>
+			      </tr>
+			      <tr>
+			        <td class="label">State</td>
+			        <td class="slimField"><input class="field"
+			              id="administrative_area_level_1" disabled="true"></td>
+			        <td class="label">Zip code</td>
+			        <td class="wideField"><input class="field" id="postal_code"
+			              disabled="true"></td>
+			      </tr>
+			      <tr>
+			        <td class="label">Country</td>
+			        <td class="wideField" colspan="3"><input class="field"
+			              id="country" disabled="true"></td>
+			      </tr>
+			    </table>
+				</div>
+
+      <!-- <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="false" [zoom]="zoom">
+        <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+      </agm-map> -->
+	  <!-- <div id="gmap" style="width:100%; height: 600px;"></div> -->
+
+</div>

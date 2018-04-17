@@ -1,0 +1,56 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default">              
+       <!--  <flash-messages></flash-messages> -->
+        <div class="panel-body" *ngIf="formactive">             
+           <div class="panel-heading">
+            <h3 class="panel-title"> Sign Up </h3>
+        </div>
+        <form role="form" [formGroup]="referralRegisterAddModel" (ngSubmit)="referralRegister()">
+        <fieldset>
+          <div class="form-group">
+          <i class="fa fa-user"></i>
+          <input formControlName="firstname" class="form-control" placeholder="Firstname" type="text" autofocus>
+          </div>
+          <div class="form-group">
+          <i class="fa fa-user"></i>
+          <input formControlName="lastname" class="form-control" placeholder="Lastname" type="text">                
+          </div>
+          <div class="form-group">
+          <i class="fa fa-user"></i>
+          <input formControlName="username" class="form-control" placeholder="Username" type="text">
+          <div *ngIf="formErrorsr.username" class="alert alert-danger">
+          {{ formErrorsr.username }}
+          </div>
+          </div>
+          <div class="form-group">
+          <i class="fa fa-envelope"></i>
+          <input formControlName="email" [readonly]="true" class="form-control" placeholder="E-mail"  type="text">
+          <div *ngIf="formErrorsr.email" class="alert alert-danger">
+          {{ formErrorsr.email }}
+          </div>
+          </div>
+          <div class="form-group">
+          <i class="fa fa-key"></i>
+          <input formControlName="password" class="form-control" placeholder="Password" type="password" (keyup)="matchpassword()">
+          <div *ngIf="formErrorsr.password" class="alert alert-danger">
+          {{ formErrorsr.password }}
+          </div>
+          </div>
+          <div class="form-group">
+          <i class="fa fa-key"></i>
+          <input formControlName="newpassword" class="form-control" placeholder="Confirm Password" type="password" (keyup)="matchpassword()">
+          </div>
+          <div style="padding: 3px;" class="alert alert-danger" *ngIf="MutchPassword">
+          Password not match
+          </div>
+            <!-- Change this to a button or input when using this as a form -->
+        <button class="btn btn-lg btn-success btn-block" [disabled]="!referralRegisterAddModel.valid">Register</button>
+        </fieldset>
+        </form>
+        </div>
+        </div>
+        </div>
+    </div>
+</div>

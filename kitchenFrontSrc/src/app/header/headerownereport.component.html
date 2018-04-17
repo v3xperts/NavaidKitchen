@@ -1,0 +1,58 @@
+<div class="topNav container-fluid">
+	<div class="restaurant-name col-lg-2 col-md-2 col-sm-2" style="float: left;">
+		<h1><img class="img-responsive" src="../../assets/image/Logo2.png" class="log1" style="    padding-left: 14px;"></h1>
+	</div>
+	<div class="col-lg-7 col-md-7 col-sm-7">
+		<ul class="topLinks">
+			<li> <a [routerLink]="['/owner/kitchen-detail']">SETUP</a></li>
+			<li><a href="javascript:void(0)">REPORTS</a></li>			
+		</ul>
+	</div>
+	<div class="dropdown col-lg-2 col-md-2 col-sm-2">
+	  	<button class="dropbtn">{{currentOwner.ownerId.username}} <i class="fa fa-caret-down"></i></button>
+	  	<div class="dropdown-content">
+	    	<a [routerLink]="['/owner/profile']" ><i class="fa fa-user" aria-hidden="true"></i>My Profile</a>
+	    	<a [routerLink]="['/owner/change-password']"><i class="fa fa-key" aria-hidden="true"></i>Password Change</a>
+	    	<a [routerLink]="['/']" (click)="setlogout()"><i class="fa  fa-power-off"></i> Sign Out</a>
+	  	</div>
+	</div>
+</div>
+<div class="leftMenu col-lg-3 col-md-3 col-sm-3" style="vertical-align: middle;">
+	<ul class="list-group list-group-flush leftMenuUl">
+		<li class="list-group-item list-group-itemm" data-toggle="collapse" data-target="#basic-option" *ngIf="kitchenData">
+			{{kitchenData.restaurantname}}
+		</li>
+		<a [routerLink]="['/owner/report/essentials']">
+		<li class="list-group-item list-group-itemm" data-toggle="collapse" data-target="#basic-option">
+			<i class="fa fa-cutlery" aria-hidden="true"></i> &nbsp;&nbsp;&nbsp;&nbsp; Essentials
+		</li>
+	</a>
+
+		<div id="basic-option" class="collapse" [routerLinkActive]="['in']">
+			<ul class="option-menu">
+				<li class="list-group-item list-group-itemm" [routerLink]="['/owner/report/dashboard']" [routerLinkActive]="['selected']">
+					<a>&#x27A5;&nbsp;&nbsp;&nbsp;&nbsp; Dashboard </a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+				</li>
+			</ul>
+		</div>
+			
+		<a [routerLink]="['/owner/report/list-view']">
+		<li class="list-group-item list-group-itemm" data-toggle="collapse" data-target="#orders">
+			<span class="glyphicon glyphicon-book"></span>&nbsp;&nbsp;&nbsp;&nbsp;List View
+		</li>
+		</a>
+		<div id="orders" class="collapse" [routerLinkActive]="['in']">
+			<ul class="option-menu">			    
+				<li class="list-group-item list-group-itemm" [routerLink]="['/owner/report/orderlist']" [routerLinkActive]="['selected']">
+					<a >&#x27A5;&nbsp;&nbsp;&nbsp;&nbsp; Orders</a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+				</li>
+				<li class="list-group-item list-group-itemm"  [routerLink]="['/owner/report/customers']" [routerLinkActive]="['selected']">
+					<a>&#x27A5;&nbsp;&nbsp;&nbsp;&nbsp; Customers </a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+				</li>
+				</ul>
+		</div> 
+	</ul>
+</div>

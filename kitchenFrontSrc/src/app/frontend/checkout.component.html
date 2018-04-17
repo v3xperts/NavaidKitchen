@@ -1,0 +1,689 @@
+<style>
+	.newaddr{
+		border: 0px solid lightgrey;
+		padding: 10px;
+		margin-right: 0px !important;
+		margin-left: 0px !important;
+	}
+	.payclass{
+	  border: 1px solid lightgrey;
+    height: 49px;
+    padding: 12px;
+	}
+	.marclass{
+		margin-top: 15px;
+	}
+	.paywrapper{
+     border: 1px solid lightgrey;
+     padding: 19px;
+	}
+	.btn-successd{
+		color: green;
+	}
+  .btn-defaultd{
+    color: #c2c2c2;
+  }
+  .payment-methods{
+    border: 1px solid lightgrey;
+    padding: 15px;
+  }
+  @media (min-width: 768px)
+{
+.form-horizontal .control-label {
+    text-align: left !important;
+}
+}
+
+textarea#textarearesize0 {
+    width: 100%;
+    resize: none;
+}
+
+/* 
+*, *:before, *:after {box-sizing:  border-box !important;}
+
+
+.grid-0 {
+ -moz-column-width: 25em;
+ -webkit-column-width: 25em;
+ -moz-column-gap: .5em;
+ -webkit-column-gap: .5em; 
+  
+}
+
+.thambnail-0 {
+ display: inline-block;
+ margin:  .5em;
+ padding:  0; 
+ width:98%;
+}
+ */
+</style>
+
+
+<app-headerfrontend></app-headerfrontend>
+<div style="padding-top: 50px;">
+<div class="container mainBody margin-top-cont30">
+
+  <ul class="breadcrumb rounded-0">
+  <li><a [routerLink]="['/']">Home</a></li>
+  <li><a [routerLink]="['/customer/browse-restaurants']"> Restaurants </a></li>
+  <li class="active capitalize2">{{checkoutsummary.name}}</li>
+  <li><a >Checkout</a></li>
+  </ul>
+	<!-- <h3 class="pb-10"><b> Order Checkout </b></h3> -->
+  <br><br>
+	<div class="cust_info_h" *ngIf="checkoutsummary.total != ''">
+		<div class="panel panel-default order-summary" *ngIf="checkoutsummary.items">
+			<div class="panel-heading p5-10 bg-gradian">
+  <h5 class="checkout-heading">Order Checkout <small class="fs-14"><a class="greentext text-uppercase pull-right" [routerLink]="['/customer/restaurant-detail/'+checkoutsummary.restaurantid]"> <i class="fa fa-pencil"></i> Modify Order</a>
+  </small>
+  </h5>
+  </div>
+  <div class="panel-body" >
+<div  class="col-lg-12 pall-0">
+<div class="media">
+<div class="media-body">
+<h4 class="media-heading pmrestname mb-18">{{checkoutsummary.name}} <small class="pull-right">
+  
+<b>  <!-- {{todayOpenstatus}} --> <span >Opening Status</span>
+&nbsp;&nbsp; 
+<span class="orange" *ngIf="todayOpendd">Open</span>
+<span class="orange" *ngIf="!todayOpendd">Closed</span>
+</b>
+</small>
+</h4>
+</div>
+</div>
+</div>
+				
+				<div class="table-order-items">
+					<table class="table tablemb-0">
+						<tr>
+                <th><b>Item</b></th>
+								<!-- <th class="text-center"><b>Special Request</b></th> -->
+								<th class="text-center"><b>Qty</b></th>
+								<th class="text-center item-price"><b>Price</b></th>
+								<th class="text-center total"><b >Total</b></th>
+							</tr>                          
+							<tr *ngIf="checkoutsummary.items.length > 0" class="text-center orange"><td colspan="5"> 
+                <h4>Menu Item </h4></td></tr>
+							<tr *ngFor="let itm of checkoutsummary.items">							  
+                <td style="width: 553px;">
+									<p><img src="{{itm.image  == '' ? './assets/image/menu.png' : imageUrl + itm.image }}" class="img-responsive radius50" /><b class="">&nbsp;{{itm.name}}</b></p>									
+								</td>
+								<!-- <td class="text-center">
+									<div><a href="javascript:void(0);" class="text-grey">Add special request</a>
+										<div style="display: none;">
+											<div class="input-group"><input placeholder="Additional Charges may apply" type="text"><span class="input-group-addon"><i class="fa fa-times-circle red-text"></i></span></div>
+										</div>
+									</div>
+								</td> -->
+								<td class="text-center">{{itm.qty}}</td>
+								<td class="text-center"> <small *ngIf="itm.price > 0"> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b> {{itm.price}} </small></td>
+								<td class="text-center"> <small *ngIf="itm.price > 0"> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b> {{itm.qty * itm.price}} </small>
+                </td>
+							</tr>
+						</table> 
+           <div *ngIf="checkoutsummary.combo.length > 0" class="text-center orange"><h4>Combo </h4></div>
+            <div *ngFor="let combo of checkoutsummary.combo">
+              <table class="table"> 
+              <tr data-toggle="collapse" [attr.data-target]="'#combo'+ combo._id">
+              <td style="width: 574px;">
+              <p>
+              <img src="{{combo.image  == '' ? './assets/image/menu.png' : imageUrl + combo.image }}" class="img-responsive radius50" /><b class="">&nbsp;{{combo.name}} </b> <i class="fa fa-chevron-down orange" aria-hidden="true" data-toggle="collapse" [attr.data-target]="'#combo'+ combo._id" aria-expanded="false"></i></p>                  
+              </td>
+              <!-- <td class="text-center">
+              <div><a href="javascript:void(0);" class="text-grey">Add special request</a>
+              <div style="display: none;">
+              <div class="input-group"><input placeholder="Additional Charges may apply" type="text"><span class="input-group-addon"><i class="fa fa-times-circle red-text"></i></span></div>
+              </div>
+              </div>
+              </td> -->
+              <td class="text-center">{{combo.qty}}</td>
+              <td class="text-center">  <small *ngIf="combo.finalcomboprice > 0"> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b> {{combo.finalcomboprice}} </small> </td>
+              <td class="text-center">
+                 <small *ngIf="combo.finalcomboprice"> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b> {{combo.qty * combo.finalcomboprice}} </small> 
+                
+              </td>
+              </tr>
+              </table> 
+
+              <div id="combo{{combo._id}}" class="panel-collapse collapse" aria-expanded="false">
+              <div class="panel-body mt-0">
+              <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12 mb-7"  style="padding: 0px 4px;" *ngFor="let item of combo.menuId">
+              <div style="padding: 5px; border: 1px solid lightgrey;">
+              <div class="media" style="padding-top: 10px; padding-bottom: 10px;">
+              <div class="media-left" style="min-width: 52px;">
+              <img src="{{item.image  == '' ? './assets/image/menu.png' : imageUrl + item.image }}" class="img-responsive radius50" />
+              </div>
+              <div class="media-body">
+              <h5 class="media-heading"> {{item.name}} </h5>                    
+              </div>
+              </div>
+              </div>
+              </div>
+              </div>
+              </div> 
+          </div>
+         
+          <div *ngIf="checkoutsummary.package.length > 0" class="text-center orange"><h4>Package </h4></div>
+
+          <div class="col-sm-12 col-lg-12" style="padding: 0;" *ngFor="let package of checkoutsummary.package; let pi = index; ">
+
+              <table class="table mb-0"> 
+              <tr data-toggle="collapse" [attr.data-target]="'#package'+ package._id + pi" >
+              <td style="width: 560px;">
+              <p>
+              <img src="{{package.image  == '' ? './assets/image/menu.png' : imageUrl + package.image }}" class="img-responsive radius50" />  <b class="">&nbsp;{{package.name}}</b> <i class="fa fa-chevron-down orange" aria-hidden="true" data-toggle="collapse" [attr.data-target]="'#package'+ package._id+ pi" aria-expanded="false"></i></p>
+              </td>
+              <!-- <td class="text-center">
+              <div><a href="javascript:void(0);" class="text-grey">Add special request</a>
+              <div style="display: none;">
+              <div class="input-group"><input placeholder="Additional Charges may apply" type="text"><span class="input-group-addon"><i class="fa fa-times-circle red-text"></i></span></div>
+              </div>
+              </div>
+              </td> -->
+              <td class="text-center">{{package.qty}}</td>
+              <td class="text-center">
+                <small *ngIf="package.packageprice > 0"> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b> {{package.packageprice}} </small>
+                </td>
+              <td class="text-center">
+                <small *ngIf="package.packageprice > 0"> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b> {{package.qty * package.packageprice}} </small>
+              </td>
+              </tr>
+              </table>
+
+
+       <!--    <p> 
+          <img src="{{package.image  == '' ? './assets/image/menu.png' : imageUrl + package.image }}" class="img-responsive radius50" />   
+          <b class="">{{package.name}} <small> ${{package.packageprice}}</small>
+          </b> 
+          <span class="pull-right"><i class="fa fa-chevron-down pull-right" aria-hidden="true" data-toggle="collapse" [attr.data-target]="'#package'+ package._id" aria-expanded="false"></i>
+          </span>
+          </p>  -->
+
+          <div id="package{{package._id + pi}}" class="panel-collapse collapse" aria-expanded="false">
+          <div class="panel-body mt-0 grid-0">
+          <div class="col-lg-4 col-sm-4 col-xs-12 col-md-4 mb-7 thambnail-0" style="padding: 0px 4px;" *ngFor="let date of package.dayandmenus;">
+          <div style="padding: 5px; border: 1px solid lightgrey;">
+          <h4 class="media-heading"><small>{{date.date}} </small></h4> 
+           <div *ngFor="let menu of date.menuids">
+          <div class="media" style="padding-top: 10px; padding-bottom: 10px;">
+          <div class="media-left" style="min-width: 52px;">
+          <img src="{{menu.image  == '' ? './assets/image/menu.png' : imageUrl + menu.image }}" class="img-responsive radius50" />
+          </div>
+          <div class="media-body">
+          <h5 class="media-heading"> {{menu.name}} <small *ngIf="package.type == 'fixed'">({{menu.qty}}) </small></h5> 
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>
+          </div> 
+          </div>
+					</div>
+				</div>
+			</div>
+		</div>
+	 
+	<div class="cust_info_h" > 
+		<div class="panel panel-default order-summary">
+		<div class="panel-heading p5-10 bg-gradian">
+  <h5 class="checkout-heading"> Delivery Address <small class="fs-14">
+       <a class="greentext text-uppercase pull-right" (click)="addNewAddress()" data-toggle="modal" data-target="#addAddressModel"> <i class="fa fa-map-marker"></i> Add New Address</a>
+  </small>
+  </h5>
+     </div>
+			<div class="panel-body">
+	<div>
+	<div class="col-sm-6 text-right"><b><!-- <span class="">Open 24 Hours</span> &nbsp;&nbsp; <span class="orange ">Open</span> --></b></div>
+	</div>
+		<div class="table-order-items" *ngIf="deliveryAddress && deliveryAddress.length > 0">
+		<div style="padding: 0px;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cut_data" *ngFor="let addr of deliveryAddress; let i =index" (click)="selectedaddr(i)">   
+		<div class="newaddr row" [ngStyle]="addr.checked == true ? {'border': '3px green solid'} : {'border': '0px lightgrey solid'}">  
+         <div class="selected-address" [ngStyle]="addr.checked == true ? {'color': 'green', 'display': 'inline-block'} : {'display': 'none'}"><i class="fa fa-check-square fa-2x" aria-hidden="true"></i></div>
+         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+           <b> Address</b> :  {{addr.address}}
+         </div>
+          <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+           <b> Landmark</b> :  {{addr.landmark}}
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <b>City</b> :  {{addr.city}}
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+           <b> Country</b> :  {{addr.country}}
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+            <b>Phone No</b> :  {{addr.phoneno}}
+         </div>
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+           <b> Landline </b> :  {{addr.landline}}
+         </div>         
+         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+           <b> Zipcode</b> :  {{addr.zipcode}}
+         </div>         
+        </div>
+				</div>
+				</div>
+			</div>
+		</div>
+	</div> 
+
+<div class="cust_info_h">	 
+<div class="panel panel-default order-summary">
+    <div class="panel-heading p5-10 bg-gradian">
+    <h5 class="checkout-heading"> Delivery Time 
+    <small class="fs-14">
+    
+    </small>
+    </h5>
+    </div>
+<div class="panel-body" >
+	<div class="row">
+		<div class="col-sm-6">
+			<div class="deliveryTime-labal">
+        <!-- {{newrestaurantsdetail && newrestaurantsdetail.preorderforlater}} -->
+				<label *ngIf="todayOpendd">
+					<input type="radio" name="ordertiming" [checked]="checkedd" (click)="setordertime('now')" />
+					<span></span> Now
+				</label>
+				<label class="notallowed" *ngIf="newrestaurantsdetail && newrestaurantsdetail.preorderforlater">
+					<input type="radio" name="ordertiming" (click)="setordertime('later')">
+					<span></span> Pre-order for later
+				</label>
+			</div>
+			 <div>
+				<!-- <p style="margin: 0 0 px">Please check the date and time below </p> -->
+        <p  *ngIf="checkoutsummary.ordertiming != ''"> <code> {{checkoutsummary.ordertiming.datetime | date:'MMM d, y, HH:mm'}} </code> </p>        
+        <div *ngIf="!ordertiming"></div>
+				<div *ngIf="ordertiming" style="margin: 0 0 11px">
+          <input type="text" class="form-control" id="date1" #myTimeSets (blur)="getTimeData(myTimeSets)">
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6">
+      <label style="margin: 0 0 19px">
+			<i class="fa fa-chevron-down orange" style=""></i>
+		  Leave a note for the restaurant
+      </label>
+			<div>
+        
+				<textarea id="textarearesize0" style="min-height: 89px;" [(ngModel)]="checkoutsummary.note" placeholder="eg. if you have a food allergy or a request for the driver" rows="3"></textarea>
+        
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</div>
+
+<div class="cust_info_h">	 
+<div class="panel panel-default order-summary">
+ <div class="panel-heading p5-10 bg-gradian">
+    <h5 class="checkout-heading"> Payment Summary 
+    <small class="fs-14">
+    
+    </small>
+    </h5>
+    </div>
+
+<div class="panel-body">
+<div class="container-fluid" *ngIf="checkoutsummary.coupon == ''">
+      <table class="table table-condensed">
+          <tbody>
+              <tr>
+                  <td class="noborder">
+                      <input type="text" class="inputtextvochar" placeholder="Voucher code" [(ngModel)]="voucharCode">
+                  </td>
+                  <td class="noborder" width="90px">
+                      <button type="submit" class="btn btn-success" (click)="applyCoupan()">Redeem</button>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+</div>
+<hr>
+<div class="container-fluid">  
+<div class="row">
+    <div class="col-sm-8">
+        <div class="payment-methods panel">
+            <div class="pay-wrapper clearfix">
+                <p><b>Select your payment method</b></p>
+                <hr> 
+                <div *ngIf="checkoutsummary.package && checkoutsummary.package.length == 0 && hidewithdiscount" for="knet-pay" class="col-sm-12 payclass panel payclass1" (click)="paybycash()">
+                    <label>                      
+                    <i class="fa fa-check-circle fa-1x btn-successd" aria-hidden="true" *ngIf="paymentoption == 'cash' ? true : false"></i>
+                    <i class="fa fa-check-circle fa-1x btn-defaultd" aria-hidden="true" *ngIf="paymentoption != 'cash' ? true : false"></i>
+                    &nbsp; <img src="../assets/image/cash-icon.svg" class="online-card2" />  &nbsp; <small> Cash </small>
+                    </label>
+                </div>
+
+                <div  for="credit-card-pay" class="col-sm-12 payclass panel payclass1" (click)="paybycard()" *ngIf="hidewithdiscount"> 
+                <label>
+ 
+                <i class="fa fa-check-circle fa-1x btn-successd" aria-hidden="true" *ngIf="paymentoption == 'card' ? true : false"></i>
+                <i class="fa fa-check-circle fa-1x btn-defaultd" aria-hidden="true" *ngIf="paymentoption != 'card' ? true : false"></i> 
+                &nbsp; <img src="../assets/image/checkout-cc.svg" class="online-card2" /> &nbsp; <small>Credit card / Debit card</small>
+                </label>  
+                </div>
+
+                <br>
+<div  *ngIf="paymentoption == 'card'">
+
+  <div style="text-align:center; margin-bottom: 20px;"><a href="void:javascript(0)" class="text-center btn-sm btn-success" style="text-align: center;" (click)="toggleAddcard()"> Add Card </a></div>
+
+<div *ngIf="showForm">
+
+          <form [formGroup]="customerCard" (ngSubmit)="addCard()" class="form-horizontal">
+        
+                <!--  <div class="form-group">
+                <label class="control-label col-sm-4" for="email">Card Type:</label>
+                <div class="col-sm-8">
+                <div class="pl-20 card-inline">
+                <label class="radio pl-25 ">
+                <input value="visa" type="radio" formControlName="cardtype">
+                <img class="online-card"  src="../assets/image/visa.svg"
+                />
+                </label>
+                <label class="radio pl-25 ">
+                <input value="master" type="radio" formControlName="cardtype">
+                <img class="online-card" src="../assets/image/master.svg" />
+                </label>
+                <label class="radio pl-25 ">
+                <input value="mastro" type="radio" formControlName="cardtype" >
+                <img class="online-card"  src="../assets/image/mastro.svg"/>
+                </label>
+                </div>
+                </div>                         
+                </div> -->
+
+               <!--  <div class="form-group">
+                <label class="control-label col-sm-4" for="pwd">Email:</label>
+                <div class="col-sm-8">
+                <input type="text" class="form-control" id="pwd" placeholder="Email" formControlName="email">
+                </div>
+                </div> -->
+
+                <div class="form-group">
+                <label class="control-label col-sm-4" for="email">Card Number:</label>
+                <div class="col-sm-8">
+                <input type="text" class="form-control" id="Card Number" placeholder="Enter Card Number" formControlName="cardnumber" (keyup)="onKeyCardNumber($event)">
+                <span style="padding:3px" *ngIf="cardformErrors.cardnumber" class="alert alert-danger">
+                {{ cardformErrors.cardnumber }}
+                </span> 
+                </div>
+                </div>
+                
+                <div class="form-group">
+                <label class="control-label col-sm-4" for="pwd">Expiration Date :</label>
+                <div class="col-sm-4">
+                <select class="form-control" formControlName="expirymonth">
+                <option value="">MM</option>
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+                </select>  
+               <span style="padding:3px" *ngIf="cardformErrors.expirymonth" class="alert alert-danger">
+               {{ cardformErrors.expirymonth }}
+               </span> 
+                </div>
+                <div class="col-sm-4">
+                <select class="form-control" formControlName="expiryyear">
+                <option value="">YYYY</option>
+                <option label="2017" value="17">2017</option>
+                <option label="2018" value="18">2018</option>
+                <option label="2019" value="19">2019</option>
+                <option label="2020" value="20">2020</option>
+                <option label="2021" value="21">2021</option>
+                <option label="2022" value="22">2022</option>
+                <option label="2023" value="23">2023</option>
+                <option label="2024" value="24">2024</option>
+                <option label="2025" value="25">2025</option>
+                <option label="2026" value="26">2026</option>
+                </select>
+                <span style="padding:3px" *ngIf="cardformErrors.expiryyear" class="alert alert-danger">
+                {{ cardformErrors.expiryyear }}
+                </span>
+                </div>
+                </div>
+
+
+
+                <div class="form-group">
+                <label class="control-label col-sm-4" for="cvc">CVV:</label>
+                <div class="col-sm-8">
+                <input type="text" class="form-control" id="cvc" placeholder="Enter CVV" formControlName="cvc">
+                <p class="rederr" *ngIf="message != ''">{{message}}</p>
+                 <span style="padding:3px" *ngIf="cardformErrors.cvc" class="alert alert-danger">
+                {{ cardformErrors.cvc }}
+                </span>
+                </div>
+                </div>
+
+                <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button type="submit" class="btn btn-success pull-right" [disabled]="!customerCard.valid"> 
+                 Save card 
+                </button>
+                </div>
+                </div>
+
+          </form>
+</div>
+<hr>
+<div class="col-lg-12 refresh2">
+<div class="col-lg-6" *ngFor="let card of cards; let i = index; ">
+<div class="panel panel-theme"(click)="selectCard(i)">
+  <div class="panel-body" style="position: relative;">
+  <p class="cardselectedd"><i aria-hidden="true" style="color: green; position: absolute;" class="fa fa-check-square fa-1x pull-right" *ngIf="card.selected ? true : false"></i> 
+    <i aria-hidden="true" style="color: black; position: absolute; margin: 17px 4px;" class="fa fa-remove fa-1x" (click)=removeCard(i)></i>
+  </p>
+  <p class="cardname capitalize2">{{card.nameoncard}}</p>
+      <div>      
+      <div class="card-inline">
+      <label *ngIf="card.cardtype.toLowerCase() == 'visa'">
+      <img class="online-card newonline-cards" src="../assets/image/visa.svg"
+      />
+      </label>
+      <label *ngIf="card.cardtype.toLowerCase() == 'master'">              
+      <img class="online-card newonline-cards" src="../assets/image/master.svg" />
+      </label>
+      <label *ngIf="card.cardtype.toLowerCase() == 'mestro'">
+      <img class="online-card newonline-cards"  src="../assets/image/mastro.svg"/>
+      </label>
+      </div>
+      </div> 
+    
+  <p class="Name"> {{card.cardnumber}}</p>
+  <p class="Name"> {{card.expirymonth}} {{card.expiryyear}}</p>
+  <p class="Name" *ngIf="cardSelected > -1 && cardSelected == i"> 
+    <input type="text" placeholder="CVV" [(ngModel)]="cvc" />
+    <span *ngIf="carderror != ''">{{carderror}}</span>
+  </p>
+  </div>
+</div>
+</div>
+</div>
+<div>
+</div>
+</div>              
+</div>
+</div>  
+<hr>
+<div class="marclass"><b>By ordering through Credit Card you agree to the &nbsp; <a class="btn-successd" target="_blank" [routerLink]="['/customer/page/creditcardterms']"> Terms and conditions </a></b></div>      
+    </div>
+    <div class="col-sm-4 col-md-4">
+      <div class="panel panel-default" *ngIf="checkoutsummary.coupon != ''">
+        <div class="panel-body" style="color: #099e44;">
+          {{checkoutsummary.coupon.couponcode}} Coupon code applied <a href="javascript:void(0);" (click)="removeCoupan()"> <i class="fa fa-times pull-right" aria-hidden="true"></i> </a>
+        </div>
+      </div>
+        <table class="table ">
+            <tbody class="tableborder-0">
+                <tr>
+                    <td>Subtotal</td>
+                    <td width="115"><span class="pull-left"></span>
+                      <span class="pull-right">
+                      <small *ngIf="checkoutsummary.subtotal > 0"> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b>
+                      {{checkoutsummary.subtotal.toFixed(2)}} 
+                      </small>
+                      </span></td>
+                </tr>  
+                   
+
+                <tr class="total-amount" *ngIf="checkoutsummary.discount != '' || checkoutsummary.discount > 0">
+                    <td>Discount Amount ({{(checkoutsummary.discount/(checkoutsummary.subtotal/100)).toFixed(0)}}%)</td>
+                    <td width="115"><span class="pull-left"><b></b></span><span class="pull-right">-
+                     <small *ngIf="checkoutsummary.discount > 0"> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b>
+                      {{checkoutsummary.discount}} 
+                      </small>
+                     </span></td>
+                </tr>
+
+                <tr *ngIf="checkoutsummary.discount == 0">
+                    <td>Included Tax ({{checkoutsummary.tax}}%)</td>
+                    <td width="115"><span class="pull-left"></span>
+                      <span class="pull-right">
+                        <small> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b>
+                        {{(finalTotalAmountabc - checkoutsummary.subtotal).toFixed(2)}}
+                      </small>
+                     </span>
+                   </td>
+                </tr> 
+
+                <tr class="total-amount">
+                    <td>Total Amount</td>
+                    <td width="115"><span class="pull-left"><b></b></span><span class="pull-right">
+                       <small *ngIf="finalTotalAmountabc > 0 || finalTotalAmountabc == 0"> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b>
+                        {{finalTotalAmountabc.toFixed(2)}}
+                      </small></span></td>
+                </tr>
+                
+                <tr *ngIf="checkoutsummary.discount">
+                    <td>Included Tax ({{checkoutsummary.tax}}%)</td>
+                    <td width="115"><span class="pull-left"></span>
+                      <span class="pull-right">
+                        <small> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b>
+                        {{((finalTotalAmountabc/100) * checkoutsummary.tax).toFixed(2)}}
+                      </small>
+                     </span>
+                   </td>
+                </tr> 
+
+                <tr class="final-amt">                  
+                    <td *ngIf="paymentoption == 'no'"> <span> <b>Select Pay Type </b></span> </td>
+                    <td *ngIf="paymentoption == 'cash'"> <span><b> Pay by Cash </b></span> </td>
+                    <td *ngIf="paymentoption == 'card'"> <span> <b>Pay by Card </b></span> </td>
+                    <td *ngIf="paymentoption"><span class="pull-right"><b>
+                     <small *ngIf="checkoutsummary.total"> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b>
+                        {{checkoutsummary.total}}
+                      </small>
+                     </b></span></td>                  
+                </tr>
+                
+            </tbody>
+        </table>
+        <div class="row">
+         <!--  {{checkoutsummary.ordertiming.type}} {{paymentoption}} -->
+         <!-- {{checkoutsummary.ordertiming.type}}{{cvc}} -->
+            <div class="col-sm-12">            
+                <button class="btn btn-block btn-success" style="position: relative; min-height: 35px; outline: none;" (click)="placeOrder()" [disabled]="(checkoutsummary.ordertiming.type == '' || (checkoutsummary.ordertiming.type == 'later' && checkoutsummary.ordertiming.datetime == '') || checkoutsummary.ordertiming.type == 'f' || (paymentoption == 'no') || (paymentoption == 'card' && cvc == ''))"> 
+
+                  <div class="loader1" *ngIf="loader_run"></div><span>Place Order</span>
+                  
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div> 
+</div> 
+
+<app-footerfrontend></app-footerfrontend>
+
+
+
+
+<!-- Modal Section-->
+<div id="addAddressModel" class="modal fade" role="dialog">
+<div class="modal-dialog">
+<!-- Modal content-->
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal">×</button>
+<h4 class="modal-title">Add New Address</h4>
+</div>
+<div class="modal-body">
+<div id="map" style="min-height: 500px;"></div>
+<hr>
+<form class="form-horizontal" role="form" [formGroup]="addressAddModel" (ngSubmit)="updateAddress()">
+<div class="form-group">
+<div class="col-sm-6">
+<input type="text" class="form-control"  formControlName="phoneno" placeholder="Phone No">
+<p style="padding:3px" *ngIf="formErrors.phoneno" class="alert alert-danger">
+{{ formErrors.phoneno }}
+</p>   
+</div>     
+<div class="col-sm-6 class-sm-model">
+<input type="text" class="form-control" formControlName="landline" placeholder="Landline">
+<p style="padding:3px" *ngIf="formErrors.landline" class="alert alert-danger">
+ {{ formErrors.landline }}
+</p> 
+</div>
+</div>
+
+<div class="form-group">
+<div class="col-sm-12">
+<input id="pac-input" type="text"
+  placeholder="Enter a location" autocorrect="off" spellcheck="off" autocapitalize="off" #search class="form-control" formControlName="address" /> 
+</div>
+</div>
+<div class="form-group">
+<div class="col-sm-12">
+<input type="text" class="form-control" formControlName="landmark" placeholder="Landmark">
+</div>
+</div>  
+<div class="form-group">
+<div class="col-sm-6">
+<input type="text" class="form-control" formControlName="city" placeholder="City">
+<div style="padding:3px" *ngIf="formErrors.city" class="alert alert-danger">
+                       {{ formErrors.city }}
+</div>
+</div>
+<div class="col-sm-6 class-sm-model">
+<input type="text" class="form-control" formControlName="zipcode" placeholder="ZipCode">
+</div>
+</div>
+<div class="form-group">
+<div class="col-sm-12">
+<input type="text" class="form-control" formControlName="country" placeholder="Country">
+</div>
+</div>
+<div class="form-group">
+<div class="col-sm-4"> 
+<p>  
+<button type="submit" class="btn btn-success" [disabled]="!addressAddModel.valid" (click)="modelClose()">Save Address</button>
+</p>
+</div>
+</div>
+</form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

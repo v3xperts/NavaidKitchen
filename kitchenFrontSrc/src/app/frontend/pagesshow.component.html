@@ -1,0 +1,16 @@
+<app-headerfrontend></app-headerfrontend>
+<div style="padding-top: 50px;">
+<div class="container mainBody">
+    <div class="container restroName">
+        <a href="">Home</a> 
+        <a [routerLink]="['/customer/page/',pageDetail.url]"> &gt; {{pageDetail.title}}</a>        
+    </div>
+    <h3 style="padding-bottom: 10px; border-bottom: 1px solid lightgrey;"><b> {{pageDetail.title}} </b></h3>
+    <br>
+    <div class="cust_info_h">    
+    <div [innerHTML]="pageDetail.description">      
+    </div>
+    </div>
+</div>    
+</div>    
+<app-footerfrontend></app-footerfrontend>

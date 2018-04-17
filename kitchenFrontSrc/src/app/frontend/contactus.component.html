@@ -1,0 +1,72 @@
+<app-headerfrontend></app-headerfrontend>
+<div style="padding-top: 50px;">
+<div class="container margin-top-cont30">
+
+    <ul class="breadcrumb rounded-0">
+    <li><a [routerLink]="['/']">Home</a></li>
+    <li class="active">Contact us</li>
+</ul>
+    <h3 style="padding-bottom: 10px; border-bottom: 1px solid lightgrey;"><b> Contact Us </b></h3>
+
+    <h3 class="f-17 bold">How may we help you?</h3>
+    <b class="text-727272">Our agents are available 24x7 to make sure that all your issues and inquiries are resolved.</b>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 custom_need">
+      <h3>  <i class="fa fa-question fa-2x" aria-hidden="true" style="color : #F68B2D"></i> 
+        Need Help? </h3>
+    </div>
+    <br>    
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 form-ata">
+        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+            <p><b>Write to us</b></p>
+            <p><b class="text-727272">You may start a <a class="orange"></a> with one of our agents for any queries.</b></p>
+            <b class="text-727272">Or you can fill the below contact form and we make sure to get back to you as soon as possible.</b>
+            <br/>
+            <div class="form-7">
+            <form class="form-horizontal" [formGroup]="contactAddModel" (ngSubmit)="contactSubmit()">
+             <div class="alert alert-success alert-dismissable" *ngIf="success">
+               <a href="#" class="close" data-dismiss="alert" aria-label="close" (click)="sfalse()">&times;</a>
+             <strong>We will Contact You Soon !</strong>
+             </div>
+                <div class="form-group">
+                    <label for="name" class="control-label">Name <span class="orange">*</span></label>
+                    <input type="text" class="form-control" id="name" formControlName="name" placeholder="First & Last Name">        
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="control-label">Email <span class="orange">*</span></label>
+
+                    <input type="email" class="form-control" id="email" formControlName="email" placeholder="example@domain.com">
+
+                </div>
+                <div class="form-group">
+                <label for="phone" class="control-label"> Phone <span class="orange">*</span></label>
+                <input type="number" class="form-control" id="phone" name="phone" formControlName="phone" placeholder="Phone No." >     
+                </div>
+                <div class="form-group">
+                    <label for="message" class="control-label">Message <span class="orange">*</span></label>
+                    <textarea class="form-control" rows="4" name="message" formControlName="message"></textarea>
+                </div> 
+                <div class="form-group">
+                <re-captcha (captchaResponse)="handleCorrectCaptcha($event)" site_key="6Ldg1SUUAAAAADvTCAxce8bTGFCK9TSw1ExOT7_I" (captchaExpired)="onCaptchaExpired()"></re-captcha>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <button id="submit" type="submit" class="btn btn-success" [disabled]="!contactAddModel.valid">Submit</button>
+                    </div>
+                </div>               
+            </form>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+            <p ><b>Contact us</b></p>
+            <b class="text-727272">To get the quickest response in case you need to:</b>
+            <p><i class="fa fa-check greentext"></i><b>Modify your order</b></p>
+            <p><i class="fa fa-check greentext"></i><b>General inquiries</b></p>
+            <p>You may contact us through our Call Center number</p>
+            <p class="text-center"><a href="tel:5011714178" class="btn white-btn btn-default"><i class="fa fa-phone orange" style="position:relative;top:2px;"></i><b>727272272</b></a></p>
+
+        </div>
+    </div>
+</div>    
+</div>    
+<app-footerfrontend></app-footerfrontend>

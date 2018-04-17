@@ -1,0 +1,228 @@
+<app-headerfrontend (outgoingData)='handleEvent($event)'></app-headerfrontend>
+<div style="padding-top: 50px;">
+<div class="container margin-top-cont30">
+
+<ul class="breadcrumb rounded-0">
+    <li><a [routerLink]="['/']">Home</a></li>
+    <li class="active">Restaurant</li>
+</ul>
+
+    <div class="container listGrid col-lg-12 col-md-12 col-sm-12 col-xs-12 well well-sm well-smcustom">        
+     <div class="inputField">
+        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12" style="padding-left: 0px; padding-right: 0px;">
+        <div class="col-sm-12 col-lg-3 col-md-3 col-xs-12 classinputserch">
+         <select [(ngModel)]="cityi" id="classinputserchi" class="selectpicker capitalize2" data-live-search="true" data-width="100%" data-size="5" title="Select City" (ngModelChange)="getLatLng(cityi)">
+         <option value="">Select City</option>
+            <option  class="capitalize2" *ngFor="let city of items1" [ngValue]="city.cityName" [selected]="cityi == city.cityName">
+                {{city.cityName}}
+            </option>  
+        </select>
+        </div>        
+        <div class="col-sm-12 col-lg-3 col-md-3 col-xs-12 classinputserch" >
+        <select [(ngModel)]="coui" id="classinputserchi" class="selectpicker capitalize2" multiple data-live-search="true" data-width="100%" data-size="5" title="Select Cuisine">
+              <option class="capitalize2" selected="true"  *ngFor="let cou of allCousion" [ngValue]="cou._id" [selected]="coui.indexOf(cou._id) != -1">
+                {{cou.name}}
+              </option>  
+        </select>
+        </div>
+      <div class="col-sm-12 col-lg-2 col-md-2 col-xs-12 classinputserch">
+       <div class="searchBox">   
+            <div id="imaginary_container"> 
+                <div class="input-group stylish-input-group" style="width:100%;">
+                    <input type="text" class="form-control forminputsearch" [(ngModel)]="userFilter2" placeholder="Search">
+                </div>
+            </div>
+      </div>
+      </div>
+      <div class="col-sm-12 col-lg-1 col-md-1 col-xs-12 classinputserch">
+      <button class="classinputserchbtn srchl srcx" (click)="searchdata()">
+          <i class="fa fa-search" aria-hidden="true"></i>
+      </button>
+      </div>
+
+    <div class="btn-group col-lg-3 col-md-3 col-sm-12 col-xs-12 browseralien1" >          
+          <div class="pull-right">       
+          <div class="btn-group">
+      <div class="dropdown pull-left">
+      <a class="btn btn-default btn-sm dropdown-toggle border-radius-0" href="javascript:void(0)" data-toggle="dropdown">Sort By &nbsp; <span class="caret"></span></a>
+      <ul class="dropdown-menu">
+          <li><a href="javascript:void(0)" (click)="sortBy('')">Recommended</a></li>
+          <li><a href="javascript:void(0)" (click)="sortBy('rating')">Rating</a></li>
+          <li><a href="javascript:void(0)" (click)="sortBy('created_at')">Newest</a></li>
+          <li><a href="javascript:void(0)" (click)="sortBy('restaurantname')">A to Z</a></li>
+          <li><a href="javascript:void(0)" (click)="sortBy('minimumorder')">Min. Order Amount</a></li>
+          <!-- <li><a href="javascript:void(0)" (click)="fastdeliveryfind()">Fastest Delivery</a></li> -->
+      </ul>
+      </div>
+          <a href="#" id="grid" class="btn btn-default btn-sm hidden-xs"><span
+              class="glyphicon glyphicon-th"></span>Grid</a>
+          <a href="#" id="list" class="btn btn-default btn-sm hidden-xs"><span class="glyphicon glyphicon-th-list">
+          </span>List</a> 
+          </div>
+          </div>
+      </div>
+
+
+        </div> 
+
+        </div>
+    </div>
+
+
+    <div class="asideMenu asidefiler col-lg-3 col-md-3 col-sm-3 col-xs-12" style="margin-bottom: 20px;">
+  
+    <div class="panel panel-default">
+  <div class="panel-body">  
+    <h4 class="mt-0 mb-2 filter-title">Filter By</h4>
+
+    <div>
+        <div>
+        <h5 class="text-muted mb-15"> <b> Range in miles </b>
+        <span class="pull-right">{{filterOfdetail.range}}</span>
+        </h5>
+        </div>               
+        <div class="slidecontainer">
+        <input type="range" min="0" max="100" value="50" class="slider" id="myRange" [(ngModel)]="filterOfdetail.range" (change)="changeRange($event)">
+        </div>
+    </div>  
+    <hr> 
+   <div *ngIf="custid">
+        <h5 class="text-muted mb-15"> <b>My Favourite</b> </h5>
+        <div class="checkbox custom-checkbox-l">
+            <label class="pl-10">
+            <input type="checkbox" (click)="filterFavourite()">
+            <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+            Favourite
+          </label>
+     </div>      
+    </div>
+   <!--  <hr>  -->
+  <!--  <div >
+        <h5 class="text-muted mb-15"> <b> Cousine </b> </h5>
+        <div class="checkbox custom-checkbox-l">
+            <span *ngFor="let cousine of allCousion">
+            <label class="pl-10">
+              (click)="filterc(cousine._id)"
+            <input type="checkbox"  >
+            <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+            {{cousine.name}}
+            </label>
+            <hr class="hrm">    
+            </span>      
+     </div>      
+    </div> -->
+  </div>
+</div>
+</div>
+
+    <div class="container restro col-lg-9 col-md-9 col-sm-9 col-xs-12 asidefiler2">
+      <p *ngIf="restaurants.length == 0" class="text-center"> No Results Found. </p>
+      <div id="products" class="row list-group">
+      <div class="item  col-xs-12 col-sm-6  col-md-4 col-lg-4" *ngFor="let restaurant of restaurants | SearchPipeRestaurant: userFilter2;">
+        <a [routerLink]="['/customer/restaurant-detail/',restaurant._id]"><div [ngClass]="checkdetail(restaurant) == true ? '' : 'grid-css'">
+            <div *ngIf="checkdetail(restaurant) != true" class="close-cls" >Closed</div>
+        </div>
+        </a>
+            <div  [routerLink]="['/customer/restaurant-detail/',restaurant._id]" style="cursor: pointer;" class="thumbnail thumbnail-grid" [ngStyle]="checkdetail(restaurant) == true ? {} : {'background': '#e2e2e2'}">
+                <img  [routerLink]="['/customer/restaurant-detail/',restaurant._id]" class="group list-group-image image-grid list-pointer12" src="{{restaurant.image  == '' ? './assets/image/face.png' :  imgurl2 + restaurant.image}}" alt="" />
+                <!-- <div><img src="./assets/image/hert.png" width="25px" height="25px" /></div> -->
+                <div class="caption">
+                    <h4 class="group inner list-group-item-heading mt-18 capitalize2 list-pointer12">
+                        <a class="restro-name-color" title="{{restaurant.restaurantname}}" 
+                          [routerLink]="['/customer/restaurant-detail/',restaurant._id]">
+                          {{restaurant.restaurantname | ellipsis: 25 }}
+                        </a> 
+                     <small>,
+                        <a title="{{restaurant.city}}" class="restro-name-color"> 
+                        {{restaurant.city | ellipsis: 10}} </a> 
+                        <span *ngIf="custid" class="pull-right">
+                        <img *ngIf="favouritelist.indexOf(restaurant._id) != -1" [src]="(favouritelist.indexOf(restaurant._id) != -1) ? 'assets/image/heart_anim.gif' : '' " [ngStyle]="(favouritelist.indexOf(restaurant._id) != -1) ? {'width' : '19px'} : {'width' : '18px'}"/>
+                        </span>
+                      </small>
+                    </h4>
+                    <p class="group inner list-group-item-text">
+
+                      <span *ngIf="ratingOnRestIndexs.indexOf(restaurant._id) != -1">
+                        <b [innerHTML]="ShowRatingStar(ratingOnRestIndexs.indexOf(restaurant._id))">
+                        </b>
+                      </span> 
+
+                      <span *ngIf="ratingOnRestIndexs.indexOf(restaurant._id) == -1">
+                        <span class="stardiv"></span>
+                        <span class="stardiv"></span>
+                        <span class="stardiv"></span>
+                        <span class="stardiv"></span>
+                        <span class="stardiv"></span>
+                      </span>
+
+                        <span class="pull-right">
+                         <small *ngIf="restaurant.mindeliveryime"> 
+                           Delivery :{{restaurant.mindeliveryime}} min 
+                         </small>
+                        </span>
+                    </p>
+                    <p class="group inner list-group-item-text" style="min-height: 20px;">
+                      <img src="/assets/image/cart/cash-icon.svg" class="grid-payment-icon">
+                      <img src="/assets/image/cart/visa-icon1.svg" class="grid-payment-icon">
+                      <img src="/assets/image/cart/mastercard-icon.svg" class="grid-payment-icon">
+                      <img src="/assets/image/cart/sadad_logo.svg" class="grid-payment-icon">
+                      <span class="pull-right" *ngIf="restaurant.minimumorder > 0"> Min: <small style="font-size: 10px;"><b>{{restaurant.currency}}</b></small>{{ restaurant.minimumorder}}</span>
+                      <!-- {{checkdetail(restaurant) == true}} -->
+                      <!-- <span *ngIf="restaurant.openinghours.length > 0" style="font-size: 14px; color: green; padding-left:5px; ">{{checkdetail(restaurant) == true ? 'Open' : 'Close'}}</span> -->
+                      <!-- <span *ngIf="restaurant.openinghours.length == 0" style="font-size: 12px;padding-left:5px;">Open</span> -->
+                    </p>                   
+                    <div class="group inner list-group-item-text" style="min-height: 17px;">
+                        <span class="label label-danger" *ngIf="checkoffer(restaurant._id)"> 
+                        <i class="fa fa-gift" aria-hidden="true"></i> 
+                        OFFER 
+                        </span>
+                        <span class="pull-right"> <small> <a [routerLink]="['/customer/restaurant-detail/',restaurant._id]" class="text-colorit"> <b> VIEW DETAIL <i class="fa fa-chevron-right text-colorit" aria-hidden="true"></i></b></a></small></span>                    
+                    </div>                   
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <!-- {{offerfilter.arr}}{{offerfilter.offer}} -->
+        <!-- <div id="products" class="row list-group">              
+            <div class="item  col-xs-12 col-sm-6 col-md-3 col-lg-4" >           
+                <div class="thumbnail" >
+                  <a [routerLink]="['/customer/restaurant-detail/',restaurant._id]"> 
+                    <div class="restroImage1">
+                        <div class="restroImage">
+                            <img class="group list-group-image img-responsive" src="{{restaurant.image  == '' ? 'assets/image/face.png' :  imgurl2 + restaurant.image}}" alt="" style="height: 50px;">
+                        </div>
+                    </div>
+                  </a>
+                    <div class="caption">
+                        <p> <b>{{restaurant.restaurantname}}, {{restaurant.city}}</b>
+                           <span class="label label-danger" *ngIf="checkoffer(restaurant._id)">Offers</span>
+                        </p>
+                        <a [routerLink]="['/customer/restaurant-detail/',restaurant._id]"> 
+                        <div>
+                            <div class="starRating col-lg-9 col-md-9 col-sm-9 col-xs-9">
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i>
+                                <i class="fa fa-star" aria-hidden="true"></i> 
+                            </div>
+                        </div>
+                        <div class="payBy">Pay by: Cash, Credit Card</div>
+                        <div>
+                            <div class="basicInfo">Avg: 45 mins Min: 0.00 Delivery: Free</div>
+                            <div class="viewMenu "> <a [routerLink]="['/customer/restaurant-detail/',restaurant._id]"> view menu <i class="fa fa-chevron-right" aria-hidden="true"></i></a></div>
+                        </div>
+                         </a>
+                    </div>
+                </div>
+               
+            </div>            
+        </div> -->
+
+    </div>
+</div>
+</div>
+
+
+<app-footerfrontend></app-footerfrontend>

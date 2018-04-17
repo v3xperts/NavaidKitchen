@@ -1,0 +1,44 @@
+<app-headerowner></app-headerowner>
+<div class="rightMenu col-lg-9 col-md-9 col-sm-9">
+	<alert></alert>	
+	<div class="menuSetup" id="Menu11">        
+        <div  *ngFor="let day of days;let i = index;" class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+        <h3  class="h3margin">Week1 > {{day.day}}</h3>
+            <div class="mainMenuItem" *ngFor="let menu of menus" style="padding-bottom: 20px;">
+            <div class="row">
+                <div class="itemImage col-lg-2 col-md-2 col-sm-2 col-xs-2" style="margin-left: 20px; width: 9.666667%;">
+                    <img src="{{imageUrl}}{{menu.image}}" class="img-responsive custom_imgwh">
+                </div>
+                <div class="itemDesc col-lg-8 col-md-8 col-sm-8 col-xs-8">                 
+                 {{menu.name}}
+                 </div>
+                <div class="icons col-lg-2 col-md-2 col-sm-2 col-xs-2" style="">                  
+                </div>
+            </div> 
+            <div class="row" style="padding-left: 23px; margin-top: 17px;">
+            <div *ngFor="let item of items">              
+                <div *ngIf="item.menuId._id == menu._id"  class="col-sm-3">
+		     	<div class="custom_thumbna">
+		     	    <img class="img-responsive custom_imgwh" src="{{imageUrl}}{{item.image}}"> 
+		     	    <div>
+		     		<input type="checkbox" (click)="addtoDay(day.day,menu._id,item._id)"> {{item.name}}
+		     		<br>
+		     		 ( {{item.price}} ) 
+		     		</div>		     			     		
+		     	</div>                
+                </div>            
+             </div>
+             </div>
+            </div>                   
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">        	
+        	
+        </div> 
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+		    <input type="button" value="Submit" class="btn btn-primary" (click)="daysJsonToUpdate()"/>
+	    </div> 
+	    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">        	
+        	
+        </div>    
+    </div>
+</div>

@@ -1,0 +1,74 @@
+<div class="container-fluid">
+    			<div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Orders 
+                        </h1>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">                        
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-3 col-sm-4 form-group pull-right">
+                       <!--  <input type="text" [(ngModel)]="userFilter.restaurantname" placeholder="Name" class="form-control"> -->
+                         <input type="text" [(ngModel)]="userFilter2" placeholder="Search" class="form-control">
+                    </div>
+                    <div class="col-lg-12">
+                    	<div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <h3 class="panel-title pull-left"><i class="fa fa-cutlery" style="padding-left: 15px;"></i> Order List</h3>
+                                </div>
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped">
+                                    
+                                        <thead>
+                                            <tr>
+                                            <th>Sr.No.</th>
+                                            <th>Order Id</th>                                            
+                                            <th>Amount</th>
+                                            <th>Type</th>
+                                            <th>Time</th>
+                                            <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let order of orders | orderBy:order : reverse | SearchPipek: userFilter2 ;let i = index">
+                                                <td> {{i+1}}</td>
+                                                <td> <span *ngIf="order._id">{{order._id.substr(18,6)}}</span></td>
+                                                <td><small style="font-size: 10px;" *ngIf="order.currency"><b>{{order.currency}}</b></small> {{order.total}}</td>
+                                                <td class="capitalize2">{{order.paymenttype}}</td>
+                                                <td>{{order.created_at | date :'medium' }}</td>
+                                                <td class="capitalize2">
+
+     <span class="text-success capitalize2" *ngIf="order.status == 'completed' || order.status == 'driverrejected'"><strong>Order Prepared</strong> <span>Waiting for Driver!</span>   </span>
+
+    <span class="text-success capitalize2" *ngIf="order.status == 'received' && order.paymenttype == 'cash'"> Order Placed &nbsp; <button class="btn btn-success btn-sm" (click)="cancelOrder(order)"> Cancel </button></span>
+
+    <span class="text-success capitalize2" *ngIf="order.status == 'received' && order.paymenttype == 'card'"> Payment Received &nbsp; <button class="btn btn-success btn-sm" (click)="cancelOrder(order)"> Cancel </button></span>
+
+    <span class="text-success capitalize2" *ngIf="order.status == 'accepted'"> Preparing your Order &nbsp; </span>
+
+    <span class="text-success capitalize2" *ngIf="order.status == 'rejected'"> Order Rejected &nbsp; </span>
+    <span class="text-success capitalize2" *ngIf="order.status == 'driveraccepted'">On the Way &nbsp; </span>
+    <span class="text-success capitalize2" *ngIf="order.status == 'delivered'"> Order Delivered </span>
+    <span class="text-success capitalize2" *ngIf="order.status == 'cancelled'"> Order Cancelled </span></td>
+                                            </tr>
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                                <div class="text-right">
+                                    <!-- <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    		</div>

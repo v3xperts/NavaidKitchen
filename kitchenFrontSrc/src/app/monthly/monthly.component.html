@@ -1,0 +1,50 @@
+<app-headerowner></app-headerowner>
+<div class="rightMenu col-lg-9 col-md-9 col-sm-9">
+	<alert></alert>
+	<div class="row">
+		<div class="profile" id="Menu18">
+
+		
+
+		<form [formGroup]="weeklyAddModel" (ngSubmit)="weeklyAdd()">
+		    <input type="hidden" formControlName="type">            
+		    <div class="form-group form_group">
+				<label for="pname">Package Name <b class="redclass">*</b> </label>
+				<input type="text" class="form-control" id="pname" formControlName="name">
+			</div>
+
+			&nbsp;
+			&nbsp;
+			
+            <div class="form-group form_group">
+				<label for="wname">Numbers of Week<b class="redclass">*</b></label>
+				<input type="number" class="form-control" id="wname" formControlName="daysforweek">
+			</div>
+
+			&nbsp;
+			&nbsp;
+
+			<div class="form-group form_group">
+				<label for="date1"> Start date <b class="redclass">*</b></label>
+				<input type="date" class="form-control" id="date1" formControlName="startdate" (change)="datecheck()">
+			</div>
+			
+			&nbsp;
+			&nbsp;	
+								
+			<div class="form-group form_group">
+				<label for="date2"> End date <b class="redclass">*</b></label>
+				<input type="date" class="form-control" id="date2" formControlName="enddate"  (change)="datecheck()">
+			</div> 
+			<div class="alert alert-danger" style="padding: 5px;" *ngIf="datevali == ''"> End Date Should be greater than Start Date!. </div>
+			
+			&nbsp;	
+			<div class="form-group form_group">		
+			<input type="submit" class="btn btn-default" Value="Submit" [disabled]="!weeklyAddModel.valid">
+			</div>
+		</form> 
+
+        <div>
+       </div>
+	</div>
+</div>

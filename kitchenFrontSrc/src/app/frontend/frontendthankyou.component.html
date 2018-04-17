@@ -1,0 +1,13 @@
+<app-headerfrontend></app-headerfrontend>
+<div style="padding-top: 50px;">
+<div class="container mainBody">
+    <div class="container restroName">
+
+    </div>
+    <h3 style="padding-bottom: 10px; border-bottom: 1px solid lightgrey;"><b> 
+    Thank you for Order on mealdaay.com</b></h3>
+    <br>
+    <p> Your order has been received. <b *ngIf="orderId"> OrderId: {{orderId.orderId.toString().substr(18,6)}}</b> <!-- <a [routerLink]="['/customer/browse-restaurants']"> Browse restaurant </a> --></p>    
+</div>    
+</div>    
+<app-footerfrontend></app-footerfrontend>

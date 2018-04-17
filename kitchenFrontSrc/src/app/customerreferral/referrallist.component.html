@@ -1,0 +1,32 @@
+<app-headerfrontend></app-headerfrontend>
+<div class="rightMenu col-lg-9 col-md-9 col-sm-9">	
+	<div class="rightMenu col-lg-9 col-md-9 col-sm-9">
+	<div class="row">
+	<div class="menuSetup" id="Menu18">       
+       <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                 <a class="btn btn-success" [routerLink]="['/owner/offer-add']" style="margin-top: 20px;">Add Offer</a>
+            </div>
+        </div>
+        
+        <div class="row pack_list">
+        <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div *ngFor="let offer of offerObj">
+            <div class="mainMenuItem">              
+                <div class="itemDesc col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                	{{offer.name}}
+                </div>
+                <div class="icons col-lg-2 col-md-2 col-sm-2 col-xs-2" style="">
+                    <a [routerLink]="['/owner/offer-edit',offer._id]"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+                    <a (click)="deleteOffer(offer._id)" href="javascript:void(0)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                </div>
+            </div>
+            </div>            
+        </div>        
+       </div>
+      </div>      
+        <div>
+       </div>
+	</div>
+	</div>
+</div>

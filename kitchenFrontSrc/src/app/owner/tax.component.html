@@ -1,0 +1,42 @@
+<app-headerowner></app-headerowner>
+<div class="rightMenu col-lg-9 col-md-9 col-sm-9 col-lg-9" style="padding:0px;">	
+	<div class="nameAndAddress" id="Menu1" style="position: absolute; z-index: 0;     min-width: 700px; max-height: 525px;overflow: auto;">   
+      
+      <div class="firstDiv">
+      <span class="">Tax</span>                
+      </div>
+        <div class="secondDiv marginzero">
+        <div class="panel panel-default">
+          <div class="panel-body"> 
+        <form [formGroup]="openingAddModel" (ngSubmit)="restaurantUpdate()">        
+        <div class="col-lg-12"> 
+          <label>
+          <input type="radio" name="delivery"  [checked]="sta.status == true" (click)="stafun(true)" > Yes
+          </label>
+
+          <label>
+          <input type="radio" name="delivery"  [checked]="sta.status == false" (click)="stafun(false)" > No
+          </label>
+        </div>
+          <div class="form-group col-sm-12">
+          <div class="form-group marginzero" *ngIf="sta.status">
+          <h4><b>Tax for location</b></h4>
+          <hr>
+          <div class="col-sm-6"><p *ngIf="restaurants.zipcode"> <label>Zipcode:</label> &nbsp;<span class="capitalize2">{{restaurants.zipcode}}</span></p></div>
+          <div class="col-sm-6"><p *ngIf="restaurants.city"> <label> City: </label>&nbsp; <span class="capitalize2">{{restaurants.city}}</span></p></div>
+          <div class="col-sm-6"><p *ngIf="restaurants.country"> <label> Country:</label> &nbsp;<span class="capitalize2">{{restaurants.country}}</span></p></div>
+          <div class="col-sm-6"><p *ngIf="restaurants.currency"> <label> Currency type :</label> &nbsp;<span class="capitalize2">{{restaurants.currency}}</span></p></div>
+          <div class="col-sm-11"><div class="lpaddingzero" style="padding-left: 0px;">
+          <input type="text" class="form-control timepicker hasWickedpicker"  formControlName="tax" name="open" placeholder="Tax Rate" style="width :95%; display: inline-block;">&nbsp;<span><b>%</b></span>
+          </div></div>          
+          </div>
+          <div class="col-lg-12"><input type="submit" class="btn btn-success" value="Save" [disabled]="!openingAddModel.valid"></div>
+          </div>
+        
+        </form>
+        </div>
+        </div>
+        </div>
+        </div>
+
+	</div>

@@ -1,0 +1,50 @@
+    nav.navbar-default, nav.navbar-default div.container div.navbar-header button{
+        background : #31373D;
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+    }
+.text-white{
+  color: #fff;
+}
+.mtb-15{
+  margin: 15px 0;
+}
+    nav.navbar-default div.container #collapse_1 ul, nav.navbar-default div.container div.navbar-header button span,.navbar .container .tabs {
+        color: white;
+    }
+    
+    .navbar-default .navbar-nav>li>a:hover {
+        color: white;
+    }
+    .nav>li>a{
+        padding-top: 15px;
+    }
+
+    ul.nav>li>a:hover {        
+         background-color:  #31373D;
+         color:white;
+    }
+    ul.nav>li>a:focus{
+         background-color:  #31373D;
+         color:white; 
+    }
+    .dropdown-menu-custom{
+      padding: 15px;
+      min-width: 260px;
+      }
+
+
+  #iflogindiv{
+    padding: 10px;
+    padding-top: 5px;
+  }
+  #ifforgetdiv{
+   padding: 10px;
+  padding-top: 5px; 
+  }
+  #ifregisterdiv{
+    padding: 10px;
+  padding-top: 5px;  
+  }
+

@@ -1,0 +1,67 @@
+<app-headerowner></app-headerowner>
+<div class="rightMenu col-lg-9 col-md-9 col-sm-9">
+<div style="margin-top: 10px;">
+<div class="alert alert-info"  *ngIf="items.length > 0 && comboObj.length == 0 ">
+There are no Combos, Please add combos in the list. 
+</div>
+
+<div class="alert alert-danger" *ngIf="items.length == 0">
+Kitchen owner has to setup the menu, before creating Combo.
+</div>
+</div>
+
+    <div class="menuSetup" id="Menu18" style="margin-top: 10px;">
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">  
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 10px;">
+                <a class="btn btn-primary" [routerLink]="['/owner/combo-add']" [attr.disabled]="items.length < 1 ? true : null">Add Combo</a>
+                <a class="btn btn-primary pull-right" [routerLink]="['/owner/weekly']">Next</a>
+                <a class="btn btn-primary pull-right" style="margin-right: 10px;" [routerLink]="['/owner/menu/list']">Previous</a>  
+            </div>
+            <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="comboObj.length > 0">
+                <div *ngFor="let combo of comboObj" style="margin-top: 10px;">
+                    <div class="mainMenuItem2 col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-top: 10px;">  
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <img *ngIf="combo.image" src="{{imageUrl}}/{{combo.image}}" class="combo-img ownerimg1">
+
+                            <img *ngIf="!combo.image" src="./assets/image/menu.jpg" class="combo-img ownerimg1">
+                        </div>            
+                        <div class="itemDesc col-lg-8 col-md-8 col-sm-8 col-xs-8"><span style="text-transform: capitalize;">                            
+                            {{combo.name}}</span> <a *ngFor="let item of combo.menuId; let i = index ;" style="word-wrap: break-word;"><span class="input_tags" *ngIf="i < 4"><b>{{item.name}}</b></span></a>
+                            <p style="font-size: 13px; margin-bottom:0px;" *ngIf="combo.finalcomboprice"><span>
+                            Price : </span> <b>  <small style="font-size: 10px;" *ngIf="restaurantDetail.currency"><b>{{restaurantDetail.currency}}</b></small> {{combo.finalcomboprice ? combo.finalcomboprice : ''}} </b>
+                            </p>
+                            <p style="font-size: 13px;" *ngIf="combo.description"><span>Description : </span> {{combo.description | ellipsis:50}} </p>
+                        </div>
+                        <div class="icons col-lg-2 col-md-2 col-sm-2 col-xs-2" style="">
+                            <a [routerLink]="['/owner/combo-edit',combo._id]"><i class="fa fa-pencil" aria-hidden="true" title="edit"></i></a>
+                            <a (click)="deleteCombo(combo._id)" href="javascript:void(0)"><i class="fa fa-trash" aria-hidden="true" title="delete"></i></a>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class="notcombo"> </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <div class="stepwizard col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                <div class="stepwizard-row col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                    <div class="stepwizard-step height65px col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 padding0"><a [routerLink]="['/owner/menu/list']" class="btn btn-success btn-circle">1</a></div>
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10 paddingRight0">Create Category and Add menu item</div>
+                    </div>
+                    <div class="stepwizard-step height65px col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 padding0"><a type="button" class="btn btn-success btn-circle">2</a></div>
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10 paddingRight0">Manage Combos</div>
+                    </div>  
+                    <div class="stepwizard-step height65px col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 padding0"><button type="button" class="btn btn-default btn-circle" disabled="disabled">3</button></div>
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10 paddingRight0">Meal Packages</div>
+                    </div>  
+                    <div class="stepwizard-step height65px col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 padding0"><button type="button" class="btn btn-default btn-circle" disabled="disabled">4</button></div>
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10 paddingRight0">Activate Offerings</div>
+                    </div>  
+                </div>
+            </div>
+        </div> 
+    </div>   
+</div>

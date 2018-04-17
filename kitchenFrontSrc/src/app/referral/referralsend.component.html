@@ -1,0 +1,34 @@
+<app-headerowner></app-headerowner>
+
+<div class="rightMenu col-lg-9 col-md-9 col-sm-9">
+	<alert></alert>
+	<div class="row">
+		<div class="profile" id="Menu18">	
+
+             <!-- <div *ngIf="refs" class="alert alert-success alert-dismissable fade in">
+             <a href="javascript:void(0);" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                  Referral has been Send Sucessfully! 
+             </div> -->
+
+			<form [formGroup]="referralAddModel" (ngSubmit)="referralAdd()">
+				<div class="form-group form_group">
+					<label for="pemail"> Referral Email </label>
+					<input type="email" class="form-control" id="pemail" formControlName="emailto">
+					 <div *ngIf="formErrors.emailto" class="alert alert-danger">
+                     {{formErrors.emailto}}
+                     </div>
+					<input type="hidden" class="form-control" formControlName="type">
+					<input type="hidden" class="form-control" formControlName="referralfrom">
+				</div>
+				&nbsp;				
+				&nbsp;
+				<div class="form-group form_group">		
+					<input type="submit" class="btn btn-default" Value="Submit" 
+					[disabled]="!referralAddModel.valid">
+				</div>
+			</form>        
+			<div>
+			</div>
+		</div>
+	</div>
+</div>

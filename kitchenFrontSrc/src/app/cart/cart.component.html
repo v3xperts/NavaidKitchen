@@ -1,0 +1,72 @@
+<div class="frontcartdetail">
+<h4 class="cartheader"> Your Cart</h4>
+<div class="cartdetail"> 
+
+  <h4 class="restroname"><b class="capitalize2"><!-- {{(orderDetail.items.length > 0 || orderDetail.combo.length > 0 || orderDetail.package.length > 0) ? orderDetail.name : ''}} -->{{orderDetail.name}} <!-- {{orderDetail.currency}} --></b></h4>
+  <div style="max-height: 300px; overflow-y: auto;">
+    <table class="itemoname table">
+    <tbody>
+        <tr style="padding-top:15px; text-align: center;" *ngIf="orderDetail.total == 0">
+        No Item In Cart
+        </tr>
+       <tr *ngIf="orderDetail.items && orderDetail.items.length > 0" class="text-center"><td colspan="5"><b>Menu Items</b></td></tr>
+        <tr *ngFor="let item of  orderDetail.items ">
+        <td  class="input-group" style="padding: 7px 10px;">
+                <span class="input-group-addon glyphicon glyphicon-minus inputgroupy" (click)="decreaseItem(item._id)"></span>
+                <span class="input-group-addon inputgroupy">{{item.qty}}</span>
+                <span class="input-group-addon glyphicon glyphicon-plus inputgroupy" (click)="increaseItem(item._id)"></span>
+        </td>
+        <td class="cart-item-width">{{item.name}}</td> <td style="min-width: 57px;"> <small *ngIf="item.price > 0"> <b style="font-size: 9px;"> {{orderDetail.currency}} </b> {{item.price * item.qty}} </small></td>
+        <td> <span class="glyphicon glyphicon-minus-sign removecontainer" (click)="removeItem(item._id)"></span> </td>
+        </tr> 
+
+        <tr *ngIf="orderDetail.combo && orderDetail.combo.length > 0" class="text-center"><td colspan="5"><b>Combo</b></td></tr>
+        <tr *ngFor="let combo of  orderDetail.combo ">
+        <td  class="input-group" style="padding: 7px 10px;">
+                <span class="input-group-addon glyphicon glyphicon-minus inputgroupy" (click)="decreaseCombo(combo._id)"></span>
+                <span class="input-group-addon inputgroupy">{{combo.qty}}</span>
+                <span class="input-group-addon glyphicon glyphicon-plus inputgroupy" (click)="increaseCombo(combo._id)"></span>
+        </td>
+        <td class="cart-item-width"> {{combo.name | ellipsis:50}} </td> <td style="min-width: 57px;"> 
+             <small *ngIf="combo.finalcomboprice > 0"> <b  style="font-size: 9px;" > {{orderDetail.currency}} </b> {{combo.finalcomboprice * combo.qty}} </small>
+            </td>
+        <td> <span class="glyphicon glyphicon-minus-sign removecontainer" (click)="removeCombo(combo._id)"></span> </td>
+        </tr> 
+
+        <tr *ngIf="orderDetail.package && orderDetail.package.length > 0" class="text-center"><td colspan="5"> <b>Meal Package</b></td></tr>
+        <tr *ngFor="let package of orderDetail.package; let indexx = index; ">
+        <td  class="input-group" style="padding: 7px 10px;">
+                <span class="input-group-addon glyphicon glyphicon-minus inputgroupy" (click)="decreasePackage(indexx)"></span>
+                <span class="input-group-addon inputgroupy">{{package.qty}}</span>
+                <span class="input-group-addon glyphicon glyphicon-plus inputgroupy" (click)="increasePackage(indexx)"></span>
+        </td>        
+        <td class="cart-item-width"> {{package.name | ellipsis:50}} <b><small>{{package.discount ? '('+package.discount+'%) OFF' : ''}}</small></b> </td> <td style="min-width: 57px;"> 
+        <small *ngIf="package.packageprice > 0">
+        <b style="font-size: 9px;"> {{orderDetail.currency}} </b>
+        {{package.packageprice * package.qty}}
+        </small>
+        </td>
+
+        <td> <span class="glyphicon glyphicon-minus-sign removecontainer" (click)="removePackage(indexx)"></span> </td>
+        </tr> 
+
+    </tbody>             
+    </table>
+</div>
+	<div class="checkoutdetail">
+	<div style="padding: 10px; text-align: center;">
+       <b *ngIf="orderDetail.total > 0"> Total Amount : &nbsp; &nbsp; 
+        <small *ngIf="orderDetail.total > 0">
+        <b style="font-size: 9px;"> {{orderDetail.currency}} </b>
+        {{orderDetail.total}}
+        </small>
+    </b>
+    </div>
+	<button (click)="checkoutOrder()" class="btn btn-sm btn-success btn-block" [disabled]="orderDetail.total <= 0 ">Checkout</button>
+	</div>
+
+</div>
+</div>
+
+
+

@@ -1,0 +1,103 @@
+<div id="wrapper">
+  	<app-header></app-header>
+  	<div id="page-wrapper">
+    	<router-outlet>
+    		<div class="container-fluid">
+    			<div class="row page-header">
+                    <div class="col-lg-6">
+                        <h1 class="">
+                            Owners
+                        </h1>
+                    </div>
+                    <div class="col-lg-6" style="padding: 18px 15px;">
+                        <a class="btn btn-primary pull-right" [routerLink]="['/admin/user/add']">Add Owner</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12" id="have">                    
+                       
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-3 col-sm-4 form-group pull-right">
+                        <input type="text" [(ngModel)]="userFilter.username" placeholder="Username" class="form-control">
+                    </div>
+                    <div class="col-lg-12">
+                    	<div class="panel panel-default">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <h3 class="panel-title"><i class="fa fa-user-circle-o" style="padding-left: 15px;"></i> Owners List</h3>
+                                </div>
+                            </div>
+
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped clstable">
+                                        <thead>
+                                            <tr>
+                                                <th><a (click)="sortBy('firstname')" href="javascript:void(0)">Name</a></th>
+                                                <th><a (click)="sortBy('email')" href="javascript:void(0)">Email</a></th>
+                                                <th>Action</th>
+                                                <th>Government Id</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>                                           
+                                            <tr *ngFor="let user of users|orderBy:order : reverse| filterBy: userFilter">
+                                                <td>{{user.ownerfirstname}} {{user.ownerlastname}}</td>
+                                                <td>{{user.email}}</td>
+                                                <td>
+                                                    <a  [routerLink]="['/admin/users/',user._id]"><i class="fa fa-pencil"></i></a>
+                                                    <a  (click)="deleteUser(user._id)" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
+                                                </td>
+                                                <td><a href="javascript:void(0)" (click)="showDocument(user)"><i class="fa fa-file" style="color:grey;"></i></a></td>
+                                            </tr>
+                                        </tbody>
+                                    
+                                    </table>
+                                    <div *ngIf="users.length <= 0" class="norecord">
+                                              
+                                                 No Record Found
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <!-- <a href="#">View All Transactions <i class="fa fa-arrow-circle-right"></i></a> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    		</div>
+		</router-outlet>
+  	</div>
+</div>
+
+<div class="modal fade" id="showdocument" role="dialog">
+    <div class="modal-dialog modal-lg">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title"> Government Ids </h4>
+        </div>
+        <div class="modal-body">
+          <div class="row p-15">
+               <div class="col-lg-4 coldoc1" *ngFor="let doc of documents">
+                    <a href="javascript:void(0)" (click)="clickUrl(doc.filename)">
+                  <div class="coldoc"> 
+                  <i class="fa fa-file fa-1x" style="color: lightgrey;"></i> &nbsp;  
+                  {{doc.documentname}}
+                  </div>
+                  </a>
+               </div>
+               <p *ngIf="documents.length == 0" class="text-center"> No Document Uploaded </p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          
+        </div>
+      </div>
+      
+    </div>
+  </div>

@@ -1,0 +1,50 @@
+<app-headerowner></app-headerowner>
+<div class="rightMenu col-lg-9 col-md-9 col-sm-9">
+    <div class="menuSetup" id="Menu18" style="margin-top: 10px;"> 
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">  
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 10px;">
+                <a class="btn btn-primary"  [routerLink]="['/owner/monthly-add']">Add Monthly Package</a>            
+                <a class="btn btn-primary pull-right" [routerLink]="['/owner/monthly']">Next</a>
+                <a class="btn btn-primary pull-right" style="margin-right: 10px;" [routerLink]="['/owner/weekly']">Previous</a>
+            </div>
+            <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div *ngFor="let package of weeklyObj">
+                    <div class="mainMenuItem" *ngIf="package.type == 'monthly'" style="margin-top: 0px;">              
+                        <div class="itemDesc col-lg-10 col-md-10 col-sm-10 col-xs-10" >{{package.name}}</div>
+                        <div class="icons col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                            <a [routerLink]="['/owner/weekly-dayedit',package._id]"><i class="fa fa-pencil" aria-hidden="true" title="edit"></i></a>
+                            <a (click)="deletePackage(package._id)" href="javascript:void(0)"><i class="fa fa-trash" aria-hidden="true" title="delete"></i></a>
+                        </div>
+                    </div> 
+                </div> 
+                <div *ngIf="menus.length == 0" class="notcombo"> first add a menu item in the list. </div>                
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+            <div class="stepwizard col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                <div class="stepwizard-row col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                    <div class="stepwizard-step height65px col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 padding0"><a class="btn btn-success btn-circle" [routerLink]="['/owner/menu/list']">1</a></div>
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10 paddingRight0">Create Category and Add menu item</div>
+                    </div>
+                    <div class="stepwizard-step height65px col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 padding0"><a class="btn btn-success btn-circle" [routerLink]="['/owner/combo']">2</a></div>
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10 paddingRight0">Manage Combos</div>
+                    </div>  
+                    <div class="stepwizard-step height65px col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 padding0"><a class="btn btn-success btn-circle" [routerLink]="['/owner/weekly']">3</a></div>
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10 paddingRight0">Manage Weekly Packages</div>
+                    </div>  
+                    <div class="stepwizard-step height65px col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 padding0"><button type="button" class="btn btn-success btn-circle">4</button></div>
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10 paddingRight0">Manage Monthly Packages</div>
+                    </div>  
+                    <div class="stepwizard-step height65px col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 padding0"><button type="button" class="btn btn-default btn-circle" disabled="disabled">5</button></div>
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10 paddingRight0">Activate Offerings</div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

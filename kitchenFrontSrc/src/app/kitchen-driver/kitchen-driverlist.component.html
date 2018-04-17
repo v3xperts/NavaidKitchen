@@ -1,0 +1,24 @@
+<div class="col-lg-12">
+    <div class="panel panel-default">
+    <div class="panel-body">
+      <table class="table">
+    <thead>
+      <tr>
+        <th>Sr.No.</th>
+        <th>Driver Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let driver of drivers; let i = index; ">
+        <td> {{i+1}}</td>
+        <td> <!-- <img src="{{driver.image  == '' ? './assets/image/menu.png' : imageUrl + driver.image }}" class="img-responsive radius50" /> --> &nbsp; {{driver.firstname}} {{driver.lastname}}</td>
+        <td>{{driver.email}}</td>
+        <td>{{driver.phoneNo}}</td>
+      </tr>      
+    </tbody>
+  </table>
+    </div>
+    </div>
+  </div>

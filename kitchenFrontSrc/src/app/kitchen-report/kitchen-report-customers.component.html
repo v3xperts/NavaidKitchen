@@ -1,0 +1,26 @@
+	<div class="col-lg-12">
+	<div class="panel panel-default">
+	<div class="panel-body">
+	<table class="table">
+	<thead>
+	<tr>
+	<th>Sr.No.</th>
+	<th>Customer</th>
+	<th>Email</th>
+	<th>Phone</th>
+	<!-- <th>Address</th> -->
+	</tr>
+	</thead>
+	<tbody>
+	<tr *ngFor="let customer of customers; let i = index; ">
+	<td> {{i+1}}</td>
+	<td><p *ngIf="customer.firstname"> {{customer.firstname}} {{customer.lastname}}</p> </td>
+	<td>{{customer.email}}</td>
+	<td>{{customer.cellphone}}</td>
+	<!-- <td>{{customer.address}}</td> -->
+	</tr>      
+	</tbody>
+	</table>
+	</div>
+	</div>
+	</div>

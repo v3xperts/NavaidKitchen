@@ -1,0 +1,965 @@
+<app-headerfrontend></app-headerfrontend>
+<div style="padding-top: 50px;">
+<div class="container margin-top-cont30">
+        <div class="panel panel-default rounded-0 shadow accont-panel">
+            <ul class="breadcrumb">
+                <li>
+                  <a href="#">Home</a>
+                </li>
+                <li class="active">
+                    Account
+                </li>
+            </ul>
+<div class="panel-body">
+  <h3>
+      <b>Account</b>
+  </h3>
+<hr>
+<div class="row">
+<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                        <div class="tabbable tabs-left">
+                            <ul class="nav nav-tabs custom-nav-left">
+                                <li class="active">
+                                    <a id="accont-infotab" href="#a" data-toggle="tab">Account Info</a>
+                                </li>
+                                <li (click)="getFavourites()">
+                                    <a id="myfavorite-tab" href="#f" data-toggle="tab">My Favourite </a>
+                                </li>
+                                <li>
+                                    <a id="saveaddress-tab" href="#b" data-toggle="tab">Saved Addresses</a>
+                                </li>
+                                <li (click)="myOrders()">
+                                    <a href="#c" data-toggle="tab">My Orders</a>
+                                </li>
+                                <li>
+                                    <a href="#d" data-toggle="tab">Saved Card</a>
+                                </li><!-- 
+                                <li>
+                                    <a href="#e" data-toggle="tab">Payment Report</a>
+                                </li> -->
+                                <li>
+                                    <a href="#g" data-toggle="tab">Review</a>
+                                </li>
+                                <li>
+                                    <a href="#h" data-toggle="tab">Refer</a>
+                                </li>
+                                <li>
+                                    <a href="#i" data-toggle="tab">Rewards</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                        <hr class="visible-xs">
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="a">
+                              <form class="form-horizontal" [formGroup]="customerAddModel" (ngSubmit)="updateCustomer()">
+                              <div class="form-group">
+                              <label class="control-label col-sm-2 text-left" for="email">Email:</label>
+                              <div class="col-sm-7">
+                              <input type="email" class="form-control" id="email" placeholder="Enter email" formControlName="email" [readonly]="true">
+
+                              </div>    
+                              <div class="col-sm-9 cust_forge">
+                              &nbsp; &nbsp;<a [routerLink]="['/customer/change-password']">Change Password</a>
+                              </div>
+                              </div>
+                              <!-- <div class="form-group">
+                              <label class="control-label col-sm-2 text-left" for="username">Username </label>
+                              <div class="col-sm-7">
+                              <input type="text" class="form-control" id="username" placeholder="Enter Username" formControlName="username" [readonly]="true">
+                              </div> 
+                              </div> -->
+                              <div class="form-group">
+                              <label class="control-label col-sm-2 text-left" for="firstname">First Name </label>
+                              <div class="col-sm-7">          
+                              <input type="text" formControlName="firstname" class="form-control" id="firstname" placeholder="First Name" name="firstname" /> 
+                              </div>
+                              </div>
+
+                              <div class="form-group">
+                              <label class="control-label col-sm-2 text-left" for="lastname">Last Name </label>
+                              <div class="col-sm-7">          
+                              <input type="text" class="form-control" formControlName="lastname" id="lastname" placeholder="Last Name" />
+                              </div>
+                              </div>
+
+                              <div class="form-group">
+                              <label class="control-label col-sm-2 text-left" for="homephone"> Home Phone  </label>
+                              <div class="col-sm-7">          
+                              <input type="number" class="form-control" placeholder="Home Phone" formControlName="homephone">
+                              </div>
+                              </div>
+
+
+                              <div class="form-group">
+                              <label class="control-label col-sm-2 text-left" for="cellphone">Cell Phone  </label>
+                              <div class="col-sm-7">          
+                              <input type="number" class="form-control" placeholder="Cell Phone" formControlName="cellphone">
+                              </div>
+                              </div>
+
+                              <div class="form-group">
+                              <label class="control-label col-sm-2 text-left" for="dob">Date of Birth </label>
+                              <div class="col-sm-7">          
+                              <input type="text" class="form-control"  formControlName="dob" id="date1" #myTimeSets  (blur)="getTimeData(myTimeSets)" placeholder="Date of Birth">
+                              </div>
+                              </div>
+
+                              <div class="form-group">        
+                              <div class="col-sm-offset-2 col-sm-7">
+                              <div class="checkbox">
+                              <label class="pdl-0">
+                              <input type="checkbox" name="remember">
+                              <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                              Subscribe to our Newsletter
+                              </label>
+                              </div>
+                              </div>
+                              </div>
+
+                              <div class="form-group">        
+                              <div class="col-sm-offset-2 col-sm-7">
+                              <div class="checkbox">
+                              <label class="pdl-0">
+                                <input type="checkbox" name="sms"> 
+                                <span class="cr">
+                                  <i class="cr-icon fa fa-check"></i></span>Subscribe to SMS
+                              </label>
+                              </div>
+                              </div>
+                              </div>
+
+                              <div class="form-group">        
+                              <div class="col-sm-offset-2 col-sm-7">
+                              <div class="checkbox">
+                              <label class="pdl-0">
+                                <input type="checkbox" name="accept" [checked]="this.customerAddModel.value.termsandcondition ? true : null" (change)="updateterm()"> 
+                                <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                Accept Terms & Conditions
+                              </label>
+                              </div>
+                              </div>
+                              </div>
+
+                              <div class="form-group">        
+                              <div class="col-sm-offset-2 col-sm-7">
+                              <button type="submit" class="btn btn-success rounded-0" [disabled]="!customerAddModel.valid">Update</button>
+                              </div>
+                              </div>
+                              </form>
+                                    
+                                   
+                                
+                            </div>
+
+  <div class="tab-pane" id="b">
+  <div>
+  <button type="submit" data-toggle="modal" data-target="#addAddressModel" class="btn btn-success rounded-0 " style="margin-bottom:20px;" 
+(click)="addNewAddress()">
+  <i class="fa fa-plus-circle fa-CustomWhite"></i> Add Address</button>
+  </div>
+    <div class="panel panel-body custom-panel-body shadow" *ngFor="let addr of addresses; let i= index; ">
+        <div class="media">
+            <div class="media-body">
+            <table style="width: 100%;">
+            <tbody class="address-tbody">
+            <tr>
+            <td>
+            <p><b>Home Address</b></p>
+            </td>
+            <td> {{addr.address}} </td>
+            </tr>
+            <tr>
+            <td><p><b>Landmark</b></p></td>
+            <td> {{addr.landmark}} </td>
+            </tr>
+            <tr>
+            <td><p><b>Mobile Number</b></p></td>
+            <td>{{addr.phoneno}}</td>
+            </tr>
+            <tr>
+            <td><p><b>Landline</b></p></td>
+            <td>{{addr.landline}}</td>
+            </tr>
+            <tr>
+            <td><p><b>City</b></p></td>
+            <td>{{addr.city}}</td>
+            </tr>
+            <tr>
+            <td><p><b>Zipcode</b></p></td>
+            <td>{{addr.zipcode}}</td>
+            </tr>
+            <tr>
+            <td><p><b>Country</b></p></td>
+            <td>{{addr.country}}</td>
+            </tr>
+            </tbody>
+            </table>
+            </div>
+            <div class="media-body text-right" style="vertical-align: bottom;">
+                <small class="text-success" style="color:green;font-size: 13px;font-weight: 700;
+                     " *ngIf="addr.default">Default Address</small>
+                <button type="submit" class="btn btn-default rounded-0 makedefault" *ngIf="!addr.default" (click)="addressMakeDefault(addr._id)"> 
+                  <i class="fa fa-check-circle text-success"></i>
+                Set Default </button>   
+                <button type="submit" class="btn btn-default rounded-0" (click)="removeAddress(addr._id)">
+                <i class="fa fa-trash-o text-danger"></i> Delete</button>
+            </div>
+        </div>
+    </div>
+    <h4 *ngIf="addresses.length == 0" class="text-center"> There are no saved addresses to display </h4>
+    </div>
+            <div class="tab-pane" id="c">
+                <span *ngIf="orders.length > 0">
+                <div  *ngFor="let order of orders" class="panel panel-body custom-panel-body shadow">
+                    <div class="media">
+                        <div class="media-left">
+                            <img src="{{ order.image  == '' ? 'assets/image/face.png' :  imgurl2 + order.image }}" class="media-object" style="width:60px" />
+                        </div>
+                        <div class="media-body">
+                            <h5 class="media-heading">
+                                <b class="capitalize2">{{order.restaurantname}} &nbsp;&nbsp;  
+                                <span class="text-success capitalize2" *ngIf="order.status == 'completed' || order.status == 'driverrejected'"><strong>Order Prepared</strong> <span>Waiting for Driver!</span>   </span>
+
+                                <span class="text-success capitalize2" *ngIf="order.status == 'accepted'"> Preparing your Order &nbsp; </span>
+
+                                <span class="text-success capitalize2" *ngIf="order.status == 'received' && order.paymenttype == 'cash'"> Order Placed &nbsp; </span>
+
+                                <span class="text-success capitalize2" *ngIf="order.status == 'received' && order.paymenttype == 'card'"> Payment Received &nbsp; </span>
+
+                                <span class="text-success capitalize2" *ngIf="order.status == 'rejected'"> Order Rejected &nbsp; </span>
+                                <span class="text-success capitalize2" *ngIf="order.status == 'driveraccepted'"> On the Way &nbsp; </span>
+                                <span class="text-success capitalize2" *ngIf="order.status == 'delivered'"> Order Delivered </span>
+                                <span class="text-success capitalize2" *ngIf="order.status == 'cancelled'"> Order Cancelled </span>
+                              </b>
+                            </h5>
+                            <p class="text-muted mb-0">
+                               <b>Order ID:</b> {{order._id.substr(18,6)}}
+                            </p>
+                              <p class="text-muted mb-0"> <b> Order Amount: </b> <small style="font-size: 10px;" *ngIf="order.currency"><b>{{order.currency}}</b></small> {{order.total}} </p>
+
+                             <p class="text-muted mb-0"><b>Today:</b> {{order.created_at | date:'medium'}} </p>                            
+
+                            <small>
+                            <a class="text-colorit pointer" data-toggle="modal" data-target="#myorder" (click)="selectOrder(order)"><b> VIEW DETAIL </b></a>
+                            <i aria-hidden="true" class="fa fa-chevron-right text-colorit"></i>
+                            </small>
+                        </div>
+                        <div class="media-body text-right" style="    vertical-align: bottom;">
+                          <!-- {{order.status}} -->
+                            <button type="submit" class="btn btn-default rounded-0" *ngIf="order.status == 'delivered'" data-toggle="modal" data-target="#myrating" (click)="myrating(order)">
+                                <i class="fa fa-star text-success"></i> Rate</button>
+                            <button type="button" class="btn btn-default rounded-0" *ngIf="order.status == 'delivered'"  (click)="reorder(order)">
+                                <i class="fa fa-refresh text-success"></i> Reorder</button>
+                                <button type="button" class="btn btn-default rounded-0" *ngIf="order.status == 'received'" (click)="cancelOrder(order)"> Cancel </button> 
+                        </div>
+                    </div>
+                </div>
+              </span>
+               
+            </div>
+                            <div class="tab-pane" id="d">
+                                <div class="container-fluid">
+                                    <div class="refresh1">
+                                    <button class="btn btn-success rounded-0 " data-toggle="modal" data-target="#creditModal">Add Card </button>
+                                    <hr>
+                                    </div>  
+                                    <div class="container-fluid" *ngIf="customerdetail && customerdetail.cardinfo && customerdetail.cardinfo.length > 0">
+                                    <div class="panel panel-body custom-panel-body shadow" *ngFor="let carddetail of customerdetail.cardinfo;let i = index; ">
+                                    <div class="media">
+                                        <div class="media-body">
+                                        <table style="width: 100%;">
+                                        <tbody class="address-tbody">
+                                        <tr>
+                                        <td>
+                                        <p><b>Card Type</b></p>
+                                        </td>
+                                        <td>  
+                            <img *ngIf="carddetail.cardtype == 'visa'" class="online-card"  src="../assets/image/visa.svg" />
+                            <img *ngIf="carddetail.cardtype == 'master'" class="online-card" src="../assets/image/master.svg" />
+                            <img *ngIf="carddetail.cardtype == 'mastro'" class="online-card"  src="../assets/image/mastro.svg"/></td>
+                                        </tr>
+                                        <tr>
+                                        <td>
+                                        <p><b>Card Number</b></p>
+                                        </td>
+                                        <td> {{carddetail.cardnumber}} </td>
+                                        </tr>
+                                        <tr>
+                                        <td>
+                                        <p><b>Expiry Month</b></p>
+                                        </td>
+                                        <td> {{carddetail.expirymonth}} </td>
+                                        </tr> 
+                                        <tr>
+                                        <td>
+                                        <p><b>Expiry Year</b></p>
+                                        </td>
+                                        <td> {{carddetail.expiryyear}} </td>
+                                        </tr>
+                                        </tbody>
+                                        </table>
+                                        </div>
+                                  <div class="media-body text-right" style="vertical-align: bottom;">
+                                   <button class="btn btn-default rounded-0" type="submit" (click)=removeCard(i)>
+                                   <i class="fa fa-trash-o text-danger"></i> Delete</button>
+                                  </div>
+                                  </div>
+
+                                  </div>
+                                  </div> 
+
+                                  <div *ngIf="customerdetail && customerdetail.cardinfo && customerdetail.cardinfo.length == 0" class="text-center address-text">
+                                    <span>
+                                      <i class="fa fa-cc-visa fa100" aria-hidden="true"></i>
+                                      <br>
+                                      <h4>There are no saved credit card to Display</h4>
+                                    </span>
+                                    <!--  <button type="submit" class="btn btn-success rounded-0">Go to Home</button> -->
+                                  </div> 
+
+                                </div>
+                            </div>
+
+                           <!--  <div class="tab-pane" id="e">
+<div class="panel panel-body custom-panel-body shadow">
+    <div class="media">
+        <div class="media-left">
+<img src="https://www.iconexperience.com/_img/g_collection_png/standard/512x512/currency_dollar.png" class="media-object" style="width:60px">
+        </div>
+        <div class="media-body">
+            <h5 class="media-heading">
+                <b>Hadi Biryani</b>
+            </h5>
+<p class="text-muted mb-0"> Pay Amount:
+    <span class="text-success"><b>$ 78</b></span>
+</p>
+            <p class="text-muted">Payment ID: 345635545 &nbsp;&nbsp;
+                <span class="text-success">Successfull.</span>
+            </p>
+        </div>
+        <div class="media-body text-right" style="    vertical-align: bottom;">
+            <button type="submit" class="btn btn-success rounded-0">
+<i class="fa fa-thumbs-up "></i> Successfull</button>
+        </div>
+    </div>
+</div>
+<div class="panel panel-body custom-panel-body shadow">
+    <div class="media">
+        <div class="media-left">
+<img src="https://www.iconexperience.com/_img/g_collection_png/standard/512x512/currency_dollar.png" class="media-object" style="width:60px">
+        </div>
+        <div class="media-body">
+            <h5 class="media-heading">
+                <b>Royal Biryani</b>
+            </h5>
+<p class="text-muted mb-0">Pay Amount:
+    <span class="text-success"><b>$ 55</b></span>
+</p>
+            <p class="text-muted">Payment ID: 3434356 &nbsp;&nbsp;
+                <span class="text-danger">.</span>
+            </p>
+        </div>
+        <div class="media-body text-right" style="    vertical-align: bottom;">
+            <button type="submit" class="btn btn-danger rounded-0">
+<i class="fa fa-thumbs-down "></i> Failed</button>
+        </div>
+    </div>
+</div>
+</div> -->
+
+
+<div class="tab-pane" id="f">
+<span *ngIf="favouritelist.length > 0">  
+<div class="panel panel-body custom-panel-body shadow" *ngFor="let restro of favouritelist">
+<h3 *ngIf="restro.name">{{restro.name.restaurantname}}</h3>
+<div class="col-lg-4"  style="padding: 5px;" *ngFor="let item of restro.items">
+<div class="media" style="padding: 5px; border:1px solid lightgrey;" *ngIf="item">
+<div class="media-left">
+<img class="img-responsive" class="media-object imageitem-size" src="{{item.image ? imgurl2 + item.image : 'assets/image/face.png' }}" />
+<!-- <button class="btn btn-sm btn-success rounded-0">Order</button> -->
+</div>
+<div class="media-body">
+<h3 class="media-heading" style="font-size: 13px;">
+<a href="javascript:void(0)" data-toggle="tooltip" title="{{item.name}}">{{item.name | ellipsis:60}} </a>
+</h3>
+<p><small *ngIf="restro.name.currency" style="font-size: 10px;"><b>{{restro.name.currency}}</b></small>{{item.price}}</p>
+</div>                  
+</div>
+</div>
+</div>
+</span>
+<br>
+<h5 *ngIf="favouritelist.length == 0" class="text-center"> 
+No Record found!
+</h5>
+</div>
+
+      <div class="tab-pane" id="g">
+                                <div class="panel panel-body custom-panel-body shadow" *ngFor="let review of customerReviewRating">
+                                    <div class="media">
+                                        <div class="media-body">
+                                            <table style="width: 100%;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <p>
+                                                                <b *ngIf="review.restaurantId">{{GetRestro(review.restaurantId)}}</b>
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p *ngIf="review.average">
+                                                      <b [innerHTML]="ShowReviewRating(review.average)">
+                                                      </b>
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>
+                                                                <b>{{review.created_at | date:'short'}}</b>
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>
+                                                               {{review.review}} 
+                                                            </p>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="h">
+                                <h1 class="mt-0" style="margin-top: 0">Invite your friends to mealdaay.com! </h1>
+                                <h3>Get up to 25,000 points per friend, plus 15 points per invite.</h3>
+                                <h5>Love how quick, easy, and reliable mealdaay.com? Share us with your friends! We'll give you an instant 15
+                                    points per invite sent (up to 500 points). Plus, you'll both get points on orders they place with us. 1 point per
+                                    $1 in food, up to 25,000 points per friend. Refer as many friends as you want!
+                                </h5>
+                                <br>
+
+                                <form class="form-horizontal" [formGroup]="referralAddModel" (ngSubmit)="referralAdd()">
+
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-2 control-label text-left">Invite by email</label>
+                                        <div class="col-sm-7">
+                                            <input type="email" class="form-control" id="pemail" placeholder="email" id="pemail" formControlName="emailto" Placeholder="Enter email ...">
+                                            <p style="padding:3px" *ngIf="referformErrors.emailto" class="alert alert-danger">
+                                            {{ referformErrors.emailto }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button type="submit" class="btn btn-success rounded-0" [disabled]="!referralAddModel.valid">Send invites</button>
+                                        </div>
+                                    </div>
+                                    <!-- <h4>OR</h4>
+                                    <div class="form-group">
+                                        <label for="inputEmail3" class="col-sm-2 control-label text-left">use this link with friends...</label>
+                                        <div class="col-sm-7">
+                                            <input type="email" class="form-control" id="inputEmail3" placeholder="Refer Link" value="">
+                                        </div>
+                                    </div> -->
+                                </form>
+                            </div>
+                            <div class="tab-pane" id="i">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                                <div class="c100 p25 big" style="margin-left:70px;">
+                                                    <span *ngIf="customerdetail && customerdetail.customerpoints">{{customerdetail.customerpoints}}</span>
+                                                    <div class="slice">
+                                                        <div class="bar"></div>
+                                                        <div class="fill"></div>
+                                                    </div>
+                                                </div>
+                                                <p>Rewards points yet, but place a order to earn more!</p>
+                                                <button type="submit" class="btn btn-success rounded-0 disabled">Redeem Now</button>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="panel panel-default">
+                                            <div class="panel-body">
+                                               <h4>Tell us about your order</h4>
+                                               <p>Review a past order to earn 100 points.</p>
+                                               <a class="btn btn-success rounded-0">Leave a review</a>
+                                            </div>
+                                    
+                                        </div>
+                                    </div>                                   
+                                </div>
+                            </div>
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="creditModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title">Add new Card</h4>
+            </div>
+            <div class="modal-body">                
+                <form [formGroup]="customerCard" (ngSubmit)="updateCard()" class="form-horizontal">
+
+              <!--       <div class="form-group">
+                        <label class="control-label col-sm-4" for="email">Card Type:</label>
+                        <div class="col-sm-8">
+                        <div class="pl-20 card-inline">
+                        <label class="radio pl-25 ">
+                        <input value="visa" type="radio" formControlName="cardtype">
+                        <img class="online-card"  src="../assets/image/visa.svg"
+                        />
+                        </label>
+                        <label class="radio pl-25 ">
+                        <input value="master" type="radio" formControlName="cardtype">
+                        <img class="online-card" src="../assets/image/master.svg" />
+                        </label>
+                        <label class="radio pl-25 ">
+                        <input value="mastro" type="radio" formControlName="cardtype" >
+                        <img class="online-card"  src="../assets/image/mastro.svg"/>
+                        </label>
+                        </div>
+                        </div>                         
+                    </div> -->
+
+                    <div class="form-group">
+                    <label class="control-label col-sm-4" for="email">Card Number:</label>
+                    <div class="col-sm-8">
+                        <input type="search" class="form-control" id="Card Number" placeholder="Enter Card Number" formControlName="cardnumber" (keyup)="onKeyCardNumber($event)">
+                        <p style="padding:3px" *ngIf="cardformErrors.cardnumber" class="alert alert-danger">
+                        {{ cardformErrors.cardnumber }}
+                        </p> 
+                    </div>
+                    </div>                   
+                    
+                    <div class="form-group">
+                    <label class="control-label col-sm-4" for="pwd">Expiration Date :</label>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="pwd" placeholder="MM" formControlName="expirymonth">
+                        <p style="padding:3px" *ngIf="cardformErrors.expirymonth" class="alert alert-danger">
+                        {{ cardformErrors.expirymonth }}
+                        </p> 
+                    </div>
+                    <div class="col-sm-4">
+                        <input type="text" class="form-control" id="pwd" placeholder="YY" formControlName="expiryyear">
+                        <p style="padding:3px" *ngIf="cardformErrors.expiryyear" class="alert alert-danger">
+                        {{ cardformErrors.expiryyear }}
+                        </p> 
+                    </div>
+                    </div>
+                    <div class="form-group">
+                    <label class="control-label col-sm-4" for="cvc">CVV:</label>
+                    <div class="col-sm-8">
+                        <input type="text" class="form-control" id="cvc" placeholder="CVV" formControlName="cvc">
+                        <p style="padding:3px" *ngIf="cardformErrors.cvc" class="alert alert-danger">
+                        {{ cardformErrors.cvc }}
+                        </p> 
+                    </div>
+                    </div>
+                    <p class="rederr text-center" *ngIf="mes != ''">{{mes}}</p>
+                    <div class="form-group">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <button type="submit" class="btn btn-success pull-right" [disabled]="!customerCard.valid"> Add card </button>
+                    </div>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="myorder" class="modal fade" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">×</button>
+                    <h4 class="modal-title">Order Detail</h4>
+                </div>
+                <div class="modal-body"  *ngIf="selectedOrder">
+                    <div class="media" data-toggle="modal" data-target="#myModal">
+                        <div class="media-left">
+                          <img src="{{ selectedOrder.image  == '' ? 'assets/image/face.png' :  imgurl2 + selectedOrder.image }}" class="media-object" style="width:60px" />
+                          
+                        </div>
+                        <div class="media-body">
+                            <h5 class="media-heading">
+                                <b>{{selectedOrder.restaurantname}}</b><b class="capitalize2 pull-right"> &nbsp;&nbsp;
+    <!-- <span class="text-success capitalize2" *ngIf="selectedOrder.status == 'driveraccepted' || selectedOrder.status == 'accepted'"> In Progress  </span>
+    <span class="text-success capitalize2" *ngIf="selectedOrder.status == 'received'"> Order Placed &nbsp; 
+    </span>
+    <span class="text-success capitalize2" *ngIf="selectedOrder.status == 'delivered'"> Order Delivered </span> 
+    <span class="text-success capitalize2" *ngIf="selectedOrder.status == 'cancelled'"> Order Cancelled </span>
+ -->
+
+    <span class="text-success capitalize2" *ngIf="selectedOrder.status == 'completed' || selectedOrder.status == 'driverrejected'"> <strong>Order Prepared</strong> <span>Waiting for Driver!</span>  </span>
+  <span class="text-success capitalize2" *ngIf="selectedOrder.status == 'accepted'"> Preparing your Order &nbsp; </span>
+
+  <span class="text-success capitalize2" *ngIf="selectedOrder.status == 'received' && selectedOrder.paymenttype == 'cash'"> Order Placed &nbsp; <button class="btn btn-success btn-sm" (click)="cancelOrder(selectedOrder)"> Cancel </button> </span>
+
+  <span class="text-success capitalize2" *ngIf="selectedOrder.status == 'received' && selectedOrder.paymenttype == 'card'"> Payment Received &nbsp; <button class="btn btn-success btn-sm" (click)="cancelOrder(selectedOrder)"> Cancel </button>  </span>
+
+    <span class="text-success capitalize2" *ngIf="selectedOrder.status == 'rejected'"> Order Rejected &nbsp; </span>
+    <span class="text-success capitalize2" *ngIf="selectedOrder.status == 'driveraccepted'"> On the Way &nbsp; </span>
+    <span class="text-success capitalize2" *ngIf="selectedOrder.status == 'delivered'"> Order Delivered </span>
+    <span class="text-success capitalize2" *ngIf="selectedOrder.status == 'cancelled'"> Order Cancelled </span>
+
+   </b>
+                            </h5>
+                            <p class="text-muted mb-0"><b>Today:</b> {{selectedOrder.created_at | date:'medium'}} </p>                            
+                            <p class="text-muted mb-0"> <b>Address:</b> {{selectedOrder.fulladdress.address}}</p>
+                            <p class="text-muted mb-0"><b>Order ID:</b> {{selectedOrder._id.substr(18,6)}}                                 
+                            </p>
+                            <p class="text-muted mb-0"> <b>Payment Type :</b> {{selectedOrder.paymenttype}}                                 
+                            </p>                     
+                          </div>
+                          <hr>
+                          <div class="panel-default panel" *ngIf="selectedOrder.status == 'delivered' || selectedOrder.status == 'driveraccepted'">
+                            <div class="panel-body" *ngIf="selectedOrder.driverDetail">
+                                <h5 class="text-center"> Driver Detail </h5>
+                                <div class="media-left">
+                                <img class="img-responsive" class="media-object" src="{{selectedOrder.driverDetail.photo ? imgurl2 + selectedOrder.driverDetail.photo : 'assets/image/profile.png' }}" style="width: 140px;" />
+                                </div>
+                                <div class="media-body">
+                                <h5 class="media-heading">
+                                <b class="capitalize2">{{selectedOrder.driverDetail.name}}</b>
+                                </h5>
+                                <p class="text-muted mb-0"><b>Phone:</b> {{selectedOrder.driverDetail.phone}}  </p>                            
+                                <p class="text-muted mb-0"> <b>Vehicle Name:</b> {{selectedOrder.driverDetail.vehicleName}}</p>
+                                <p class="text-muted mb-0"> <b>Vehicle No.:</b> {{selectedOrder.driverDetail.vehicleNo}}</p>
+                                <p class="text-muted mb-0"> <b>VehicleType:</b> {{selectedOrder.driverDetail.vehicleType}}</p>
+
+                                </div>
+                            </div>
+                          </div>
+                          <hr>
+
+                          <div class="col-lg-12" *ngIf="selectedOrder && selectedOrder.note">
+                          <div class="panel panel-default" style="margin-top:20px;">
+                          <h4 style="margin-left:15px;" > Your note </h4>
+                          <div class="panel-body">
+                          <span >
+                          {{selectedOrder.note}}
+                          </span>
+                          </div>
+                          </div>
+                          </div>
+
+                          <div class="mt-10">
+
+                            <div class="panel panel-default" *ngIf="selectedOrder.items.length > 0">
+                            <div class="panel-body">
+                            <h5 class="uppercase1" style="color: #5AC15E;"> Menu Item </h5>
+                           
+                            <!-- <p *ngFor="let item of selectedOrder.items">{{item.name}} 
+                            <span class="pull-right">${{item.price * item.qty}}</span>
+                            </p> -->
+
+                            <div *ngFor="let item of selectedOrder.items">
+                            <div class="media" style="padding-top: 10px; padding-bottom: 10px;">
+                            <div class="media-left" style="min-width: 52px;">
+                            <img src="{{item.image  == '' ? './assets/image/menu.png' : imageUrl + item.image }}" class="img-responsive radius50" />
+                            </div>
+                            <div class="media-body">
+                            <h5 class="media-heading"> {{item.name}} <small> 
+                              <span *ngIf="selectedOrder.currency" style="font-size: 10px;"><b>   {{selectedOrder.currency}}</b></span> 
+                              {{item.price * item.qty}}</small></h5>                    
+                            </div>
+                            </div>
+                            </div>
+
+                            </div>
+                            </div>
+                            <div class="panel panel-default" *ngIf="selectedOrder.combo.length > 0">
+                            <div class="panel-body">
+                            <h5 class="uppercase1" style="color: #5AC15E;"> Combo </h5>
+                            <div class="col-sm-12 col-lg-12" *ngFor="let combo of selectedOrder.combo">
+                            <p data-toggle="collapse" [attr.data-target]="'#combo'+ combo._id" > 
+                            <img src="{{combo.image  == '' ? './assets/image/menu.png' : imageUrl + combo.image }}" class="img-responsive radius50" />   <b class="">{{combo.name}} <small> <small *ngIf="selectedOrder.currency" style="font-size: 10px;"><b>   {{selectedOrder.currency}}</b></small> {{combo.finalcomboprice}}</small></b> 
+                            <span class="pull-right"><i class="fa fa-chevron-down pull-right" aria-hidden="true" data-toggle="collapse" [attr.data-target]="'#combo'+ combo._id" aria-expanded="false"></i>
+                            </span>
+                            </p> 
+
+                            <div id="combo{{combo._id}}" class="panel-collapse collapse" aria-expanded="false">
+                            <div class="panel-body mt-0">
+                            <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12 mb-7"  style="padding: 0px 4px;" *ngFor="let item of combo.menuId">
+                            <div style="padding: 5px; border: 1px solid lightgrey;">
+                            <div class="media" style="padding-top: 10px; padding-bottom: 10px;">
+                            <div class="media-left" style="min-width: 52px;">
+                            <img src="{{item.image  == '' ? './assets/image/menu.png' : imageUrl + item.image }}" class="img-responsive radius50" />
+                            </div>
+                            <div class="media-body">
+                            <h5 class="media-heading"> {{item.name}} </h5>                    
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>
+                            </div>   
+                            </div>
+                      
+                            </div>
+                            </div>
+                            <div class="panel panel-default" *ngIf="selectedOrder.package.length > 0">
+                            <div class="panel-body">
+                            <h5 class="uppercase1" style="color: #5AC15E;"> Package </h5>
+                                <div class="col-sm-12 col-lg-12" *ngFor="let package of selectedOrder.package; let pi = index;">
+                                <p data-toggle="collapse" [attr.data-target]="'#package'+ package._id+ pi" > 
+                                <img src="{{package.image  == '' ? './assets/image/menu.png' : imageUrl + package.image }}" class="img-responsive radius50" />   <b class=""> {{package.name}} <small> <small *ngIf="selectedOrder.currency" style="font-size: 10px;"><b>   {{selectedOrder.currency}}</b></small> {{package.packageprice}}</small> </b> 
+                                <span class="pull-right"><i class="fa fa-chevron-down pull-right" aria-hidden="true" data-toggle="collapse" [attr.data-target]="'#package'+ package._id+ pi" aria-expanded="false"></i>
+                                </span>
+                                </p> 
+                                <div id="package{{package._id+ pi}}" class="panel-collapse collapse" aria-expanded="false">
+                                <div class="panel-body mt-0">
+                                <div class="col-lg-4 col-sm-6 col-xs-12 col-md-4 mb-7" style="padding: 0px 4px;" *ngFor="let date of package.dayandmenus">
+                                  <div style="padding: 5px; border: 1px solid lightgrey;">
+                                <h4 class="media-heading">  <small>{{date.date}} </small> <small class="text-success capitalize2 pull-right"> {{date.status ? 'Delivered' : 'Pending'}} </small></h4> 
+                                <div *ngFor="let menu of date.menuids">
+                                <div class="media" style="padding-top: 10px; padding-bottom: 10px;">
+                                <div class="media-left" style="min-width: 52px;">
+                                <img src="{{menu.image  == '' ? './assets/image/menu.png' : imageUrl + menu.image }}" class="img-responsive radius50" />
+                                </div>
+                                <div class="media-body">
+                                <h5 class="media-heading"> {{menu.name}} <small *ngIf="package.type == 'fixed'">({{menu.qty}}) </small> </h5> 
+                                </div>
+                                </div>
+                                </div>
+                                </div>
+                                </div>
+                                </div>
+                                </div>   
+                                </div>
+
+                            </div>
+                            </div>
+
+                          </div>
+                          <hr>
+
+                          <div class="panel panel-default">
+                            <div class="panel-body">
+                          
+                          <p>Subtotal <b class="pull-right"> <small *ngIf="selectedOrder.currency" style="font-size: 10px;"><b>   {{selectedOrder.currency}}</b></small> {{ selectedOrder.subtotal ? selectedOrder.subtotal.toFixed(2) : ''}} </b></p>
+
+                          <p *ngIf="selectedOrder.discount && selectedOrder.discount > 0"> Discount Amount ({{(selectedOrder.discount/(selectedOrder.subtotal/100)).toFixed(0)}}%) <b class="pull-right"> - <small *ngIf="selectedOrder.currency" style="font-size: 10px;"><b>   {{selectedOrder.currency}}</b></small> {{selectedOrder.discount.toFixed(2)}} </b></p>
+                          
+                          <p *ngIf="selectedOrder.discount && selectedOrder.discount > 0" >Amount <b class="pull-right"> <small *ngIf="selectedOrder.currency" style="font-size: 10px;"><b>   {{selectedOrder.currency}}</b></small> {{(selectedOrder.subtotal- selectedOrder.discount).toFixed(2)}} </b>
+                          </p>
+
+                          <p *ngIf="selectedOrder.discount && selectedOrder.discount > 0" >Included Tax ({{selectedOrder.tax}}%) <b class="pull-right"> 
+                            <small *ngIf="selectedOrder.currency" style="font-size: 10px;"><b>   {{selectedOrder.currency}}</b></small> {{(((selectedOrder.subtotal- selectedOrder.discount)/100)*selectedOrder.tax).toFixed(2)}} </b>
+                          </p>
+
+                          <p *ngIf="!selectedOrder.discount || selectedOrder.discount == 0" >Included Tax({{selectedOrder.tax}}%) <b class="pull-right"> 
+                            <small *ngIf="selectedOrder.currency" style="font-size: 10px;"><b>   {{selectedOrder.currency}}</b></small> {{(((selectedOrder.subtotal)/100)*selectedOrder.tax).toFixed(2)}} </b>
+                          </p>
+
+                          <p>Total Amount <b class="pull-right"> <small *ngIf="selectedOrder.currency" style="font-size: 10px;"><b>   {{selectedOrder.currency}}</b></small> {{ selectedOrder.total ? selectedOrder.total.toFixed(2) : ''}} </b></p>
+
+                          </div>                          
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<!--  rating -->
+<div id="myrating" class="modal fade" role="dialog">
+<div class="modal-dialog">
+<!-- Modal content-->
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal">×</button>
+<h4 class="modal-title"> <b>Rate Order</b></h4>
+</div>
+<div class="modal-body">
+<div class="media">
+<div class="media-left" *ngIf="rating">
+<img [src]="rating.image != '' ? imageUrl + rating.image : './assets/image/menu.png'" class="media-object" style="width:60px">
+</div>
+<div class="media-body" *ngIf="rating">
+<h5 class="media-heading">
+    <b class="capitalize2 order-rate"> Operation : {{rating.restaurantName}}</b>                            
+</h5>
+<p class="text-muted mb-0">
+  Status : 
+    <span class="text-success capitalize2">{{rating.status}} </span>
+</p>                        
+</div>
+
+<!-- <div class="media-body text-right" style="    vertical-align: bottom;">
+<button type="submit" class="btn btn-default rounded-0">
+    <i class="fa fa-download text-warning"></i> Download Recipt</button>
+</div> -->
+
+</div>
+<h4 class="text-muted mb-0 text-center"> <b> Please give some rating </b></h4> 
+<h5 class="text-center text-muted"><b><span class="caret2"></span></b></h5>
+<hr>
+<h4 class="text-muted mb-0 text-center mb-10 m-0"> <small> <b>Restaurant Rating</b> <sup class="rederr"> * </sup></small></h4>  
+<br>   
+
+<div class="row" *ngIf="rating">
+<form class="form-horizontal">
+    <div class="form-group">
+      <label class="control-label col-sm-6 text-muted"> Order Packaging </label>
+      <div class="col-sm-6">
+        <small>
+        <app-rating [rating]='rating.orderPackagingRating.rating' [type]='rating.orderPackagingRating.type' (ratingClick)='ratingComponetClick($event)'></app-rating>
+        </small>
+      </div>
+    </div> <div class="form-group">
+      <label class="control-label col-sm-6 text-muted"> Delivery Time </label>
+      <div class="col-sm-6">
+        <small>
+        <app-rating [rating]='rating.deliveryTimeRating.rating' [type]='rating.deliveryTimeRating.type' (ratingClick)='ratingComponetClick($event)'></app-rating>
+        </small>
+      </div>
+    </div> <div class="form-group">
+      <label class="control-label col-sm-6 text-muted"> Value of Money </label>
+      <div class="col-sm-6">
+       <small>
+        <app-rating [rating]='rating.valueOfTimeRating.rating' [type]='rating.valueOfTimeRating.type' (ratingClick)='ratingComponetClick($event)'></app-rating>
+        </small>
+      </div>
+    </div>
+</form>                            
+</div>
+<hr>
+<h4 class="text-muted mb-0 text-center mb-15"> <small> <b> Give your review about this order.</b></small></h4> 
+<hr>
+<textarea *ngIf="rating" [(ngModel)]="rating.review" class="form-control" rows="4" width="100%" placeholder="Your review help to other learn about your order experience from this restaurant"></textarea>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-success" (click)="updateRating()"> Submit </button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Modal Section-->
+<div id="addAddressModel" class="modal fade" role="dialog">
+<div class="modal-dialog">
+<!-- Modal content-->
+<div class="modal-content">
+<div class="modal-header">
+<button type="button" class="close" data-dismiss="modal">×</button>
+<h4 class="modal-title">Add New Address</h4>
+</div>
+<div class="modal-body">
+<div id="map" style="min-height: 500px;"> </div>
+<hr>
+<form class="form-horizontal" role="form" [formGroup]="addressAddModel" (ngSubmit)="updateAddress()">
+<div class="form-group">
+<div class="col-sm-6">
+<input type="text" class="form-control"  formControlName="phoneno" placeholder="Phone No">
+<p style="padding:3px" *ngIf="formErrors.phoneno" class="alert alert-danger">
+{{ formErrors.phoneno }}
+</p>   
+</div>     
+<div class="col-sm-6 class-sm-model">
+<input type="text" class="form-control" formControlName="landline" placeholder="Landline">
+<p style="padding:3px" *ngIf="formErrors.landline" class="alert alert-danger">
+ {{ formErrors.landline }}
+</p> 
+</div>
+</div>
+
+<div class="form-group">
+<div class="col-sm-12">
+<input id="pac-input" type="text"
+  placeholder="Enter a location" autocorrect="off" spellcheck="off" autocapitalize="off" #search class="form-control" formControlName="address" /> 
+</div>
+</div>
+<div class="form-group">
+<div class="col-sm-12">
+<input type="text" class="form-control" formControlName="landmark" placeholder="Landmark">
+</div>
+</div>  
+<div class="form-group">
+<div class="col-sm-6">
+<input type="text" class="form-control" formControlName="city" placeholder="City">
+<div style="padding:3px" *ngIf="formErrors.city" class="alert alert-danger">
+                       {{ formErrors.city }}
+</div>
+</div>
+<div class="col-sm-6 class-sm-model">
+<input type="text" class="form-control" formControlName="zipcode" placeholder="ZipCode">
+</div>
+</div>
+<div class="form-group">
+<div class="col-sm-12">
+<input type="text" class="form-control" formControlName="country" placeholder="Country">
+</div>
+</div>
+<div class="form-group">
+<div class="col-sm-4"> 
+<p>  
+<button type="submit" class="btn btn-success" [disabled]="!addressAddModel.valid" >Save Address</button>
+</p>
+</div>
+</div>
+</form>
+
+<!-- 
+<form class="form-horizontal">
+    <div class="form-group">
+        <label for="inputEmail4" class="col-sm-3 control-label">Address Name</label>
+        <div class="col-sm-9">
+<input type="email" class="form-control" id="inputEmail4" placeholder="Address Name">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword3" class="col-sm-3 control-label">Address</label>
+        <div class="col-sm-9">
+<input type="text" class="form-control" id="inputPassword3" placeholder="Address">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="inputPassword4" class="col-sm-3 control-label">Mobile Number</label>
+        <div class="col-sm-9">
+<input type="text" class="form-control" id="inputPassword4" placeholder="Mobile Number">
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button type="submit" class="btn btn-success rounded-0">Save Address</button>
+        </div>
+    </div>
+</form> -->
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<app-footerfrontend></app-footerfrontend>

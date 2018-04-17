@@ -1,0 +1,24 @@
+<!--  <app-headerowner></app-headerowner>
+<div class="rightMenu col-lg-9 col-md-9 col-sm-9 col-lg-9" style="padding:0px;">
+	
+	<div class="nameAndAddress" id="Menu1" style="position: absolute; z-index: 1;">
+		<form [formGroup]="restaurantData" (ngSubmit)="restaurantUpdate()">
+			<div class="firstDiv">
+				<span class=""><b>Kitchen Location</b></span>
+				<br>
+				<input type="hidden"  formControlName="address"/>			
+			</div>	
+			<div *ngIf="addresss != ''" id="addresstext" style="padding:10px">
+				{{addresss}}
+			</div>			
+			<div *ngIf="addresss == ''">
+				{{storedaddress}}
+			</div>
+		</form>
+	</div>
+      <sebm-google-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" (zoomChange)="zoomChange($event)">
+      <sebm-google-map-marker [latitude]="latitude" [longitude]="longitude" [label]="'M'" [markerDraggable]="m.drag"
+          (dragEnd)="markerDragEnd(m, $event)">
+     </sebm-google-map-marker>
+     </sebm-google-map>
+</div>  -->

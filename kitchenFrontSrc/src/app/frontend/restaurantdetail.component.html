@@ -1,0 +1,552 @@
+<app-headerfrontend [incomingData]="orderdetails" (outgoingData)="orderChanges($event)"></app-headerfrontend>
+<div style="padding-top: 50px;">
+<div class="container margin-top-cont30">
+    <div class="panel panel-default rounded-0 shadow accont-panel">
+        <ul class="breadcrumb rounded-0">
+            <li><a [routerLink]="['/']">Home</a></li>
+            <li><a [routerLink]="['/customer/browse-restaurants']">Restaurant</a></li>
+            <li class="active capitalize2">{{restaurantsdetail.restaurantname}}</li>
+        </ul>
+        <div class="panel-body">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 mall-0">
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 pall-0">
+
+                    <div class="media">
+                        <div [ngClass]="todayOpend ? '' : 'grid-css'" style="margin-left: 0px; 
+    margin-right: 11px; height: calc(100%);">
+                            <div *ngIf="!todayOpend" class="close-cls">Closed</div>
+                        </div>
+                        <div class="media-left">
+                            <img src="{{restaurantsdetail.image  == '' ? 'assets/image/face.png' :  imgurl2 + restaurantsdetail.image}}" class="media-object" style="width:100%">
+                        </div>
+                    </div>
+                    
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 mtplus-5">
+                    <div class="media">
+                        <div class="media-body">
+                            <h3 class="media-heading mb-7 pall-0">
+                                <b class="capitalize2">{{restaurantsdetail.restaurantname}}</b> 
+                                <small class="capitalize2" *ngIf="restaurantsdetail.city"> , {{restaurantsdetail.city}}</small> &nbsp;
+                                <span *ngIf="custid">
+                                    <img *ngIf="favouriteir.ids.indexOf(restaurantsdetail._id) != -1" [src]="(favouriteir.ids.indexOf(restaurantsdetail._id) != -1) ? '../assets/image/heart_anim.gif' : ''" [ngStyle]="(favouritelist.indexOf(restaurantsdetail._id) != -1) ? {'width' : '50px'} : {'width' : '25px'}"/>
+                                </span>
+                            </h3>
+                            <p class="mb-5 fontminimum">
+                                <span class="" *ngFor="let cusine of cusines; let i = index; ">
+                                    {{cusine.name}}<span *ngIf="cusines.length > (i + 1)"> , </span>
+                                </span>
+                            </p>  
+                            <p class="mb-7 fontminimum"><small *ngIf="restaurantsdetail.minimumorder > 0"> Min order: &nbsp; <small style="font-size: 10px;"><b>{{restaurantsdetail.currency}}</b></small>{{restaurantsdetail.minimumorder}} </small></p>              
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mt-18">           
+                    <span class="pull-max-right">
+                        <p class="text-success mb-7" *ngIf="todayOpend">Open</p>
+
+                       <!--  <p class="text-success mb-7" *ngIf="todayOpend == false"> Closed </p> -->
+                        <p class="mb-0">
+                            <small>
+                                <span *ngIf="ratingOnRestIndexs.indexOf(restaurantsdetail._id) != -1">
+                                    <b [innerHTML]="ShowRatingStar(ratingOnRestIndexs.indexOf(restaurantsdetail._id))"></b>
+                                </span> 
+                                <span *ngIf="ratingOnRestIndexs.indexOf(restaurantsdetail._id) == -1">
+                                    <span class="stardiv"></span>
+                                    <span class="stardiv"></span>
+                                    <span class="stardiv"></span>
+                                    <span class="stardiv"></span>
+                                    <span class="stardiv"></span>
+                                </span>
+                            </small>
+                        </p>
+                        <p class="payment-icons mt-10">
+                            <img src="/assets/image/cart/cash-icon.svg">
+                            <img src="/assets/image/cart/visa-icon1.svg">
+                            <img src="/assets/image/cart/mastercard-icon.svg">
+                            <img src="/assets/image/cart/sadad_logo.svg">
+                        </p>
+                    </span>
+                </div>
+            </div>
+        </div>
+                        
+        <div class="padding-12" style="margin-top: 50px; margin-bottom: 30px;">
+            <ul class="nav navcustom nav-pills nav-justified">
+                <li class="active"><a class="rounded-0" data-toggle="pill" href="#menu1" class=""> <i class="fa fa-indent fa-lg"></i> <span> &nbsp; Menu </span></a></li>
+                <li><a class="rounded-0" data-toggle="pill" href="#menu2"> <i class="fa fa-comments fa-lg"></i> <span> &nbsp; Review </span></a></li>
+                <li><a class="rounded-0" data-toggle="pill" href="#menu3"> <i class="fa fa-info fa-lg"></i>  <span> &nbsp; Info </span></a></li>
+            </ul>
+        </div>
+        <div class="tab-content panel-body pt-0">
+            <div id="menu1" class="col-lg-9 col-md-9  col-sm-9  col-xs-12 mar-re1 tab-pane fade active in">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <div class="searchBox ">   
+                        <div id="imaginary_container"> 
+                            <div class="input-group stylish-input-group">
+                                <input type="text" style="z-index: 1;" class="form-control input-search" placeholder="Search" [(ngModel)]="userFilter2" />
+                                <span class="input-group-addon input-search">
+                                    <button type="submit">
+                                        <span class="glyphicon glyphicon-search"></span>
+                                    </button>  
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="menu_category ">   
+                        <h4 class="menuCatHeading"><b>Categories</b></h4>
+                        <div id="categoryMenuSystem" class="categoryActive" (click)="getMenus()">Menu Items</div>
+                        <div id="categoryCombo" class="" (click)="getCombos()">Combo</div>
+                        <div id="categoryWeeklySystem" class="" (click)="getWeekly()">Meal Package</div>                
+                        <div id="categoryOffer" class="" (click)="getOffers()">Offers</div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 menuSystem indigate-detail-padding">
+                    <div class="panel-group">
+                        <span *ngFor="let menu of menus | SearchPipe: userFilter2; index as menui">
+                            <div class="panel panel-default" *ngIf="checkHide(menu)">
+                                <div class="panel-heading" data-toggle="collapse" href="javascript:void(0);" [attr.data-target]="'#'+ menu._id" aria-expanded="true">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" style="text-decoration: none;" class="list-pointer12" aria-expanded="true">
+                                            <div class="media">
+                                            <div class="media-left">
+                                            <img  *ngIf="menu.image" src="{{imgurl2}}/{{menu.image}}" class="media-object combo-img3 border-radius-img1" />
+                                            <img *ngIf="!menu.image" src="./assets/image/menu.jpg" class="media-object combo-img3 border-radius-img1" />
+                                            </div>
+                                            <div class="media-body">
+                                            <h4 class="media-heading"> {{menu.name}} <i class="fa fa-chevron-down colorfa1" aria-hidden="true" style="float: right;"></i></h4>
+                                            </div>
+                                            </div>
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="{{menu._id}}" class="panel-collapse collapse" [ngClass]="menui == 0 ? 'in' : ''" aria-expanded="false">
+                                    <ul class="list-group">
+                                        <span *ngFor="let item of activeitems"> 
+                                            <li class="list-group-item cust_list" *ngIf="menu._id == item.menuId._id" style="border-bottom: 1px solid lightgray;">
+                                                <div class="row">
+                                                    <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11" style="padding-right: 0px;">
+                                                        <div class="media">
+                                                            <div class="media-left">
+                                                                <img  *ngIf="item.image" src="{{imgurl2}}/{{item.image}}" class="media-object combo-img3 border-radius-img1" />
+                                                                <img *ngIf="!item.image" src="./assets/image/menu.jpg" class="media-object combo-img3 border-radius-img1" />
+                                                            </div>
+                                                            <div class="media-body">
+                                                                <h4 class="media-heading"> {{item.name | ellipsis:50}} &nbsp; 
+                                                                    <i *ngIf="custid">
+                                                                        <img [src]="(favouriteir.items.indexOf(item._id) != -1) ? '../assets/image/heart_anim.gif' : '../assets/image/heart1.png'" [ngStyle]="(favouriteir.items.indexOf(item._id) != -1) ? {'width' : '17px'} : {'width' : '17px'}" (click)="addFavouritesItem(item,restaurantsdetail._id)"/>
+                                                                    </i>
+                                                                    <i style="float: right; margin-right: 15px; padding-top: 3px;">
+                                                                        <span *ngIf="itemsRatingIndex.indexOf(item._id) != -1">
+                                                                            <b [innerHTML]="ShowItemRatingStar(itemsRatingIndex.indexOf(item._id))"></b>
+                                                                        </span> 
+                                                                        <span *ngIf="itemsRatingIndex.indexOf(item._id) == -1">
+                                                                            <span class="stardiv"></span>
+                                                                            <span class="stardiv"></span>
+                                                                            <span class="stardiv"></span>
+                                                                            <span class="stardiv"></span>
+                                                                            <span class="stardiv"></span>
+                                                                        </span>
+                                                                    </i>
+                                                                </h4>
+                                                                <p><small>Price : <b *ngIf="item.price"> <small style="font-size: 10px;"><b>{{restaurantsdetail.currency}}</b></small></b>{{item.price}} </small></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 padding-remove12">
+                                                        <h4 class="margin-remove12"><i (click)="addInOrder('menu', item)" class="fa fa-plus-circle list-pointer12" aria-hidden="true"></i></h4>  
+                                                    </div>
+                                                </div>
+                                            </li> 
+                                        </span>                         
+                                    </ul>
+                                </div>
+                            </div> 
+                        </span>              
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 weeklySystem indigate-detail-padding">
+                    <div class="panel-group">
+                        <div class="panel panel-default" *ngFor="let wmenu of weeklyrestaurants | SearchPipe: userFilter2; index as i">
+                            <div class="panel-heading combo-heading panel-height">
+                                <h3 class="panel-title">
+                                    <a data-toggle="collapse" style="text-decoration: none;" class="list-pointer12" aria-expanded="true">
+                                        <div class="media">
+                                            <div class="media-left">
+                                                <img  *ngIf="wmenu.image" src="{{imgurl2}}/{{wmenu.image}}" class="media-object combo-img3 border-radius-img1" />
+                                                <img *ngIf="!wmenu.image" src="./assets/image/menu.jpg" class="media-object combo-img3 border-radius-img1" />
+                                            </div>                
+                                            <div class="media-body">
+                                                <h4 class="media-heading"> {{wmenu.name}} 
+                                                    <small class="pull-right" *ngIf="wmenu.type == 'fixed'">
+                                                        <b *ngIf="wmenu.packageprice"> <small style="font-size: 10px;"><b>{{restaurantsdetail.currency}}</b></small>{{wmenu.packageprice}}</b> 
+                                                    </small>
+                                                    <small *ngIf="wmenu.type != 'fixed'">
+
+                                                        <b *ngIf="wmenu.discount"> &nbsp;&nbsp; {{wmenu.discount ? wmenu.discount+'% OFF' : ''}} </b> 
+
+                                                    </small>
+                                                </h4>
+                                                <p class="mb-5">
+                                                    <span *ngIf="packageRatingIndex.indexOf(wmenu._id) != -1">
+                                                        <b [innerHTML]="ShowPackageRatingStar(packageRatingIndex.indexOf(wmenu._id))"></b>
+                                                    </span> 
+                                                    <span *ngIf="packageRatingIndex.indexOf(wmenu._id) == -1">
+                                                        <span class="stardiv"></span>
+                                                        <span class="stardiv"></span>
+                                                        <span class="stardiv"></span>
+                                                        <span class="stardiv"></span>
+                                                        <span class="stardiv"></span>
+                                                    </span>
+                                                    <small class="pull-right"><i class="fs-13">{{wmenu.startdate}} - {{wmenu.enddate}}</i></small>
+                                                </p>
+                                                <p>
+                                                    <small *ngIf="wmenu.type == 'fixed'"  class="fs-13 text-colorit" data-toggle="modal" data-target="#packageModelFixed" (click)="viewPackageDetail('fixed', wmenu)"> VIEW DETAIL<i class="fa fa-chevron-right text-colorit" aria-hidden="true"></i> </small> 
+                                                    <small *ngIf="wmenu.type == 'flexible'" class="fs-13 text-colorit" data-toggle="modal" data-target="#packageModelFlexible" (click)="viewPackageDetail('flexible', wmenu)"> VIEW DETAIL<i class="fa fa-chevron-right text-colorit" aria-hidden="true"></i> </small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 offerAvailable indigate-detail-padding">
+                    <div class="panel-group">
+                        <div class="panel panel-default" *ngFor="let offer of availoffer | SearchPipe: userFilter2">
+                            <div class="panel-heading collapsed" data-toggle="collapse" [attr.data-target]="'#offer'+ offer._id" aria-expanded="false" style="padding: 17px;">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" style="text-decoration: none;" class="collapsed list-pointer12" aria-expanded="false">
+                                        {{offer.name}}
+                                        <i class="fa fa-chevron-down" aria-hidden="true" style="float: right;"></i>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="offer{{offer._id}}" class="panel-collapse collapse-in collapse" aria-expanded="false" style="height: 0px;">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <div class="row" style="margin-right: 10px;">
+                                            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cust_offdetail">
+                                                <h4 *ngIf="offer.type == 'Price'">
+                                                    <div style="font-size: 30px;">{{offer.percentorpricevalue}}</div>&nbsp;Price OFF
+                                                </h4>
+                                                <h4 *ngIf="offer.type == 'Percent'">
+                                                    <div style="font-size: 30px;">{{offer.percentorpricevalue}} </div>&nbsp;% OFF
+                                                </h4>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                <h4><span class="cust_off"> Coupon Code : </span> {{offer.couponcode}}</h4>
+                                                <h4> <span class="cust_off"> In Date : </span> {{offer.indate}}</h4>
+                                                <h4> <span class="cust_off"> Expiry Date : </span> {{offer.expirydate}}</h4>
+                                            </div>
+                                        </div>
+                                    </li>         
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12 combo indigate-detail-padding">
+                    <div class="panel-group" *ngIf="availcombo.length > 0">
+                        <div class="panel panel-default" *ngFor="let combo of availcombo | SearchPipe: userFilter2">
+                            <div class="panel-heading collapsed combo-heading panel-height" >
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" href="#collapse1" style="text-decoration: none;" class="collapsed list-pointer12" aria-expanded="false">
+                                        <div class="media">
+                                            <div class="media-left" data-toggle="collapse" [attr.data-target]="'#combo'+ combo._id">
+                                                <img  *ngIf="combo.image" src="{{imgurl2}}/{{combo.image}}" class="media-object combo-img3 border-radius-img1" />
+                                                <img *ngIf="!combo.image" src="./assets/image/menu.jpg" class="media-object combo-img3 border-radius-img1" />
+                                            </div>
+                                            <div class="media-body">
+                                                <h4 class="media-heading" data-toggle="collapse" [attr.data-target]="'#combo'+ combo._id"> {{combo.name}}
+                                                    <i class="fa fa-chevron-down colorfa1 pull-right" aria-hidden="true" data-toggle="collapse" [attr.data-target]="'#combo'+ combo._id" aria-expanded="false"></i>
+                                                </h4>
+                                                <p>
+                                                    <span data-toggle="collapse" [attr.data-target]="'#combo'+ combo._id" *ngIf="comboRatingIndex.indexOf(combo._id) != -1">
+                                                        <b [innerHTML]="ShowComboRatingStar(comboRatingIndex.indexOf(combo._id))"></b>
+                                                    </span> 
+                                                    <span data-toggle="collapse" [attr.data-target]="'#combo'+ combo._id" *ngIf="comboRatingIndex.indexOf(combo._id) == -1">
+                                                        <span class="stardiv"></span>
+                                                        <span class="stardiv"></span>
+                                                        <span class="stardiv"></span>
+                                                        <span class="stardiv"></span>
+                                                        <span class="stardiv"></span>
+                                                    </span>
+                                                    <i (click)="addInOrder('combo', combo)" class="fa fa-plus-circle list-pointer12 pull-right" aria-hidden="true"></i>
+                                                </p>
+                                                <p data-toggle="collapse" [attr.data-target]="'#combo'+ combo._id"><small><b *ngIf="combo.finalcomboprice"> <small style="font-size: 10px;"><b>{{restaurantsdetail.currency}}</b></small> </b> {{combo.finalcomboprice}} </small></p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="combo{{combo._id}}" class="panel-collapse collapse-in collapse" aria-expanded="false" style="height: 0px;">
+                                <ul class="list-group">
+                                    <li class="list-group-item">   
+                                        <div *ngFor="let item of combo.menuId">
+                                            <div class="media" style="padding-top: 10px; padding-bottom: 10px;">
+                                                <div class="media-left">
+                                                    <img  *ngIf="item.image" src="{{imgurl2}}/{{item.image}}" class="media-object combo-img3 border-radius-img1" />
+                                                    <img *ngIf="!item.image" src="./assets/image/menu.jpg" class="media-object combo-img3 border-radius-img1" />
+                                                </div>
+                                                <div class="media-body">
+                                                    <h4 class="media-heading"> {{item.name | ellipsis:50}}</h4>                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div> 
+                </div>
+            </div>
+            <div id="menu2" class="col-lg-9 col-md-9 col-sm-9 col-xs-12 tab-pane fade" >
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="reviewRating"><h4><b  *ngIf="reviewRating.review.length > 0"><span>({{reviewRating.review.length}})</span> Reviews</b></h4></div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 rating" *ngIf="reviewRating && reviewRating.valueOfTimeRating > 0">
+                    <div>
+                        <span ><b [innerHTML]="ShowReviewRating(reviewRating.valueOfTimeRating)"></b></span> 
+                    </div>
+                    <div>Order Packaging</div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 rating" *ngIf="reviewRating && reviewRating.deliveryTimeRating > 0">
+                    <div> 
+                        <span><b [innerHTML]="ShowReviewRating(reviewRating.deliveryTimeRating)"></b></span> 
+                    </div>
+                    <div>Delivery Time</div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 rating" *ngIf="reviewRating && reviewRating.orderPackagingRating > 0">
+                    <div>
+                        <span><b [innerHTML]="ShowReviewRating(reviewRating.orderPackagingRating)"></b></span> 
+                    </div>
+                    <div>Quality of Food</div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 reviewRestaurant reviewtext-center" *ngIf="reviewRating.review.length == 0">
+                    <i class="fa fa-star-o" aria-hidden="true" style="font-size: 900%;"></i>
+                    <h4><b> There are currently no reviews available for this restaurant </b></h4>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 reviewRestaurant " *ngIf="reviewRating.review && reviewRating.review.length > 0">
+                    <div class="panel panel-default" style="margin-top: 20px;" *ngFor="let comment of reviewRating.review">
+                        <div class="panel-body">
+                            <span><b [innerHTML]="ShowReviewRating(comment.average)"></b></span>
+                            <span class="pl-10 comment-color">{{GetCustomer(comment.customerId)}}</span>
+                            <span class="pull-right comment-color">{{comment.created_at | date:'short'}} </span>
+                            <br><p class="user-comment">{{comment.review}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="menu3" class="col-lg-9 col-md-9 col-sm-9 col-xs-12 tab-pane fade">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 pall-0 mb-18">
+                    <h4>
+                        <b class="capitalize2">{{restaurantsdetail.restaurantname}}
+                            <small *ngIf="restaurantsdetail.city">,  {{restaurantsdetail.city}}</small>
+                        </b>
+                    </h4>
+                </div>
+                <div class="listing col-lg-12 col-md-12 col-sm-12 col-xs-12 well-sm" data-toggle="collapse" data-target="#collapsedays" *ngIf="restaurantsdetail.openinghours && restaurantsdetail.openinghours.length > 0">
+                    <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12 pall-0"> Working Days </div>
+                    <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-12"> Open Time
+                        <i class="fa fa-chevron-down" aria-hidden="true" style="float: right;"></i>
+                    </div>
+                </div>
+                <div id="collapsedays" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse" *ngIf="restaurantsdetail.openinghours && restaurantsdetail.openinghours.length > 0">            
+                    <div class="row" *ngFor="let day of restaurantsdetail.openinghours">
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> <b class="capitalize2">{{day.name}} </b></div>
+                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> 
+                        
+                            <span *ngIf="!day.status">
+                            <p *ngFor="let time of day.times;let j = index; ">
+                            {{time.open}} - {{time.close}} <!-- <span *ngIf="day.times.length > (j + 1)"> , </span> -->
+                            </p>
+                           </span>
+                           <span *ngIf="day.status">Closed</span>
+                        
+                          <!-- <span *ngIf="day.status"> Closed </span> -->
+
+                        </div>
+                    </div>                    
+                </div>
+                <div class="listing col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-6 pall-0">Minimum Order</div>
+                    <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-6"> <span *ngIf="restaurantsdetail.minimumorder"><small style="font-size: 10px;"><b>{{restaurantsdetail.currency}}</b></small>{{restaurantsdetail.minimumorder}} </span></div>
+                </div>
+                <div class="listing col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-6 pall-0">Delivery Time</div>
+                    <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <span *ngIf="restaurantsdetail.mindeliveryime"> {{restaurantsdetail.mindeliveryime}} mins</span>
+                    </div>
+                </div>
+                <div class="listing col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-6 pall-0">Catering Capacity</div>
+                    <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <span *ngIf="restaurantsdetail.cateringcapacity"> {{restaurantsdetail.cateringcapacity}}</span>
+                    </div>
+                </div>
+                <div class="listing col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-6 pall-0">Pre-Order for later
+                    </div>
+                    <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-6"><!-- {{restaurantsdetail.preorderforlater}} -->
+                     <span *ngIf="restaurantsdetail.preorderforlater">Yes</span>
+                     <span *ngIf="!restaurantsdetail.preorderforlater"> No </span>
+                    </div>
+                </div>
+                <div class="listing col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-6 pall-0">Payment</div>
+                    <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                          <p class="payment-icons mt-10">
+                              <img src="/assets/image/cart/cash-icon.svg">
+                              <img src="/assets/image/cart/visa-icon1.svg">
+                              <img src="/assets/image/cart/mastercard-icon.svg">
+                              <img src="/assets/image/cart/sadad_logo.svg">
+                          </p>
+                    </div>
+                </div>
+                <div class="listing col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-6 pall-0">Rating</div>
+                    <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <span *ngIf="ratingOnRestIndexs.indexOf(restaurantsdetail._id) != -1">
+                                    <b [innerHTML]="ShowRatingStar(ratingOnRestIndexs.indexOf(restaurantsdetail._id))"></b>
+                                </span> 
+                                <span *ngIf="ratingOnRestIndexs.indexOf(restaurantsdetail._id) == -1">
+                                    <span class="stardiv"></span>
+                                    <span class="stardiv"></span>
+                                    <span class="stardiv"></span>
+                                    <span class="stardiv"></span>
+                                    <span class="stardiv"></span>
+                                </span>
+                    </div>
+                </div>
+                <div class="listing col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-6 pall-0">Cuisines</div>
+                    <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <span class="" *ngFor="let cusine of cusines; let i = index; ">
+                            {{cusine.name}}<span *ngIf="cusines.length > (i + 1)"> , </span>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="listing col-lg-12 col-md-12 col-sm-12 col-xs-12" *ngIf="restaurantsdetail && restaurantsdetail.offerings && restaurantsdetail.offerings.length > 0">
+                    <!-- {{restaurantsdetail.offerings}} -->
+                    <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-6 pall-0">Offering</div>
+                    <div class=" col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                        <span class="greyitems" *ngFor="let cusine of restaurantsdetail.offerings; let i = index; ">
+                            {{cusine}} <span *ngIf="restaurantsdetail.offerings.length > (i + 1)"> , </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3 col-lg-3 col-md-3 col-xs-3 frontcart hidden-xs" >
+                <app-cart [orderDetail]="orderdetails" (orderChange)="orderChanges($event)"></app-cart>
+            </div>
+        </div>
+    </div>
+</div> 
+
+<div class="modal fade" id="packageModelFixed" role="dialog">        
+    <div class="modal-dialog modal-md" *ngIf="modelOpen == 'fixed'">
+        <div class="modal-content" *ngIf="selectedMealPackage">
+            <div class="modal-header">
+                <button type="button" class="close model-remove1" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title capitalize2 mt-5 fs-20">
+                    {{selectedMealPackage.name}}
+                    <button class="btn btn-sm btn-success pull-right" (click)="addInOrder('mealpackage', selectedMealPackage)"> <b>Add to Cart </b></button>
+                </h4>
+                <p class="mb-5"></p>
+                <p><small class="text-right"> <span class="badge">{{selectedMealPackage.startdate}} </span> To <span class="badge">{{selectedMealPackage.enddate}}</span> </small> &nbsp; <small class="pull-right package-price"><b><small style="font-size: 10px;"><b>{{restaurantsdetail.currency}}</b></small></b>{{selectedMealPackage.packageprice}}</small></p>
+            </div>
+            <div class="modal-body">
+                <div class="month">
+                    <ul>
+                        <li class="prev pointer" (click)="prevArrow('fixed')" *ngIf="currentPaging > 0">&#10094;</li>
+                        <li class="next pointer" (click)="nextArrow('flexible')" *ngIf="currentPaging < (selectedMealPackage.dayandmenus.length-1)">&#10095;</li>
+                        <li>{{selectedMealPackage.dayandmenus[currentPaging].date | date:'d MMMM, y'}} </li>
+                    </ul>
+                </div>
+                <div class="itemslist" *ngIf="selectedMealPackage">
+                    <div class="media" *ngFor="let item of selectedMealPackage.dayandmenus[currentPaging].menuids">
+                        <div class="media-left">
+                            <img src="{{item.image  == '' ? 'assets/image/face.png' :  imgurl2 + item.image}}" class="media-object radius50">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading capitalize2 pt-15">{{item.name}} <span class="pull-right" *ngIf="item.qty"> Qty: {{item.qty}} </span></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <p class="pj-15-25">{{selectedMealPackage.description}}</p>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="packageModelFlexible" role="dialog">
+    <div class="modal-dialog modal-md" *ngIf="modelOpen == 'flexible'">
+        <div class="modal-content" *ngIf="selectedMealPackage">
+            <div class="modal-header">
+                <button type="button" class="close model-remove1" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title capitalize2 mt-5 fs-20"> 
+                    {{selectedMealPackage.name}} &nbsp; <b *ngIf="selectedMealPackage.discount">({{selectedMealPackage.discount}}%) OFF</b>
+                    <button class="btn btn-sm btn-success pull-right" [disabled]="!customizedPackageTotalPrice" (click)="addFlexiMealPkg()"><b>Add to Cart</b></button>
+                </h4>
+                <p class="mb-5"></p>
+                <p><small class="text-right"></small> &nbsp; <small class="pull-right package-price" *ngIf="customizedPackageTotalPrice > 0"><b><small style="font-size: 10px;"><b>{{restaurantsdetail.currency}}</b></small></b> {{customizedPackageTotalPrice}} </small></p>
+                <hr>
+                <h4 class="text-center">
+                    <form class="form-inline">
+                         <p *ngIf="customizeDate.error"><small class="rederr"><!--  Please select end date should greater Start date and selected dates should greater than today or if revised option check then more than 7 days. --> End Date should be greater than Start Date. And both date should not lessthan to Today date.  </small></p>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="startDate" (blur)="getTimeData('startDate')" placeholder="Choose Start Date">
+                        </div>
+                        <div class="form-group mx-20">To</div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="endDate" (blur)="getTimeData('endDate')" placeholder="Choose End Date">
+                        </div>                       
+                    </form>
+                    <hr>
+                    <span *ngIf = "diffDays && diffDays > 7"><input type="checkbox" name="" [checked]="revised" (click)="revisedChange()"> Repeat </span>
+                    <button type="button" (click)="submitForm()" [disabled]="customizeDate.error" class="btn btn-success btn-sm">Submit</button>
+                </h4>
+            </div>
+            <div class="modal-body" *ngIf="customizedPackage && customizedPackage.length > 0">  
+                <div class="month">      
+                    <ul>
+                        <li class="prev pointer" (click)="prevArrow('fixed')" *ngIf="currentPaging > 0">&#10094;</li>
+                        <li class="next pointer" (click)="nextArrow('flexible')" *ngIf="currentPaging < (customizedPackage.length-1)">&#10095;</li>
+                        <li>{{customizedPackage[currentPaging].date | date: 'fullDate'}}</li>
+                    </ul>
+                </div>
+                <div class="itemslist" *ngIf="customizedPackage[currentPaging].tempmenuids.length > 0"> 
+                    <div class="media" *ngFor="let item of customizedPackage[currentPaging].tempmenuids; let itemindex = index; ">
+                        <div class="media-left">               
+                            <div class="checkbox">
+                                <label class="pdl-0">
+                                    <input type="checkbox" (click)="addItemToMenuIds(currentPaging, itemindex, item)" [checked]="item.selected">
+                                    <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="media-left">            
+                            <img src="{{item.image  == '' ? 'assets/image/face.png' :  imgurl2 + item.image}}" class="media-object radius50">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="media-heading pt-8"> {{item.name}} <span class="pull-right"> <small style="font-size: 10px;"><b>{{restaurantsdetail.currency}}</b></small>{{item.price}} </span></h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center"  *ngIf="customizedPackage[currentPaging].tempmenuids.length == 0"> 
+                <br>
+                <p>No items Available! </p></div>
+            </div>
+            <hr>
+            <p class="pj-15-25">{{selectedMealPackage.description}}</p>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<app-footerfrontend></app-footerfrontend>

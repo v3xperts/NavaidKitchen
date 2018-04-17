@@ -1,0 +1,37 @@
+<app-headerowner></app-headerowner>
+<div class="rightMenu col-lg-9 col-md-9 col-sm-9">
+  <alert></alert>
+  <div class="nameAndAddress" id="Menu1">
+    <form class="ng-untouched ng-pristine ng-valid">
+      <div class="firstDiv">
+        <span class=""> Cuisine </span>
+        <input class="btn" style="float: right;" type="submit" value="Save" *ngIf="restCusiObj.length > 0" (click)="cuisinesUpdate()">
+        <input class="btn" style="float: right;" type="submit" value="Save" [disabled]="restCusiObj.length == 0" value="Save" *ngIf="restCusiObj.length == 0" (click)="cuisinesUpdate()">
+      </div>
+      <div class="secondDiv">
+
+      <label>Cuisine Available</label>
+      <div class="panel panel-default">
+        <div class="panel-body">
+        <div class="checkbox">         
+         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+           <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" *ngFor="let cuisines of cuisinesObj">
+           <div class="custom_thumbnar">
+            <img class="img-responsive" src="{{imageUrl}}{{cuisines.image}}" style="height: 84px; width: 100%;"> 
+            <div>
+              <input type="checkbox"  [checked]="restCusiObj.indexOf(cuisines._id) !== -1" (click)="cuisinesAdd(cuisines._id)"/> {{cuisines.name}} 
+            </div>                                  
+           </div>  
+              
+           </div>  
+           <h4 *ngIf="cuisinesObj.length == 0"> Not Cuisine available, please contact administrator </h4> 
+           </div> 
+        </div>
+        </div>
+      </div>
+           
+        </div>      
+
+    </form>
+  </div>
+</div>

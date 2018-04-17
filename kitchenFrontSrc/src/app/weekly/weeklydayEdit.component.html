@@ -1,0 +1,220 @@
+<style>
+.gfe-input{
+z-index: 0;
+   }
+</style>
+
+<app-headerowner></app-headerowner>
+<div class="rightMenu col-lg-9 col-md-9 col-sm-9">
+	<alert></alert>	
+
+
+<div class="menuSetup" id="Menu11">   
+
+         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+
+          &nbsp;
+<div class="secondDiv">
+          <h4 *ngIf="weeklyObject1" class="text-center capitalize2">{{weeklyObject1.name}} &nbsp; <span class="badge">
+          {{packageType}}
+          </span></h4>
+          <br> 
+          <form [formGroup]="weeklyAddModelList" (ngSubmit)="daysJsonToUpdate()"> 
+         
+          <span *ngIf="packageType == 'fixed'"> 
+          <div class="input-group gfe-input">
+          <span class="input-group-addon">
+          <i class="fa fa-cutlery" aria-hidden="true"></i>
+          </span>
+          <input type="text" class="form-control" formControlName="packageprice">
+          <span class="gfe-input-placeholder"> Discounted Price <b class="redclass">*</b></span>
+          </div>
+          <p *ngIf="formErrors.packageprice" class="alert alert-danger">
+             {{ formErrors.packageprice }}
+          </p>
+          </span>
+
+          <span *ngIf="packageType != 'fixed'"> 
+          <div class="input-group gfe-input">
+          <span class="input-group-addon">
+          <i class="fa fa-cutlery" aria-hidden="true"></i>
+          </span>
+          <input type="text" class="form-control" formControlName="discount">
+          <span class="gfe-input-placeholder"> Discount <b class="redclass">*</b></span>
+          </div>
+          <p *ngIf="formErrors.discount" class="alert alert-danger">
+             {{formErrors.discount}}
+          </p>
+          </span>
+
+          &nbsp;
+          <div class="input-group gfe-input">
+              <span class="input-group-addon">
+                  <i class="fa fa-upload" aria-hidden="true"></i>
+              </span>
+              <input type="file" class="form-control" name="single" ng2FileSelect [uploader]="uploader" (change)="onChange($event)" accept="image/x-png,image/jpeg,image/jpg"/>
+              <span class="gfe-input-placeholder"> Image * </span>
+          </div>
+          <p class="rederr" *ngIf="file_type">File type should only image jpg, jpeg, png .This type file not allowed.</p>
+          <div class="progress progress-barn" *ngIf="progress > 0 && progress < 100">
+              <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50"
+              aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width': progress + '%'}">
+                {{progress }}%
+              </div>
+          </div> 
+          &nbsp;
+          <div class="row">
+          <div class="col-lg-2 col-md-4 col-sm-4 col-xs-4">
+              <img src="{{imageUrl}}/{{packageimage}}" class="combo-img2">
+          </div>
+          </div>
+          &nbsp;
+          <div class="input-group gfe-input" *ngIf="packageType == 'fixed'">
+          <span class="input-group-addon">
+          <i class="fa fa-cutlery" aria-hidden="true"></i>
+          </span>
+          <input type="number" class="form-control" formControlName="totalprice" [readonly]="true">
+          <span class="gfe-input-placeholder">Total Price <b class="redclass">*</b></span>
+          </div>
+          &nbsp;
+        <!--   <div class="input-group gfe-input">
+          <span class="input-group-addon">
+          <i class="fa fa-cutlery" aria-hidden="true"></i>
+          </span>
+          <input type="number" class="form-control" formControlName="comboprice">
+          <span class="gfe-input-placeholder"> Discounted Price <b class="redclass">*</b></span>
+          </div> -->
+           <p *ngIf="formErrors.comboprice" class="alert alert-danger">{{ formErrors.comboprice }}
+           </p>
+          <div>
+            <input type="submit" value="Save" style="text-align: center;" class="btn btn-success" [disabled]="!weeklyAddModelList.valid">
+          </div>
+        </form>
+          </div>           
+         </div>
+
+        <div  *ngFor="let day of daysJson; let i = index;" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="mainMenuItem mainitem1">
+             <h4  class="h3margin capitalize2" *ngIf="day.date">{{day.date | date: datepipe}}</h4>  
+            <h4  class="h3margin capitalize2" *ngIf="day.day">{{day.day}}</h4>  
+            <div class="row newitemscl">
+            <div *ngFor="let item of items; let j = index;" class="gkl">              
+                <div style=" width: 227px; padding:10px;">
+                <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12 custom_thumbna btn-class-cust" style="min-height: 115px; max-height: 116px;">
+                
+                <p>{{item.categorylabelinfo}} ({{item.menuId.name}})</p>                
+                <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6 dividemg">                    
+                    <img class="img-responsive custom_imgwh" src="{{imageUrl}}{{item.image}}">
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6 dividemg" style="padding-left: 0px;"> 
+                    <table>
+                    <tbody>
+                      <tr *ngIf="day.menuids">
+                        <td  class="input-group" *ngFor="let getitem of day.menuids">  
+                          
+                          <button *ngIf="getitem._id == item._id && packageType == 'fixed'" class="input-group-addon glyphicon glyphicon-minus inputgroupy inputgroupbtn1" style="margin-right: 0;" (click)="decreseitem(day,item)" [disabled]="getitem.qty == 1">
+                          </button>
+
+                          <button class="input-group-addon inputgroupy inputgroupbtn1" *ngIf="getitem._id == item._id && packageType == 'fixed'">                           {{getitem.qty}}
+                          </button>
+
+                           <button class="input-group-addon glyphicon glyphicon-plus inputgroupy inputgroupbtn1" (click)="increaseitem(day,item)" *ngIf="getitem._id == item._id && packageType == 'fixed'"></button>
+                           
+                        </td>   
+
+                      </tr> 
+                      <tr>
+                          <!-- <button class="btn btn-block btn-info btn-class-cust">Add Extra</button> -->
+                      </tr>  
+                    </tbody>             
+                  </table>                    
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12 pricepadd">
+                <input type="checkbox" [checked]="onloadchecked(day,item._id)" (click)="addtoDay(day,item)"> <span
+                >{{item.name}}</span> <b>- <small style="font-size: 10px;" *ngIf="restaurantDetail.currency"><b>{{restaurantDetail.currency}}</b></small>{{item.price}}</b>                     
+                     </div> 
+                </div>                                              
+                </div>            
+             </div>
+             </div>
+             </div>
+        </div>
+      <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">          
+            
+        </div> 
+
+        <!-- <div  class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="mainMenuItem mainitem1">
+            <h4  class="h3margin">Combo List</h4>  
+            <div class="row newitemscl">
+            <div *ngFor="let combo of comboObj; let j = index ;"  class="gkl">              
+                <div style="width: 227px; padding:10px;">
+                <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12 custom_thumbna btn-class-cust">               
+                <p>{{combo.name}}</p>                
+                <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6 dividemg">                    
+                    <img class="img-responsive custom_imgwh" src="{{imageUrl}}{{combo.image}}">
+                </div>
+                <div class="col-sm-6 col-md-6 col-lg-6 col-xs-6 dividemg"> 
+                    <table>
+                    <tbody style="word-wrap: break-word;">
+                       <a *ngFor="let item of combo.menuId; let i = index ;"><span *ngIf="i < 2"> <span *ngIf="i > 0">,</span>{{item.name}}</span></a><b *ngIf="combo.menuId.length > 2">,etc..</b>
+                    </tbody> 
+                  </table>                    
+                </div>
+                <div class="col-sm-12 col-md-12 col-lg-12 col-xs-12 pricepadd">
+                <input type="checkbox" [checked]="comboObjlistcount.indexOf(combo._id) != -1" (click)="addCombo(combo)"> <span
+                >Price: </span> <b>- ${{combo.finalcomboprice}}</b>                     
+                </div> 
+                </div>                                              
+                </div>            
+             </div>
+             </div>
+             </div>
+        </div> -->
+        
+
+<!-- 
+    <div class="menuSetup" id="Menu11">        
+        <div  *ngFor="let day of weeklyObj;let i = index;" class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+        <h3  class="h3margin">{{day.date | date}}</h3>
+            <div class="mainMenuItem" *ngFor="let menu of menus" style="padding-bottom: 20px;">
+            <div class="row">
+                <div class="itemImage col-lg-2 col-md-2 col-sm-2 col-xs-2" style="margin-left: 20px; width: 9.666667%;">
+                    <img src="{{imageUrl}}{{menu.image}}" class="img-responsive custom_imgwh">
+                </div>
+                <div class="itemDesc col-lg-8 col-md-8 col-sm-8 col-xs-8">                 
+                 {{menu.name}}
+                 </div>
+                <div class="icons col-lg-2 col-md-2 col-sm-2 col-xs-2" style="">
+                  
+                </div>
+            </div> 
+            <div class="row" style="padding-left: 23px; margin-top: 17px;">
+            <div *ngFor="let item of items">              
+                <div *ngIf="item.menuId == menu._id"  class="col-sm-3">
+		     	<div class="custom_thumbna">
+		     	    <img class="img-responsive custom_imgwh" src="{{imageUrl}}{{item.image}}"> 
+		     	    <div>
+		     		<input type="checkbox" [checked]="onloadchecked(day.date,menu._id,item._id)"  (click)="addtoDay(day.date,menu._id,item._id)"> {{item.name}}
+		     		<br>
+		     		 ( {{item.price}} ) 
+		     		</div>		     			     		
+		     	</div>                
+                </div>            
+             </div>
+             </div>
+            </div>                   
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        </div> 
+        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
+		    <input type="button" value="Submit" class="btn btn-primary" (click)="daysJsonToUpdate()"/>
+	    </div> 
+	    <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+        </div>    
+    </div> -->
+
+
+	</div>
+
+

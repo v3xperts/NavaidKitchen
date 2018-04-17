@@ -1,0 +1,544 @@
+<style type="text/css">.checkbox label input[type="checkbox"], .radio label input[type="radio"]{
+    display: block;
+}
+
+</style>
+<app-headerowner></app-headerowner>
+<div class="rightMenu col-lg-9 col-md-9 col-sm-9 col-lg-9" style="padding:0px; z-index: -1;">		
+    <div class="nameAndAddress" id="Menu1" style="position: absolute; z-index: 0;max-height: 525px;overflow: auto;">
+        <div class="firstDiv">
+            <span class="">Kitchen Services</span>				
+        </div>
+        <div class="secondDiv">
+            <label *ngIf ="ownerinfoo.type == 'owner'">Partner's Name</label>
+            <div *ngIf ="ownerinfoo.type == 'owner'" class="panel panel-default">
+                <div class="panel-body">
+                    <table class="table table-striped" *ngIf="partners.length > 0">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>User Name</th>
+                                <th>Action</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let partner of partners">
+                                <td>{{partner.ownerfirstname}} {{partner.ownerlastname}}</td><td>{{partner.username}}</td><td>
+
+                                    <a  (click)="deletepartner(partner._id)" href="javascript:void(0)"><i class="fa fa-trash"></i></a>
+
+                                   
+                                </td>
+                                <td style="color: white;"><!-- {{item.isactive}}  -->
+                                <select [(ngModel)]="partner.status" (ngModelChange)="do_active(partner._id,partner.status)" [style.background-color]="partner.status == true ? 'green' : 'red'">
+                                <option [ngValue]="false" style="background-color: red;">Disable</option>
+                                <option [ngValue]="true" style="background-color: green;">Active</option>
+                                </select>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="text-center">
+                        <a data-toggle="modal" data-target="#mypartner" class="btn btn-success" (click)="formreset()">Add New Partner</a>  
+                    </div>
+                </div>
+            </div>
+
+            <label>Set Timings</label>
+            <div class="panel panel-default margin-pet">
+                <div class="panel-body margin-pet">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Closed</th>
+                                <th>Day</th>
+                                <th class="text-center">Open/Close</th>          
+                                <th>Add</th>                                                
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let day of timesetup">
+                                <td><input type="checkbox" [checked]="day.status" (click)="closeChange(day.name)"/></td>
+                                <td style="text-transform: capitalize; font-weight: bold;">{{day.name}}</td>
+                                <td>
+                                    <span *ngFor="let timex of day.times; let i = index; ">
+
+                                        <td style="position: relative; padding: 5px;">
+                                            <input  style="width: 100px" type="text" class="form-control date1"  #myTimeSetso  (blur)="getTimeData(day.name, 'open', i, myTimeSetso.value)" id="{{day.name +'open'}}" placeholder="Open Time" [(ngModel)]="timex.open" />
+                                        </td>
+
+                                        <td style="position: relative; padding: 5px;">
+                                            <input style="width: 100px" type="text" class="form-control date1"  #myTimeSetsc  (blur)="getTimeData(day.name,'close', i, myTimeSetsc.value)" id="{{day.name +'close'}}" placeholder="Close Time" [(ngModel)]="timex.close" />
+                                        </td> 
+
+                                        <td style="position: relative; padding: 5px;" *ngIf="day.times.length != 1"> <i (click)="removeTime(day.name, i)" class="fa fa-times-circle text-danger" aria-hidden="true"></i>
+                                        </td>                    
+                                    </span>
+
+                                </td>
+
+                                <td style="color: green; text-align: center;"><i aria-hidden="true" class="fa fa-plus-circle" (click)="addmoretime(day.name)"></i></td>
+
+                            </tr>  
+                        </tbody>
+                    </table>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-success" (click)="saveSchedule()">Save Schedule</button>  
+                    </div>
+
+<!--  <div class="row margin-pet">
+<div class="col-sm-12 margin-pet">
+<div *ngIf="restaurants.openinghours">
+<div *ngIf="restaurants.openinghours.monday">
+<span><b> Monday </b></span><span><b>:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{restaurants.openinghours.mondaytime.opentime}} &nbsp;-&nbsp;{{restaurants.openinghours.mondaytime.closetime}}</span>
+</div>
+<div *ngIf="restaurants.openinghours.tuesday">
+<span><b> Tuesday </b></span><span><b>:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{restaurants.openinghours.tuesdaytime.opentime}} &nbsp;-&nbsp;{{restaurants.openinghours.tuesdaytime.closetime}}</span>
+</div>
+<div *ngIf="restaurants.openinghours.wednesday">
+<span><b> Wednesday </b></span><span><b>:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{restaurants.openinghours.wednesdaytime.opentime}} &nbsp;-&nbsp;{{restaurants.openinghours.wednesdaytime.closetime}}</span>
+</div>
+<div *ngIf="restaurants.openinghours.thursday">
+<span><b> Thursday </b></span><span><b>:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{restaurants.openinghours.thursdaytime.opentime}} &nbsp;-&nbsp;{{restaurants.openinghours.thursdaytime.closetime}}</span>
+</div>
+<div *ngIf="restaurants.openinghours.friday">
+<span><b> Friday </b></span><span><b>:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{restaurants.openinghours.fridaytime.opentime}} &nbsp;-&nbsp;{{restaurants.openinghours.fridaytime.closetime}}</span>
+</div>
+<div *ngIf="restaurants.openinghours.saturday">
+<span><b> Saturday </b></span><span><b>:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{restaurants.openinghours.saturdaytime.opentime}} &nbsp;-&nbsp;{{restaurants.openinghours.saturdaytime.closetime}}</span>            
+</div>
+<div *ngIf="restaurants.openinghours.sunday">
+<span><b> Sunday </b></span><span><b>:</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{restaurants.openinghours.sundaytime.opentime}} &nbsp;-&nbsp;{{restaurants.openinghours.sundaytime.closetime}}</span>
+</div>
+</div>  
+</div>
+</div> -->
+
+
+</div>
+</div>
+
+<form [formGroup]="openingAddModel" (ngSubmit)="detailAdd()">                 
+    <div class="screen screen-form js-screen-address-form ng-scope" id="Menu18">
+        <div class="settings-panel">
+            <div class="settings-content">
+                <br>
+                <!-- <div class="form-group row margin-pet">
+                    <label for="inputPassword3" class="col-sm-3 col-form-label">Kitchen Status</label>
+                    <div class="col-sm-9 margin-pet">
+                        <p *ngIf="restaurants.activestatus == true">Active</p>
+                        <p *ngIf="restaurants.activestatus == false">Inactive</p>
+                    </div>
+                </div> -->
+
+               <!--  <div class="form-group row margin-pet">
+                    <label for="inputPassword3" class="col-sm-3 col-form-label">Immediate Delivery</label>
+                    <div class="col-sm-9">                        
+                        <label>
+                            <input type="radio" name="fastestdelivery"  value="true" [checked]="fastestdelivery == true"  formControlName="fastestdelivery">Yes</label>
+                            
+                        <label>
+                        <input type="radio" name="fastestdelivery"  value="false" [checked]="fastestdelivery == false" formControlName="fastestdelivery"> No </label>                        
+
+                   </div>                   
+               </div> -->
+
+
+
+<!--  <div class="form-group row margin-pet">
+<label for="inputPassword3" class="col-sm-3 col-form-label">Opening Hours</label>
+<div class="col-sm-9 margin-pet">
+<div class="form-inline">
+<div class="form-group marginzero">
+<div class="col-sm-4 lpaddingzero margin-pet">
+Open
+<input type="time" class="form-control timepicker hasWickedpicker"  formControlName="opentime" name="open" placeholder="Open" style="width: 106px;">
+</div>
+</div>
+
+<div class="form-group marginzero">
+<div class="col-sm-4 lpaddingzero margin-pet">
+Close
+<input type="time"  formControlName="closetime" class="form-control timepicker1 hasWickedpicker" name="close" placeholder="Close" style="width: 106px;">
+</div>
+</div>
+</div>
+</div>
+</div> -->
+
+
+
+
+
+<!-- <label>Add New Hours</label>
+<div class="settings-query">
+<div class="panel panel-default">
+<div class="panel-body">
+<div class="checkbox">
+<label>
+<input type="checkbox" id="optionsRadios2" value="Monday" formControlName="monday"> Mon</label>
+<label>
+<input type="checkbox" id="optionsRadios2" value="Tuesday" formControlName="tuesday"> Tue</label>
+<label>
+<input type="checkbox" id="optionsRadios2" value="Wednesday" formControlName="wednesday"> Wed</label>
+<label>
+<input type="checkbox" id="optionsRadios2" value="Thursday" formControlName="thursday"> Thu</label>
+<label>
+<input type="checkbox" id="optionsRadios2" value="Friday" formControlName="friday"> Fri</label>
+<label>
+<input type="checkbox" id="optionsRadios2" value="Saturday" formControlName="saturday"> Sat</label>
+<label>
+<input type="checkbox" id="optionsRadios2" value="Sunday" formControlName="sunday"> Sun</label>
+</div>            
+</div>            
+</div>            
+</div> -->
+
+
+</div>
+
+</div>
+
+<div>
+
+  <!--   <div class="form-group row margin-pet">
+        <label for="inputPassword3" class="col-sm-3 col-form-label">Operational Status</label>
+        <div class="col-sm-9">
+            <label>
+                <input type="radio" name="openingstatus"  [checked]="cname == 'open'" value="open" formControlName="openingstatus"> open</label>
+                <label>
+                    <input type="radio" name="openingstatus"  [checked]="cname == 'close'" value="close" formControlName="openingstatus"> Close</label>
+                    <label>
+                        <input type="radio" name="openingstatus"  [checked]="cname == 'auto'" value="auto" formControlName="openingstatus"> Auto</label>
+                    </div>
+                </div> -->
+
+                <label>Kitchen Services</label>
+                <div class="panel panel-default" style="min-height: 50px;">
+                        <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                        <input type="checkbox" [disabled]="true" ([ngModel])="serviceAllow.daliymenuservice" [checked]="serviceAllow.daliymenuservice" name="daliymenuservice"> &nbsp;
+                            Menu Items
+                        
+                        </div>
+
+                        <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                        
+                        <input type="checkbox" [disabled]="true" ([ngModel])="serviceAllow.mealpackageservice" [checked]="serviceAllow.mealpackageservice" name="mealpackageservice"> &nbsp;
+                            Meal Package
+                        </div>
+
+                        <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                        
+                        <input type="checkbox" [disabled]="true"  ([ngModel])="serviceAllow.comboservice" [checked]="serviceAllow.comboservice" name="comboservice"> &nbsp;
+                            Combo Package
+                        </div>
+
+                        <div class="col-sm-6 col-md-4 col-lg-3 mt-4">
+                        
+                        <input type="checkbox" [disabled]="true"  ([ngModel])="serviceAllow.cateringservice" [checked]="serviceAllow.cateringservice" name="catringservice"> &nbsp;
+                            Catering
+                        </div>
+
+                            </div>
+
+                                <label>Offerings</label>
+                                <div class="panel panel-default">
+                                    <div class="panel-body">
+                                        <div class="checkbox">
+                                            <label>
+                                                <input type="checkbox" [checked]="offeringobj.indexOf('Vegetarian') > -1" (click)="offeringfun('Vegetarian')">Vegetarian </label>
+                                                <label>
+                                                    <input type="checkbox" [checked]="offeringobj.indexOf('Halal') > -1" (click)="offeringfun('Halal')">  Halal  </label>
+                                                    <label>
+                                                        <input type="checkbox" [checked]="offeringobj.indexOf('Kosher') > -1" (click)="offeringfun('Kosher')">  Kosher </label>
+                                                        <label>
+                                                            <input type="checkbox" [checked]="offeringobj.indexOf('Diet') > -1" (click)="offeringfun('Diet')"> Diet </label>  
+                                                            <label>
+                                                                <input type="checkbox" [checked]="offeringobj.indexOf('Vegan') > -1" (click)="offeringfun('Vegan')"> Vegan  </label> 
+                                                                <label>
+                                                                    <input type="checkbox" [checked]="offeringobj.indexOf('Organic') > -1" (click)="offeringfun('Organic')"> Organic  </label>
+
+                                                                    <label>
+                                                                    <input type="checkbox" [checked]="offeringobj.indexOf('Bakery') > -1" (click)="offeringfun('Bakery')"> Bakery  
+                                                                    </label>              
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                      <!--   <div class="form-group row">
+                                                            <label for="inputPassword3" class="col-sm-3 col-form-label">Kitchen Capacity</label>
+                                                            <div class="col-sm-9">
+                                                                <input type="number" min="0" class="form-control" id="value1" placeholder="kitchen capacity" formControlName="kitchencapacity">
+                                                            </div>
+                                                        </div> -->
+
+
+<div class="form-group row">
+                                                            <label for="value4" class="col-sm-6 col-form-label"> Currency</label>
+                                                            <div class="col-sm-6">
+                                                                {{restaurants.currency}}
+                                                            </div>
+                                                        </div>
+
+
+                                                        <div class="form-group row">
+                                                            <label for="value4" class="col-sm-6 col-form-label">Catering Capacity </label>
+                                                            <div class="col-sm-6">
+                                                                <input type="number" min="0" class="form-control" id="value4" placeholder="catering capacity" formControlName="cateringcapacity">
+                                                            </div>
+                                                        </div>
+
+                                                       <!--  <div class="form-group row margin-pet">
+                                                            <label for="inputPassword3" class="col-sm-3 col-form-label">Bakery items</label>
+                                                            <div class="col-sm-9">
+                                                                <label>
+                                                                    <input type="radio" name="bakeryitems"  value="true" [checked]="bitems == 'true'"  formControlName="bakeryitems"> Yes</label>
+                                                                    <label>
+                                                                        <input type="radio" name="bakeryitems"  value="false" [checked]="bitems == 'false'" formControlName="bakeryitems"> No</label>
+                                                                    </div>
+                                                                </div> -->
+
+<!-- <div class="form-group row margin-pet">
+<label for="inputPassword3" class="col-sm-3 col-form-label">Fast Delivery</label>
+<div class="col-sm-9">
+<label>
+<input type="radio" name="fastdelivery"  value="true" [checked]="fastdeliveryi == true"  formControlName="fastdelivery"> Yes </label>
+<label>
+<input type="radio" name="fastdelivery"  value="false" [checked]="fastdeliveryi == false" formControlName="fastdelivery"> No </label>
+</div>
+</div> -->
+
+<div class="form-group row margin-pet">
+    <label for="value5" class="col-sm-6 col-form-label">Minimum Order</label>
+    <div class="col-sm-6">
+            <input type="number" min="0" class="form-control" id="value5" placeholder="Minimum Order Value" name="minimumorder" formControlName="minimumorder">
+    </div>
+</div>
+
+
+<div class="form-group row margin-pet">
+    <label for="inputPassword3" class="col-sm-6 col-form-label">Minimum Delivery Time in Minutes</label>
+    <div class="col-sm-6">
+      
+            <input type="number" min="0" class="form-control" id="value2" placeholder="Minimum Delivery Time" name="mindeliveryime" formControlName="mindeliveryime">
+       
+    </div>
+</div>
+
+<div  class="form-group row margin-pet">
+    <label class="col-sm-6 col-form-label"> Mealpackage enabled days </label>
+    <div class="col-sm-6"> 
+    
+    <input type="number" class="form-control" [(ngModel)]="restaurants.mealpackageallowdays" [ngModelOptions]="{standalone: true}">   
+   
+    </div>
+    </div>
+
+<div class="form-group row margin-pet" *ngIf="restaurants">
+   <label class="col-sm-6 col-form-label"> Pre order </label>
+    <div class="col-sm-6">  
+
+        <input type="radio" [checked]="restaurants.preorderforlater" (click)="doactive(restaurants._id, true)"> Yes
+        <input type="radio" [checked]="!restaurants.preorderforlater" (click)="doactive(restaurants._id, false)"> No
+    </div>
+</div>
+    
+
+    <div  class="form-group row margin-pet" *ngIf="restaurants && restaurants.preorderforlater">
+    <label class="col-sm-6 col-form-label"> Pre order for later </label>
+    <div class="col-sm-6"> 
+    <div class="col-lg-6 ml-0" style="padding: 0">
+         Enable after days     
+         <input type="number" class="form-control" [(ngModel)]="restaurants.preorderforlaterafterdays" [ngModelOptions]="{standalone: true}">
+    </div>
+    <div class="col-lg-6 ml-0" style="padding: 0">
+         Enable till days
+        <input type="number" class="col-lg-3 col-sm-3 form-control"  [(ngModel)]="restaurants.preorderforlatertodays" [ngModelOptions]="{standalone: true}"> 
+    </div>
+    </div>
+    </div>
+
+
+    
+
+
+<label>Cuisines</label>
+<div class="panel panel-default">
+
+    <div class="panel-body">
+
+        <!-- <div class="checkbox">
+            <label *ngFor="let cusine of cousines" style="margin-right: 12px;">
+                <input type="checkbox" [checked]="foodtypeobj.indexOf(cusine.name) > -1" (click)="foodtypefun(cusine.name)"> {{cusine.name}} 
+            </label> &nbsp; &nbsp; 
+
+        </div> -->
+        <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12" *ngFor="let cuisines of cousines">
+            
+           <div class="custom_thumbnar">
+            <img class="img-responsive" src="{{imageUrl}}{{cuisines.image}}" style="height: 84px; width: 100%;"> 
+            <div>
+              <input type="checkbox"  [checked]="restCusiObj.indexOf(cuisines._id) !== -1" (click)="cuisinesAdd(cuisines._id)"/> {{cuisines.name}} 
+            </div>                                  
+           </div>  
+              
+           </div>  
+           <h4 *ngIf="cousines.length == 0"> Not Cuisine available, please contact administrator </h4> 
+           </div>
+
+    </div>
+
+
+
+
+<!-- <div class="form-group row">
+    <label for="inputPassword3" class="col-sm-3 col-form-label">Delivery Service</label>
+    <div class="col-sm-9">
+        <div class="form-inline" >
+
+            <label>
+                <input type="radio" name="delivery"  [checked]="sta.status == true" (click)="stafun(true)" > Yes</label>
+
+                <label>
+                    <input type="radio" name="delivery"  [checked]="sta.status == false" (click)="stafun(false)" > No</label> -->
+
+                   <!--  <div class="form-group marginzero" *ngIf="sta.status">       
+                        <div class="col-sm-4 lpaddingzero">
+                            <input type="text" class="form-control timepicker hasWickedpicker"  formControlName="deliveryservice" name="open" placeholder="Open" style="width :82px;">
+                        </div>
+                    </div> -->       
+               <!--  </div>
+
+            </div>
+        </div> -->
+
+
+<!-- <div class="form-group row">
+<label for="inputPassword3" class="col-sm-3 col-form-label">Upload Documentation</label>
+<div class="col-sm-9">       
+<input type="file" id="fileElementId" class="form-control" name="multiple" (change)="ownerfile($event)" ng2FileSelect [uploader]="uploader" multiple maxlength="4">
+License, Certificates, Permits etc
+</div>
+</div>
+
+<div class="progress progress-barn" *ngIf="progress > 0 && progress < 100">
+<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50"
+aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width': progress + '%'}">
+{{progress }}%
+</div>
+</div>
+
+<div class="alert alert-danger" *ngIf="maxerror"> 
+You can select only 4 file maximum.
+</div>
+<div class="row">
+<div *ngIf="docs">
+<div *ngFor="let myPhoto of docs" class="col-lg-3 col-md-3 col-sm-3 col-xs-4">
+<img src="{{url1}}{{myPhoto}}" style="width:100%">
+</div>
+</div>
+</div> -->
+
+
+
+            </div>
+
+        </div> 
+        <div class="settings-heading button-position7">
+            <input type="submit" class="btn btn-success btn-next ng-binding pull-right" value="Save" [disabled]="!openingAddModel.valid">
+        </div>
+    </form>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="modal fade" id="mypartner" role="dialog">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title text-center">Add New Partner</h4>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="secondDiv" >
+                    <div *ngIf="this.newo">
+                        <form [formGroup]="partnerdata" (ngSubmit)="partnerAdd()">
+
+                            <div class="input-group gfe-input">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-info" aria-hidden="true"></i>
+                                </span>
+                                <input type="text" class="form-control" formControlName="ownerfirstname">
+                                <span class="gfe-input-placeholder">First Name  <b class="redclass">*</b></span>
+                            </div>
+
+                            <div class="input-group gfe-input">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-info" aria-hidden="true"></i>
+                                </span>
+                                <input type="text" class="form-control" formControlName="ownerlastname">
+                                <span class="gfe-input-placeholder">Last Name <b class="redclass">*</b></span>
+                            </div>
+
+                            <div class="input-group gfe-input">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-info" aria-hidden="true"></i>
+                                    &nbsp; <span class="badge" *ngIf="unlength != 0">{{unlength}}</span>
+                                </span>
+                                <input type="text" class="form-control" formControlName="username"  (keyup)="getuserlength()">
+                                <span class="gfe-input-placeholder">Username <b class="redclass">*</b></span>
+                            </div>
+                            <div *ngIf="formErrors.username" class="alert alert-danger">
+                                {{ formErrors.username }}
+                            </div>
+
+                            <div class="input-group gfe-input">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-info" aria-hidden="true"></i>
+                                </span>
+                                <input type="email" class="form-control" formControlName="email">
+                                <span class="gfe-input-placeholder">Email <b class="redclass">*</b></span>
+                            </div>
+                            <div *ngIf="formErrors.email" class="alert alert-danger">
+                                {{ formErrors.email }}
+                            </div>
+
+                            <div class="input-group gfe-input">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-info" aria-hidden="true"></i>
+                                </span>
+                                <input type="password" class="form-control" formControlName="password" (keyup)="matchpassword()">
+                                <span class="gfe-input-placeholder">Password <b class="redclass">*</b></span>
+                            </div>                  
+                            <div *ngIf="formErrors.password" class="alert alert-danger">{{ formErrors.password }}</div>
+
+                            <div class="input-group gfe-input">
+                                <span class="input-group-addon">
+                                    <i class="fa fa-info" aria-hidden="true"></i>
+                                </span>
+                                <input type="password" class="form-control" formControlName="newpassword" (keyup)="matchpassword()">
+                                <span class="gfe-input-placeholder">Confirm Password <b class="redclass">*</b></span>
+                            </div>                  
+                            <div *ngIf="formErrors.newpassword" class="alert alert-danger">{{ formErrors.newpassword }}</div>
+
+                            <div style="padding: 3px;" class="alert alert-danger" *ngIf="MutchPassword">Password not match</div>
+                            <div class="row button-position7 pull-right">
+                                <button [disabled]="!partnerdata.valid" class="btn btn-success">Save</button>
+                            </div>
+
+                            <br><h1></h1>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

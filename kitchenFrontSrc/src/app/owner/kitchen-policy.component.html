@@ -1,0 +1,54 @@
+<style type="text/css">.checkbox label input[type="checkbox"], .radio label input[type="radio"]{
+    display: block;
+}
+
+</style>
+<app-headerowner></app-headerowner>
+<div class="rightMenu col-lg-9 col-md-9 col-sm-9 col-lg-9" style="padding:0px; z-index: -1;">		
+    <div class="nameAndAddress" id="Menu1" style="max-height: 525px;overflow: auto;">
+        <div class="firstDiv">
+            <span class="">Kitchen Policy</span>				
+        </div>
+<div class="secondDiv">  
+<div class="panel panel-default" *ngIf="ownerInfo">
+    <div class="panel-body">
+                
+            <div *ngIf="ownerInfo.cancelPolicy">
+            <h5><b>Cancel Policy</b></h5> 
+            <p class="ml-5"><small>{{ownerInfo.cancelPolicy}} </small></p>
+            </div>
+            <hr>
+            <div *ngIf="ownerInfo.reschedulingPolicy">  
+            <h5><b>Rescheduling Policy</b></h5> 
+            <p><small>{{ownerInfo.reschedulingPolicy}} </small></p>
+            </div>    
+            <hr>
+            <div *ngIf="ownerInfo.deliveryChargesPolicy"> 
+            <h5><b>Delivery Charges Policy</b></h5> 
+            <p><small>{{ownerInfo.deliveryChargesPolicy}} </small></p>
+            </div>     
+            <hr>
+            <div *ngIf="ownerInfo.paymentPolicy">
+            <h5><b>Payment Policy</b></h5> 
+            <p><small>{{ownerInfo.paymentPolicy}} </small></p>
+            </div> 
+            <hr>
+            <div *ngIf="ownerInfo.advertisementpolicy">
+            <h5><b>Advertisement Policy</b></h5> 
+            <p><small>{{ownerInfo.advertisementpolicy}} </small></p>
+            </div>  
+            <hr>
+            <div *ngIf="ownerInfo.advertisepolicychangesandlegal">
+            <h5><b>Advertise policy changes and legal disclaimers</b></h5> 
+            <p><small>{{ownerInfo.advertisepolicychangesandlegal}} </small></p>
+            </div>
+            <hr>
+            <div *ngIf="ownerInfo.advertisepromotions">
+            <h5><b>Advertise promotions</b></h5> 
+            <p><small>{{ownerInfo.advertisepromotions}} </small></p>
+            </div>
+        </div>
+        </div>
+        </div>
+        </div>
+        </div>

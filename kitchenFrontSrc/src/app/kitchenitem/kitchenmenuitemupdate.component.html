@@ -1,0 +1,74 @@
+<app-headerowner></app-headerowner>
+<div class="rightMenu col-lg-9 col-md-9 col-sm-9">	
+	<div class="profile" id="Menu18">
+		<form [formGroup]="menuUpdateModel" (ngSubmit)="userUpdate()">
+			<div class="firstDiv">				
+				<h4 class="text-center">Category Name - <b><span *ngIf="users">{{users.menuId.name}}</span></b></h4>
+				<br>
+				<span class="">Item Update</span>				
+			</div>
+
+			<div class="secondDiv">
+				<div class="input-group gfe-input">
+					<span class="input-group-addon">
+						<i class="fa fa-cutlery" aria-hidden="true"></i>
+					</span>
+					<input type="text" class="form-control" formControlName="name">
+					<span class="gfe-input-placeholder">Item Name *</span>
+				</div>
+				<div class="input-group gfe-input">
+					<span class="input-group-addon">
+						<i class="fa fa-info-circle" aria-hidden="true"></i>
+					</span>
+					<input type="text" class="form-control" formControlName="description">
+					<span class="gfe-input-placeholder">Description *</span>
+				</div>
+				<div class="input-group gfe-input">
+					<span class="input-group-addon">
+						<b>{{ownerInfo.currency}}</b>
+					</span>
+					<input type="number" class="form-control" formControlName="price">
+					<span class="gfe-input-placeholder">Item Price *</span>
+				</div>
+				<div class="input-group gfe-input">
+					<span class="input-group-addon">
+						<i class="fa fa-picture-o" aria-hidden="true"></i>
+					</span>
+					<input type="file" class="form-control" name="single" ng2FileSelect [uploader]="uploader" (change)="onChange($event)" accept="image/x-png,image/jpeg,image/jpg,image/x-PNG,image/JPEG,image/JPG"/>
+				</div>
+				<p class="rederr" *ngIf="file_type">File type should only image jpg, jpeg, png .This type file not allowed.</p>
+
+				<div class="progress progress-barn" *ngIf="progress > 0 && progress < 100">
+					<div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50"
+					aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width': progress + '%'}">
+						{{progress }}%
+					</div>
+				</div>
+				<div class="input-group gfe-input">
+					<span class="input-group-addon">
+						<i class="fa fa-cutlery" aria-hidden="true"></i>
+					</span>
+					<span class="gfe-input-placeholder">Category <b class="redclass">*</b></span>
+					<div class="col-sm-3 col-md-6 col-xs-12 disttype">
+						<input type="checkbox" [checked]="offeringobj.indexOf('Breakfast') != -1" (click)="offeringfun('Breakfast')"/> Breakfast
+					</div>
+					<div class="col-sm-3 col-md-6 col-xs-12 disttype">
+						<input type="checkbox" [checked]="offeringobj.indexOf('Lunch') != -1" (click)="offeringfun('Lunch')"/> Lunch
+					</div>
+					<div class="col-sm-3 col-md-6 col-xs-12 disttype">
+						<input type="checkbox" [checked]="offeringobj.indexOf('High tea') != -1" (click)="offeringfun('High tea')"/> High tea
+					</div>
+					<div class="col-sm-3 col-md-6 col-xs-12 disttype">
+						<input type="checkbox" [checked]="offeringobj.indexOf('Dinner') != -1" (click)="offeringfun('Dinner')"/> Dinner 
+					</div>
+				</div>
+				<div class="button-profile7">
+					<a class="btn btn-danger" style="float: right;  margin-left: 10px;" [routerLink]="['/owner/menu/list']"> Cancel</a>
+					<input type="submit" class="btn btn-success" value="Save" style="float: right;" [disabled]="!menuUpdateModel.valid">
+				</div>
+
+			</div>
+
+		</form>
+	</div>
+</div>

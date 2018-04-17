@@ -1,0 +1,435 @@
+
+<style type="text/css">  
+  .modal-login {
+    color: #636363;
+    width: 350px;
+    margin: 50px 0px auto auto;
+    
+  }
+  .modal-login .modal-content {
+    padding: 20px;
+    border-radius: 0px;
+    border: none;
+  }
+  .modal-login .modal-header {
+    border-bottom: none;
+    position: relative;
+    justify-content: center;
+  }
+  .modal-login  h4 {
+    text-align: center;
+    font-size: 26px;
+  }
+  .modal-login  .form-group {
+    position: relative;
+  }
+  .modal-login  i {
+    position: absolute;
+    left: 13px;
+    top: 11px;
+    font-size: 18px;
+  }
+  .modal-login .form-control {
+    padding-left: 40px;
+  }
+  .modal-login .form-control:focus {
+    border-color: #00ce81;
+  }
+  .modal-login .form-control, .modal-login .btn {
+    min-height: 40px;
+    border-radius: 3px; 
+  }
+  .modal-login .hint-text {
+    text-align: center;
+    padding-top: 10px;
+  }
+  .modal-login .close {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+  }
+  .modal-login .btn {
+    background: #2c982c;
+    border: none;
+    line-height: normal;
+  }
+  .modal-login .btn:hover, .modal-login .btn:focus {
+    background: #00bf78;
+  }
+  .modal-login .modal-footer {
+    background: #ecf0f1;
+    border-color: #dee4e7;
+    text-align: center;
+    margin: 0 -20px -20px;
+    border-radius: 5px;
+    font-size: 13px;
+    justify-content: center;
+  }
+  .modal-login .modal-footer a {
+    color: #999;
+  }
+  .browser-resc{
+    color: #ffffff !important;
+  }
+  .browser-resc:hover{
+    color: #2c982c !important;
+  }
+  .navbar-default .navbar-nav>.open>a{
+    background: #31373D !important;
+  }
+  .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
+    background: #31373D;
+  }
+</style>
+
+<nav class="navbar navbar-default navbar-fixed-top container-fluid section1">
+  <div class="container"> 
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header" style="padding: 4px;">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#collapse_1" aria-expanded="false"> 
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <button type="button" *ngIf="cururl == '/customer/checkout' ? false : true" class="visible-xs navbar-toggle collapsed" style="padding: 13px 0 !important;box-shadow: none !important"> 
+        <a  data-toggle="modal" data-target="#cartModel" class="open-cart1">
+          <span style="color: #fff;" class="glyphicon glyphicon-shopping-cart"></span>
+          <span class="badge cartbadgeitem" style="position: relative;top: -10px;right: 11px;" *ngIf="incomingData.items.length > 0 || incomingData.combo.length > 0 || incomingData.package.length > 0">{{incomingData.items.length + incomingData.combo.length + incomingData.package.length}}</span>
+          </a>
+      </button>
+      <a [routerLink]="['/']"><img class="img-responsive" src="../../assets/image/Logo1.png" class="log1">
+      </a>
+    </div>
+    <div class="collapse navbar-collapse" id="collapse_1">
+      <ul class="nav navbar-nav navbar-left tabs custom-nav-right">
+        <li><a [routerLink]="['/customer/browse-restaurants']"  class="browser-resc"> Popular Kitchens </a></li>      
+        <li><a [routerLink]="['/customer/browse-restaurants']" class="browser-resc">Browse Restaurants</a></li>        
+        <li *ngIf='currentCustomer'>
+          <a class="dropdown-toggle browser-resc" data-toggle="dropdown" href="#" >&nbsp; {{currentCustomer.username}} <span class="glyphicon glyphicon-user"></span>&nbsp; <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a [routerLink]="['/customer/accountinfo']" [queryParams]="{'type': 'myfavorite'}"> <span class="glyphicon glyphicon-star-empty"></span>&nbsp;My favorite</a></li>
+            <li><a [routerLink]="['/customer/accountinfo']" [queryParams]="{'type': 'accountinfo'}"> <i class="fa fa-user" aria-hidden="true"></i>&nbsp;Account Info</a></li>
+            <li><a [routerLink]="['/customer/accountinfo']" [queryParams]="{type: 'savedaddress'}"> <i class="fa fa-address-card" aria-hidden="true"></i> &nbsp; Saved Address</a></li>   
+                      
+            <li>
+              <a [routerLink]="['/customer/change-password']" href="frontendChangePassword.html" > <span class="glyphicon glyphicon-asterisk"></span>&nbsp;Change Password</a>
+            </li>
+            <li>
+              <a href="javascript:void(0)" (click)="setlogout()"><i class="fa  fa-power-off"></i>&nbsp;Logout </a>
+            </li>
+          </ul>
+        </li> 
+        
+        <li *ngIf="cururl == '/customer/checkout' ? false : true" class="hidden-xs">       
+          <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0)" class="browser-resc someyourContainer2"> 
+            <span class="glyphicon glyphicon-shopping-cart"></span>
+            <span class="badge cartbadgeitem" style="position: relative;top: -10px;right: 11px;" *ngIf="incomingData.items.length > 0 || incomingData.combo.length > 0 || incomingData.package.length > 0">{{incomingData.items.length + incomingData.combo.length + incomingData.package.length}}</span>
+            <span class="caret"></span>
+          </a> 
+          <ul class="someyourContainer dropdown-menu" style="width: 290px;">
+            <li *ngIf="incomingData" style="color: black;">
+              <app-cart [orderDetail]="incomingData" (orderChange)="orderChanges($event)"></app-cart>
+            </li>   
+            <li class="btnsialign" *ngIf="!incomingData">
+             No Item In Cart
+            </li>
+          </ul>
+        </li>
+
+        <li (click)="getAllcccList()">     
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#" style="color: white;" class="capitalize2 browser-resc">  <span class=" glyphicon glyphicon-map-marker"></span> &nbsp; {{countryname}} <span class="caret"></span></a> 
+          <ul class="dropdown-menu" style="width: 215px;;" (click)="sendData($event)">
+            <li *ngFor="let country of countrylist" class="capitalize2">
+              <a href="javascript:void(0)" (click)="setcountry(country.countryName,country._id)"> 
+                <span class=" glyphicon glyphicon-map-marker"></span> &nbsp; {{country.countryName}} </a>         
+              </li>
+
+            </ul>
+
+          </li>
+          <li>
+             <ul class="nav" *ngIf='!currentCustomer'>          
+          <li class="divider-vertical"></li>
+          <li id="ddrop" class="dropdown" style="border:0px;">           
+           <!--  <a class="dropdown-toggle login-color" href="#" data-toggle="dropdown" id="dropdown-toggle1" (click)="showform('login')">Login <strong class="caret" ></strong></a> -->
+
+            <a href="#loginModel" class="browser-resc" data-toggle="modal" (click)="showform('login')">Login</a>
+            <!-- 
+           <div class="dropdown-menu dropdown-menu-custom" id="iflogindiv" *ngIf="show1">
+
+            </div> -->
+
+
+         
+
+
+              </li>
+              </ul>
+              </li>
+              </ul>
+</div>    
+<!-- /.navbar-collapse --> 
+</div>
+<!-- /.container-fluid -->  
+</nav>
+
+
+<div id="loginModel" class="modal fade">
+  <div class="modal-dialog modal-login">
+
+    <div class="modal-content" *ngIf="showformc == 'login'">
+      <div class="modal-header">        
+        <h4 class="modal-title">Login</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form role="form"  [formGroup]="loginForm" (ngSubmit)="login()">
+
+          <div class="form-group">
+            <i class="fa fa-user"></i>
+            <input formControlName="username" class="form-control" placeholder="Email Id" type="text" autofocus>
+          </div>
+
+          <div class="form-group">
+            <i class="fa fa-lock"></i>
+            <input formControlName="password" class="form-control" placeholder="Password" type="password">
+          </div>
+
+          <!-- <div class="alert alert-danger" *ngIf="alertType == 'error'" style="padding:5px">
+          <p> &nbsp; Incorrect username or password! </p>
+          </div> -->
+          <div class="alert alert-success" *ngIf="alertType == 'success'" style="padding:5px">
+          <p> &nbsp; Login Successfully! </p>
+          </div>
+          <div class="form-group">           
+          <input type="checkbox" [(ngModel)]="keeplogin.checkbox" [ngModelOptions]="{standalone: true}"> Keep Me Logged in &nbsp; &nbsp;<a href="javascript:void(0);" id="forgetModel" (click)="showform('forget')"> Forgot Password? </a></div>
+
+          <div class="form-group">
+            <button class="btn btn-lg btn-success btn-block" [disabled]="!loginForm.valid">Login</button>
+            <br>
+            <p style="font-size: 13px;">
+            Don't have an Account ? &nbsp; &nbsp;<a href="javascript:void(0);" (click)="showform('register')" style="color: green;">Create An Account</a>  
+            </p>
+          </div>
+        </form>
+        <p><button (click)="signIn('facebook')">Login with Facebook</button></p>
+      </div>      
+    </div>
+
+    <div class="modal-content"  *ngIf="showformc == 'register'">
+      <div class="modal-header">        
+        <h4 class="modal-title">Register</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+      <div class="modal-body">
+         <form role="form" [formGroup]="loginFormr" (ngSubmit)="register()">
+
+              <div class="form-group">
+                <i class="fa fa-user"></i>
+                <input formControlName="firstname" class="form-control" placeholder="Firstname" type="text" autofocus>                
+             </div>
+             <div class="form-group">
+              <i class="fa fa-user"></i>
+                <input formControlName="lastname" class="form-control" placeholder="Lastname" type="text" autofocus>                
+             </div>
+            <!--  <div class="form-group">
+              <i class="fa fa-user"></i>
+                <input formControlName="username" class="form-control" placeholder="Username" type="text" autofocus>
+                <div *ngIf="formErrorsr.username" class="alert alert-danger">
+                 {{ formErrorsr.username }}
+               </div>
+             </div> -->
+             <div class="form-group">
+              <i class="fa fa-envelope"></i>
+              <input formControlName="email" class="form-control" placeholder="E-mail"  type="text" autofocus>
+              <div *ngIf="formErrorsr.email" class="alert alert-danger">
+               {{ formErrorsr.email }}
+             </div>
+           </div>
+           <div class="form-group">
+            <i class="fa fa-key"></i>
+            <input formControlName="password" class="form-control" placeholder="Password" type="password" (keyup)="matchpassword()">
+            <div *ngIf="formErrorsr.password" class="alert alert-danger">
+             {{ formErrorsr.password }}
+           </div>
+         </div>
+            <div class="form-group">
+              <i class="fa fa-key"></i>
+                <input formControlName="newpassword" class="form-control" placeholder="Confirm Password" type="password" autofocus (keyup)="matchpassword()">
+                </div>
+              
+               <div style="padding: 3px;" class="alert alert-danger" *ngIf="MutchPassword">
+                 Password not match
+               </div>
+
+         <!-- Change this to a button or input when using this as a form -->
+         <button class="btn btn-lg btn-success btn-block" [disabled]="!loginFormr.valid">Register</button>
+         <a class="btn btn-lg btn-primary btn-block logishow" (click)="showform('login')">Login</a>                        
+       </form>
+      </div>
+      <div class="modal-footer">
+        <a id="forgetModel"  (click)="showform('forget')" style="color: green; cursor: pointer;"> Forgot Password? </a>
+      </div>
+    </div> 
+    
+     <div class="modal-content" *ngIf="showformc == 'forget'">
+
+      <div class="modal-header">        
+        <h4 class="modal-title">Forget Password</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <p style="font-size:16px; text-align:justify; margin-bottom: 5px;"> Please provide your email address associated with your account.  An email will be sent to you with a link to reset your password.</p>
+        <form role="form" [formGroup]="forgetForm" (ngSubmit)="forgetPass()">                        
+                            <div class="form-group">
+                              <i class="fa fa-envelope"></i>
+                                <input formControlName="email" class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
+                                <div *ngIf="formErrorsf.email" class="alert alert-danger">
+                                         {{ formErrorsf.email }}
+                                        </div>
+                            </div>
+                        <div class="progress" *ngIf="process">
+                        <div class="progress-bar progress-bar-striped active" role="progressbar"
+                        aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width:100%">
+                        </div>
+                        </div>
+                            <!-- Change this to a button or input when using this as a form -->
+                            <button class="btn btn-lg btn-success btn-block" [disabled]="!forgetForm.valid">Submit</button>
+                            <a class="btn btn-lg btn-primary btn-block logishow" style="color: #ccc;" (click)="showform('login')">Login</a>                      
+              </form>
+      </div>
+    </div>
+
+     <div class="modal-content" *ngIf="showformc == 'forgetsuccess'" style="padding: 41px;
+    font-size: 18px;
+    text-align: justify;">
+        <div class="modal-body">
+         Email is sent. Please click on the link in the email, to complete password reset.
+         <br>
+         &nbsp;
+         <div style="text-align: center;">
+         <button (click)="showform('login')" type="button" class="btn btn-sm btn-success"> &nbsp;  &nbsp; OK  &nbsp; &nbsp;</button>
+       </div>
+        </div>
+      </div>
+
+  </div>
+</div> 
+
+
+
+<div class="modal fade" id="cartModel" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+           <app-cart [orderDetail]="incomingData" (orderChange)="orderChanges($event)"></app-cart>
+           <p *ngIf="!incomingData || incomingData.items.length == 0"></p>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+<!-- 
+<div class="loginFrom">  
+  <h3 class="text-center">Login</h3>
+  <div class="col-lg-12">    
+            <button type="button" class="close idcross" aria-label="Close" (click)="hideform()">
+             <span aria-hidden="true">&times;</span>
+           </button>
+              <form role="form" [formGroup]="loginForm" (ngSubmit)="login()">
+
+                <div class="form-group">
+                  <input formControlName="username" class="form-control" placeholder="Username" type="text" autofocus>                                
+                </div>
+
+              <div class="form-group">
+
+              <input formControlName="password" class="form-control" placeholder="Password" type="password">
+              </div>
+
+                <div class="alert alert-danger" *ngIf="alertType == 'error'" style="padding:5px">
+                <p> Entered Bad Credential!. </p>
+                </div>
+
+                <div class="alert alert-success" *ngIf="alertType == 'success'" style="padding:5px">
+
+                 <p>&nbsp; Login Successfully! </p>
+                </div>
+
+
+                <div class="" style="float: right;">
+                  <label>
+                    <a id="ifforget" (click)="showform('forget')"> Forgot Password? </a>
+                  </label>
+                </div>
+
+                
+                
+                <label style="text-align:center;margin-top:5px">or</label>  
+
+                <button class="btn btn-lg btn-success btn-block" [disabled]="!loginForm.valid">Login</button>
+                <a class="btn btn-lg btn-primary btn-block" id="regishow" (click)="showform('register')">Register</a>
+              </form>
+  </div>
+</div> -->
+
+
+
+<div class="modal fade" id="checkout-signin-model" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" click="resetform()">&times;</button>
+          <h4 class="modal-title text-center">Login</h4>
+        </div>
+        <div class="modal-body">
+        <ul class="nav nav-tabs nav-pills nav-justified">
+        <li class="active"><a data-toggle="tab" href="#sectionA">Login as candidate</a></li>
+        <li><a data-toggle="tab" href="#sectionB">Login as guest</a></li>
+        </ul>
+          <div class="tab-content">
+            <div id="sectionA" class="tab-pane fade in active">
+            <div class="panel panel-default">
+  <div class="panel-body">
+            <form role="form"  [formGroup]="loginForm" (ngSubmit)="loginCheckout()">
+              <div class="form-group">
+              <input formControlName="username" class="form-control" placeholder="Email Id" type="text" autofocus>
+              </div>
+              <div class="form-group">
+              <input formControlName="password" class="form-control" placeholder="Password" type="password">
+              </div>
+              <div class="alert alert-success" *ngIf="alertType == 'success'" style="padding:5px">
+              <p> &nbsp; Login Successfully! </p>
+              </div>
+              <div class="form-group">
+              <button class="btn btn-lg btn-success btn-block" [disabled]="!loginForm.valid">Login</button>             
+              </div>
+              </form>
+                </div>
+</div>
+            </div>
+            <div id="sectionB" class="tab-pane fade">
+              <div class="panel panel-default">
+  <div class="panel-body">
+            <form role="form" [formGroup]="guestloginForm" (ngSubmit)="guestlogin()">
+            <fieldset>                            
+                <div class="form-group">
+                    <input formControlName="email" class="form-control" placeholder="Email" type="email">
+                </div>
+                <button class="btn btn-lg btn-success btn-block" [disabled]="!guestloginForm.valid">Login</button>
+            </fieldset>
+           </form>
+            </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>

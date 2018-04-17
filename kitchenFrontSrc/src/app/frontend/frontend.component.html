@@ -1,0 +1,198 @@
+
+<app-headerfrontend (outgoingData)='handleEvent($event)' ></app-headerfrontend>
+<style type="text/css">
+  
+  .carousel-inner>.item>img{
+    width: 100%;
+    margin: 0px;
+  }
+ .modal-backdrop{
+   z-index:1 !important;
+ }
+</style>
+
+
+
+<div style="padding-top: 50px;">
+<div class="section2 container-fluid">
+    <div class="container">
+        <div class="headLine">
+            <h1>Healthy and tasty food, for you and your family.<br>
+            Carefully cooked by your personal chef, and delivered at your door step. </h1>
+        </div>
+        <div class="inputField">
+
+                <!--<center> -->
+                <!-- <h1>Start Here to Order:</h1> -->
+                <!-- <br> -->
+
+        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">        
+       <!--  <div class="col-sm-5 col-lg-5 col-md-5 col-xs-5 classinputserch">
+        <span *ngIf="items1.length > 0">
+         <ng-select [allowClear]="true"
+              [items]="items1"
+              [disabled]="disabled"
+              (data)="refreshValue($event)"
+              (selected)="selected($event)"
+              (removed)="removed($event)"
+              (typed)="typed($event)"
+              placeholder="No city selected">
+         </ng-select>
+        </span>
+        </div> -->
+
+        <div class="col-sm-12 col-lg-3 col-md-3 col-xs-12 classinputserch">
+         <select [(ngModel)]="cityi" id="classinputserchi" class="selectpicker capitalize2" data-live-search="true" data-width="100%" title="Select City" (ngModelChange)="getLatLng(cityi)">         
+            <option  class="capitalize2" *ngFor="let city of items1" [ngValue]="city.cityName">
+                {{city.cityName}}
+            </option>  
+        </select>
+        </div>
+
+        <!-- <span *ngIf="items2.length >= 0">
+         <ng-select [allowClear]="true"
+              [items]="items2"
+              [disabled]="disabled"
+              (data)="refreshValue2($event)"
+              (selected)="selected2($event)"
+              (removed)="removed2($event)"
+              (typed)="typed2($event)"
+              placeholder="No Cousine selected">
+         </ng-select>
+         </span> -->
+
+
+        
+         <div class="col-sm-12 col-lg-3 col-md-3 col-xs-12 classinputserch">
+        <select [(ngModel)]="coui" id="classinputserchi" class="selectpicker capitalize2" multiple data-live-search="true" data-width="100%" title="Choose Cuisine" >              
+              <option class="capitalize2" *ngFor="let cou of items2" [ngValue]="cou._id">
+                {{cou.name}}
+            </option>  
+        </select>
+
+        <!-- <span *ngIf="items2.length >= 0">
+         <ng-select [allowClear]="true"
+              [items]="items2"
+              [disabled]="disabled"
+              (data)="refreshValue2($event)"
+              (selected)="selected2($event)"
+              (removed)="removed2($event)"
+              (typed)="typed2($event)"
+              placeholder="No Cousine selected">
+         </ng-select>
+         </span> -->
+
+
+        </div>
+        
+        <div class="col-sm-12 col-lg-3 col-md-3 col-xs-12 classinputserch">
+           <select [(ngModel)]="searchtype" id="classinputserchi" class="selectpicker" data-live-search="true" data-width="100%">
+             <option value="">All restaurants</option>
+             <option value="50">Search nearby</option>
+          </select>
+        </div>
+        <!-- <div class="col-sm-5 col-lg-5 col-md-5 col-xs-5 classinputserch"> 
+        <input type="" name="" id="classinputserchi" class="srchr srchl" >
+        </div> -->
+        <div class="col-sm-12 col-lg-3 col-md-3 col-xs-12 classinputserch">
+        <button class="classinputserchbtn srchl" (click)="searchdata()" style="padding: 6px;">
+            <i class="fa fa-search" aria-hidden="true"></i>
+        </button>
+        </div>
+        </div> 
+<!--             </center> -->
+        </div>
+    </div>
+</div>
+
+<div class="section3 container-fluid">
+<!--     <center> -->
+        <h1>How it works</h1>
+        <div>Get your favourite food in 4 simple steps</div>
+        <div class="orderFlow text-center" style="margin-left: 8%;">
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <img src="/assets/image/search.png" class="img-responsive img-target" align="center">
+                </div>
+                <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 step">Find Your Favourite Place</h4>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 forArrow hidden-xs hidden-sm">
+                <img src="/assets/image/arrow.png" class="img-responsive howit">
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><img src="/assets/image/burger.png" class="img-responsive img-target"></div>
+                <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 step">Select the food you like or build meal plan</h4>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 forArrow hidden-xs hidden-sm">
+                <img src="/assets/image/arrow.png" class="img-responsive howit">
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><img src="/assets/image/swipe.png" class="img-responsive img-target"></div>
+                <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 step">It's quick, secure and easy</h4>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 forArrow hidden-xs hidden-sm">
+                <img src="/assets/image/arrow.png" class="img-responsive howit">
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><img src="/assets/image/face.png" class="img-responsive img-target"></div>
+                <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 step">Food is prepared & delivered to your door</h4>
+            </div>
+        </div>
+<!--     </center> -->
+</div>
+
+<div class="section4 container-fluid">
+
+    <!-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <img src="/assets/image/pizza.jpg" class="img-responsive" style="box-shadow: 1px 2px 20px 0px grey;">
+    </div> -->
+
+    <div class="row marginlr" *ngIf="slidesList.length > 0">
+
+        <!-- The carousel -->
+     <div id="transition-timer-carousel" class="carousel slide" data-ride="carousel">
+
+      <!-- Indicators -->
+      <ol class="carousel-indicators">
+        <li *ngFor="let slide of slidesList; let i = index; " data-target="#transition-timer-carousel" [attr.data-slide-to]="i" [ngClass]="i == 0 ? 'active' : ''"></li>
+      </ol>
+
+      <!-- Wrapper for slides -->
+      <div class="carousel-inner">
+        <div *ngFor="let slide of slidesList; let i = index; " [ngClass]="i == 0 ? 'item active' : 'item'">
+            <img src="{{imageUrl}}/{{slide.image}}"/>
+        </div>
+
+      </div>
+      <!-- Controls -->
+      <a class="left carousel-control" href="#transition-timer-carousel" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left"></span>
+      </a>
+
+      <a class="right carousel-control" href="#transition-timer-carousel" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right"></span>
+      </a>
+
+    </div>
+
+    </div>
+
+</div>
+
+<div class="section5 container-fluid" *ngIf="introImagesList.length  > 0">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12" *ngFor="let introimages of introImagesList">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+      <img src="{{imageUrl}}/{{introimages.image}}" class="img-responsive" align="center"></div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 aboutUs">
+        <h2 class="capitalize2">{{introimages.name}}</h2><br>
+        <div class="text-aligen-j">
+            {{introimages.description}}
+        </div>
+    </div>
+    </div>
+</div>
+</div>
+
+<app-footerfrontend></app-footerfrontend>
+
+

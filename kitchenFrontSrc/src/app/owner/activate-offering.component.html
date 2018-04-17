@@ -1,0 +1,139 @@
+
+<app-headerowner></app-headerowner>
+<div class="rightMenu col-lg-9 col-md-9 col-sm-9 col-lg-9" style="padding:0px; z-index: -1;">
+ <div class="menuSetup" id="Menu11">
+ <div class="col-lg-12" >
+     <div class="col-lg-9">
+         <div class="nameAndAddress" id="Menu1" style="z-index: 0;max-height: 525px;overflow: auto;">
+        <div class="firstDiv">
+            <span class="">Activate Offering</span>              
+        </div>
+        <div class="secondDiv">
+
+    <ul class="nav nav-tabs">
+    <li *ngIf="kitchenData && kitchenData.serviceAllow && kitchenData.serviceAllow.daliymenuservice" class="tabs-tb tabsdetail">
+        <a data-toggle="tab" href="#items">Menu Items</a>
+    </li>
+    <li *ngIf="kitchenData && kitchenData.serviceAllow && kitchenData.serviceAllow.comboservice" class="tabs-tb tabsdetail">
+        <a data-toggle="tab" href="#combos">Combos</a>
+    </li>
+    <li *ngIf="kitchenData && kitchenData.serviceAllow && kitchenData.serviceAllow.mealpackageservice" class="tabs-tb tabsdetail">
+        <a data-toggle="tab" href="#mealpackage">Meal Package</a>
+    </li>
+    </ul>
+
+  <div class="tab-content">
+     
+      <div id="items" class="tab-pane fade">
+       <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of items">
+                <td>{{item.name | ellipsis: 40}}</td>
+                <td class="eliips1"><div>{{item.description}}</div></td>
+                <td style="color: white;"><!-- {{item.isactive}}  -->
+                <select [(ngModel)]="item.status" (ngModelChange)="itemsStatusUpdate(item._id, item.status)" [style.background-color]="item.status == true ? 'green' : 'red'">
+                  <option [ngValue]="false" style="background-color: red;">Disable</option>
+                  <option [ngValue]="true" style="background-color: green;">Active</option>
+                </select>
+               </td>
+            </tr>
+        </tbody>
+    </table>
+   
+    <div *ngIf="items.length == 0" class="text-center">No Item Available Here !</div>
+
+    </div>
+
+    <div id="combos" class="tab-pane fade">
+       <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let combo of combos">
+                <td>{{combo.name}}</td>
+                <td class="eliips1"> <div>{{combo.description
+                }}</div></td>
+                <td style="color: white;"><!-- {{combo.isactive}}  -->
+                <select class="select1" [(ngModel)]="combo.status" (ngModelChange)="combosStatusUpdate(combo._id, combo.status)" [style.background-color]="combo.status == true ? 'green' : 'red'">
+                  <option [ngValue]="false" style="background-color: red;">Disable</option>
+                  <option [ngValue]="true" style="background-color: green;">Active</option>
+                </select>
+               </td>
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="combos.length == 0" class="text-center">No Combo Available Here !</div>
+    </div>
+    <div id="mealpackage" class="tab-pane fade">
+        <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let meal of mealpackages">
+                <td>{{meal.name}}</td>
+                <td class="eliips1"><div>{{meal.description}}</div></td>
+                <td style="color: white;"><!-- {{meal.isactive}}  -->
+                <select [(ngModel)]="meal.status" (ngModelChange)="mealPackagesStatusUpdate(meal._id, meal.status)" [style.background-color]="meal.status == true ? 'green' : 'red'">
+                  <option [ngValue]="false" style="background-color: red;">Disable</option>
+                  <option [ngValue]="true" style="background-color: green;">Active</option>
+                </select>
+               </td>
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="mealpackages.length == 0" class="text-center">No Meal package Available Here !</div>
+    </div>  
+  </div>
+<div class="col-lg-12" *ngIf="!(kitchenData && kitchenData.serviceAllow && kitchenData.serviceAllow.daliymenuservice) && !(kitchenData && kitchenData.serviceAllow && kitchenData.serviceAllow.comboservice) && !(kitchenData && kitchenData.serviceAllow && kitchenData.serviceAllow.mealpackageservice)"> No Service is available. </div>
+ </div>
+  
+</div>
+
+
+        </div>
+         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3" style="padding-top: 13px;
+">
+            <div class="stepwizard col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                <div class="stepwizard-row col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                    <div class="stepwizard-step height65px col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 padding0"><a class="btn btn-success btn-circle" [routerLink]="['/owner/menu/list']">1</a></div>
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10 paddingRight0">Create Category and Add menu item</div>
+                    </div>
+                    <div class="stepwizard-step height65px col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 padding0"><a class="btn btn-success btn-circle" [routerLink]="['/owner/combo']">2</a></div>
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10 paddingRight0">Manage Combos</div>
+                    </div>  
+                    <div class="stepwizard-step height65px col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 padding0"><a type="button" class="btn btn-success btn-circle" [routerLink]="['/owner/weekly']">3</a></div>
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10 paddingRight0">Meal Packages</div>
+                    </div>                  
+                    <div class="stepwizard-step height65px col-lg-12 col-md-12 col-sm-12 col-xs-12 padding0">
+                        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 padding0"><button type="button" class="btn btn-success btn-circle">4</button></div>
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10 paddingRight0">Activate Offerings</div>
+                    </div>  
+                </div>
+            </div>
+        </div>
+     </div>
+    
+     
+ </div>		
+    
+        </div>

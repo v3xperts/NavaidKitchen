@@ -1,0 +1,38 @@
+.custom-panel-heading{
+	padding: 25px 10px;
+}
+
+.panel-purpal>.panel-heading {
+    color: #ffffff;
+    background-color: #3f51b5;
+}
+
+.panel-purpal{
+border-color: #3f51b5 !important;
+}
+
+.custom-panel-hover:hover{
+	box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+
+ #map{
+	height: 300px;
+	width: 100%;
+	}
+.customerDetail-cls{
+	padding-left: 0;
+}
+.deliveryDetail-cls{
+	padding-right: 0;
+}
+.capitlize1{
+	text-transform: capitalize;
+}
+.uppercase1{
+ text-transform: uppercase;
+}
+
+.orderDetail-cls{
+	margin-top: 10px;
+}
+

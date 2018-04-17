@@ -1,0 +1,106 @@
+<app-headerowner></app-headerowner>
+<div class="rightMenu col-lg-9 col-md-9 col-sm-9">
+	<alert></alert>
+	<div class="row">
+		<div class="profile" id="Menu18">	
+			
+
+				<div class="firstDiv">
+					<span class="">Add Meal</span>
+				</div>
+				<div class="secondDiv">
+
+				<div class="input-group gfe-input">
+				<span class="input-group-addon">
+				<i class="fa fa-cutlery" aria-hidden="true"></i>
+				</span>
+				<select id="option" class="form-control" #option (change)="settype(option)">
+				<option value="flexible"> Flexible </option>
+				<option value="fixed"> Fixed </option>
+				</select>
+				<span class="gfe-input-placeholder">Type Of Plan<b class="redclass">*</b></span>
+				</div>
+				
+			<form  *ngIf="typepercent == 'fixed'" [formGroup]="weeklyAddModel" (ngSubmit)="weeklyAdd()" >
+					<div class="input-group gfe-input">
+						<span class="input-group-addon">
+							<i class="fa fa-cutlery" aria-hidden="true"></i>
+						</span>
+						<input type="text" class="form-control" formControlName="name">
+						<span class="gfe-input-placeholder">Package Name <b class="redclass">*</b></span>
+					</div>
+
+					<div class="input-group gfe-input">
+						<span class="input-group-addon">
+							<i class="fa fa-cutlery" aria-hidden="true"></i>
+						</span>
+						<input type="text" class="form-control" formControlName="description">
+						<span class="gfe-input-placeholder"> Description <b class="redclass">*</b></span>
+					</div>
+
+					&nbsp;
+					<!-- {{this.pattern}} -->		
+					<div class="input-group gfe-input" >
+						<span class="input-group-addon">
+							<i class="fa fa-cutlery" aria-hidden="true"></i>
+						</span>
+						<input type="text" class="form-control" id="date1" #myTimeSets (blur)="getTimeData(myTimeSets)">
+						<span class="gfe-input-placeholder">Start date<b class="redclass">*</b></span>
+					</div>
+					&nbsp;
+					&nbsp;	
+					<div class="input-group gfe-input" >
+						<span class="input-group-addon">
+							<i class="fa fa-cutlery" aria-hidden="true"></i>
+						</span>
+						<input type="text" class="form-control" id="date2" #myTimeSete  (blur)="getTimeData(myTimeSete)">						
+						<span class="gfe-input-placeholder">End date <b class="redclass">*</b></span>
+					</div>
+					<div class="alert alert-danger" style="padding: 5px;" *ngIf="datevali == ''"> End Date Should be greater than or Equal to Start Date!. </div>
+
+					&nbsp;
+					<div class="form-group button-position7">	
+						&nbsp; &nbsp;
+						<a type="submit" class="btn btn-danger" value="Back" style="float: right; margin-left: 10px; "  [routerLink]="['/owner/weekly']">Cancel</a>
+						<input type="submit" class="btn btn-success" style="float: right;" Value="Save" [disabled]="!weeklyAddModel.valid" (click)="newvalue('add')">
+					</div>
+				</form> 
+				
+				<form [formGroup]="weeklyAddModelFlex" (ngSubmit)="weeklyAdd()" *ngIf="typepercent != 'fixed'" >
+
+					<div class="input-group gfe-input">
+						<span class="input-group-addon">
+							<i class="fa fa-cutlery" aria-hidden="true"></i>
+						</span>
+						<input type="text" class="form-control" formControlName="name">
+						<span class="gfe-input-placeholder">Package Name <b class="redclass">*</b></span>
+					</div>
+					<div class="input-group gfe-input">
+						<span class="input-group-addon">
+							<i class="fa fa-cutlery" aria-hidden="true"></i>
+						</span>
+						<input type="text" class="form-control" formControlName="description">
+						<span class="gfe-input-placeholder">Description <b class="redclass">*</b></span>
+					</div>
+					&nbsp;
+				    &nbsp;
+					<div class="input-group gfe-input">
+					<span class="input-group-addon">
+					<i class="fa fa-cutlery" aria-hidden="true"></i>
+					</span>	
+					<input type="number" class="form-control" formControlName="discount">				
+					<span class="gfe-input-placeholder"> Discount Percentage <b class="redclass">*</b></span>
+					</div>					
+					<p *ngIf="weeklyAddModelFlex.get('discount').errors" style="color: red">
+					Required price only Non-Negative! </p>						
+					&nbsp;
+					<div class="form-group button-position7">	
+						&nbsp; &nbsp;
+						<a type="submit" class="btn btn-danger" value="Back" style="float: right; margin-left: 10px; "  [routerLink]="['/owner/weekly']">Cancel</a>
+						<input type="submit" class="btn btn-success" style="float: right;" Value="Save" [disabled]="!weeklyAddModelFlex.valid" (click)="newvalue('add')">
+					</div>
+				</form>  
+			</div> 			
+		</div>
+	</div>
+	</div>

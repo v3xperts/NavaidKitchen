@@ -1,0 +1,154 @@
+
+<div class="topNav container-fluid">
+	<div class="restaurant-name col-lg-2 col-md-2 col-sm-2" style="float: left;">
+		<h1><img class="img-responsive" src="../../assets/image/Logo2.png" class="log1" style="    padding-left: 14px;"></h1>
+	</div>
+	<div class="col-lg-7 col-md-7 col-sm-7">
+		<ul class="topLinks">
+			<li> <a href="javascript:void(0)">SETUP</a></li>
+			<li><a [routerLink]="['/owner/report/dashboard']">REPORTS</a></li>			
+		</ul>
+	</div>
+	<div class="dropdown col-lg-2 col-md-2 col-sm-2">
+	  	<button class="dropbtn">{{currentOwner.ownerId.username}} <i class="fa fa-caret-down"></i></button>
+	  	<div class="dropdown-content">
+	    	<a [routerLink]="['/owner/profile']" ><i class="fa fa-user" aria-hidden="true"></i>My Profile</a>
+	    	<a [routerLink]="['/owner/change-password']"><i class="fa fa-key" aria-hidden="true"></i>Password Change</a>
+	    	<a [routerLink]="['/']" (click)="setlogout()"><i class="fa  fa-power-off"></i> Sign Out</a>
+	  	</div>
+	</div>
+</div>
+<div class="leftMenu col-lg-3 col-md-3 col-sm-3" style="vertical-align: middle;">
+	<ul class="list-group list-group-flush leftMenuUl">
+		<li class="list-group-item list-group-itemm" data-toggle="collapse" data-target="#basic-option" *ngIf="kitchenData">
+		{{kitchenData.restaurantname}}
+		</li>
+		<a [routerLink]="['/owner/restaurant-basic']">
+		<li class="list-group-item list-group-itemm new-tab-class1" data-toggle="collapse" data-target="#basic-option">
+			<i class="fa fa-cutlery" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;&nbsp; Restaurant Basics
+		</li>	
+		</a>	
+		<div id="basic-option" class="collapse" [routerLinkActive]="['in']">
+			<ul class="option-menu">
+				<li class="list-group-item list-group-itemm" [routerLink]="['/owner/kitchen-detail']" [routerLinkActive]="['selected']">
+					<a>&#x27A5;&nbsp;&nbsp;&nbsp;&nbsp;Name & Address</a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+				</li>
+				<!-- <li class="list-group-item list-group-itemm" [routerLinkActive]="['selected']">
+					<a [routerLink]="['/owner/kitchen-location']">&#x27A5;&nbsp;&nbsp;&nbsp;&nbsp;Location</a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+		         </li> -->
+		         <li class="list-group-item list-group-itemm" [routerLink]="['/owner/kitchen-services']" [routerLinkActive]="['selected']">
+					<a>&#x27A5;&nbsp;&nbsp;&nbsp;&nbsp;Kitchen Services</a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+		         </li>
+		          <li class="list-group-item list-group-itemm" [routerLink]="['/owner/kitchen-document']" [routerLinkActive]="['selected']">
+					<a >&#x27A5;&nbsp;&nbsp;&nbsp;&nbsp;Kitchen Document</a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+		         </li>
+		          <li class="list-group-item list-group-itemm" [routerLink]="['/owner/kitchen-tax']" [routerLinkActive]="['selected']">
+					<a >&#x27A5;&nbsp;&nbsp;&nbsp;&nbsp;Kitchen Tax</a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+		         </li>
+		         <li class="list-group-item list-group-itemm" [routerLink]="['/owner/kitchen-policy']" [routerLinkActive]="['selected']">
+					<a >&#x27A5;&nbsp;&nbsp;&nbsp;&nbsp;Kitchen Policy</a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+		         </li>
+				<!-- <li class="list-group-item list-group-itemm">
+					<a href="javascript:void(0)" onclick="toggleVisibility('Menu2');">&#x27A5;&nbsp;&nbsp;&nbsp;&nbsp;Location</a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+				</li>
+				<li class="list-group-item list-group-itemm">
+					<a href="javascript:void(0)" onclick="toggleVisibility('Menu3');">&#x27A5;&nbsp;&nbsp;&nbsp;&nbsp;Account confirmation</a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+				</li> -->
+			</ul>
+		</div>
+         <a [routerLink]="['/owner/menu-setup']">
+		<li class="list-group-item list-group-itemm new-tab-class1" data-toggle="collapse" data-target="#orders">
+			<span class="glyphicon glyphicon-book" aria-hidden="true"></span>&nbsp;&nbsp;&nbsp;&nbsp;Menu Setup 
+		</li>
+	</a>
+
+		<div id="orders" class="collapse" [routerLinkActive]="['in']">
+			<ul class="option-menu" *ngIf="kitchenData.serviceAllow">			    
+				<li *ngIf="kitchenData.serviceAllow.daliymenuservice" class="list-group-item list-group-itemm" (click)="routeOwner('daliymenuservice','/owner/menu/list')" [routerLinkActive]="['selected']">
+					<a >&#x27A5;&nbsp;&nbsp;&nbsp;&nbsp; Menu Category & Items</a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+				</li>
+				<li *ngIf="kitchenData.serviceAllow.comboservice" class="list-group-item list-group-itemm"  (click)="routeOwner('comboservice', '/owner/combo')" [routerLinkActive]="['selected']">
+					<a>&#x27A5;&nbsp;&nbsp;&nbsp;&nbsp; Manage Combos </a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+				</li>
+				<li *ngIf="kitchenData.serviceAllow.mealpackageservice" class="list-group-item list-group-itemm" (click)="routeOwner('mealpackageservice', '/owner/weekly')" [routerLinkActive]="['selected']">
+					<a >&#x27A5;&nbsp;&nbsp;&nbsp;&nbsp;Meal Package</a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+				</li>
+				<li class="list-group-item list-group-itemm" [routerLink]="['/owner/activate-offering']" [routerLinkActive]="['selected']">
+					<a >&#x27A5;&nbsp;&nbsp;&nbsp;&nbsp; Activate Offering </a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+				</li>
+
+				<!-- <li class="list-group-item list-group-itemm" [routerLink]="['/owner/monthly']" [routerLinkActive]="['selected']">
+					<a>&#x27A5;&nbsp;&nbsp;&nbsp;&nbsp;Monthly Package</a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+				</li> -->
+
+			</ul>
+		</div> 
+		
+		<!-- <li class="list-group-item list-group-itemm" data-toggle="collapse" data-target="#offers">
+			<span class="glyphicon glyphicon-bitcoin"></span> &nbsp;&nbsp; Manage Offers 
+		</li>		
+		<div id="offers" class="collapse" [routerLinkActive]="['in']">
+			<ul class="option-menu">
+				<li class="list-group-item list-group-itemm" [routerLink]="['/owner/offer']" [routerLinkActive]="['selected']">
+					<a >&#x27A5;&nbsp;&nbsp;&nbsp;&nbsp; offers</a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+				</li>				
+			</ul>
+		</div> -->
+
+     <!--    <li class="list-group-item list-group-itemm" data-toggle="collapse" data-target="#cuisines">
+			<span class="glyphicon glyphicon-bitcoin"></span> &nbsp;&nbsp; Cuisines
+		</li>		
+		<div id="cuisines" class="collapse" [routerLinkActive]="['in']">
+			<ul class="option-menu">
+				<li class="list-group-item list-group-itemm" [routerLink]="['/owner/cuisines']" [routerLinkActive]="['selected']">
+					<a>&#x27A5;&nbsp;&nbsp;&nbsp;&nbsp; Cuisines List</a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+				</li>				
+			</ul>
+		</div> -->
+		<a [routerLink]="['/owner/bonus-point']">
+		<li class="list-group-item list-group-itemm new-tab-class1" data-toggle="collapse" data-target="#referral">
+			<i class="fa fa-registered" aria-hidden="true"></i> &nbsp;&nbsp; Referral System & Bonus Points
+		</li>		
+		</a>
+		<div id="referral" class="collapse" [routerLinkActive]="['in']"  aria-hidden="true">
+			<ul class="option-menu">
+				<li class="list-group-item list-group-itemm" [routerLink]="['/owner/referral']" [routerLinkActive]="['selected']">
+					<a> &#x27A5;&nbsp;&nbsp;&nbsp;&nbsp; Referral </a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+				</li>
+				<li class="list-group-item list-group-itemm" [routerLink]="['/owner/referral-list']" [routerLinkActive]="['selected']">
+					<a> &#x27A5;&nbsp;&nbsp;&nbsp;&nbsp; Referral list </a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+				</li>								
+			</ul>
+		</div>
+        <a [routerLink]="['/owner/my-driver']">
+		<li class="list-group-item list-group-itemm new-tab-class1" data-toggle="collapse" data-target="#driver">
+			<i class="fa fa-motorcycle" aria-hidden="true"></i> &nbsp;&nbsp; My Drivers
+		</li>	
+		</a>	
+		<div id="driver" class="collapse" [routerLinkActive]="['in']">
+			<ul class="option-menu">
+				<li class="list-group-item list-group-itemm" [routerLink]="['/owner/driver/list']" [routerLinkActive]="['selected']">
+					<a> &#x27A5;&nbsp;&nbsp;&nbsp;&nbsp; Driver List </a>
+					<i class="fa fa-check" aria-hidden="true" style="float: right;	color:#fff;"></i>
+				</li>								
+			</ul>
+		</div>
+	</ul>
+</div>

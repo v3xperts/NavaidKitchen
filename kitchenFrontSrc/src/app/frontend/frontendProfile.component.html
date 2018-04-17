@@ -1,0 +1,45 @@
+<app-headerfrontend></app-headerfrontend>
+<div style="padding-top: 50px;">
+<div class="rightMenu col-lg-9 col-md-9 col-sm-9">
+
+	<div class="profile" id="Menu18">
+		<form [formGroup]="frontendProfile" (ngSubmit)="frontendUpdate()">
+			<div class="firstDiv">
+				<span class="">My profile</span>
+				<input type="submit" class="btn" value="Next" style="float: right;" [disabled]="!frontendProfile.valid">
+			</div>
+
+			<div class="secondDiv">
+				<div class="input-group gfe-input">
+					<span class="input-group-addon">
+	    				<i class="fa fa-info" aria-hidden="true"></i>
+	  				</span>
+	  				<input type="text" class="form-control" formControlName="firstname">
+	  				<span class="gfe-input-placeholder">First Name *</span>
+				</div>
+				<div class="input-group gfe-input">
+					<span class="input-group-addon">
+	    				<i class="fa fa-info" aria-hidden="true"></i>
+	  				</span>
+	  				<input type="text" class="form-control" formControlName="lastname">
+	  				<span class="gfe-input-placeholder">Last Name *</span>
+				</div>
+				<div class="input-group gfe-input">
+					<span class="input-group-addon">
+	    				<i class="fa fa-info" aria-hidden="true"></i>
+	  				</span>
+	  				<input type="text" class="form-control" formControlName="email">
+	  				<span class="gfe-input-placeholder">Email *</span>
+				</div>
+				<div class="input-group gfe-input">
+					<span class="input-group-addon">
+	    				<i class="fa fa-info" aria-hidden="true"></i>
+	  				</span>
+	  				<input type="text" class="form-control" formControlName="username">
+	  				<span class="gfe-input-placeholder">Username *</span>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
