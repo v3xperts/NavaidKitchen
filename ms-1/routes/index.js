@@ -350,9 +350,9 @@ router.post('/kitchenfilters',function(req,res){
             conditions.country = req.body.country.toLowerCase();
      }
             
-    if((req.body.sortby != '') && (typeof req.body.sortby != 'undefined') && (req.body.sortby != 'rating')){
+    if((req.body.sortby != '') && (typeof req.body.sortby != 'undefined')){
     	     var newsort = req.body.sortby;
-    	     var newsorttype = (newsort == 'created_at' ? -1 : 1);
+    	     var newsorttype = ((newsort == 'created_at') || (newsort == 'rating') ? -1 : 1);
              conditions2[newsort] = newsorttype;
      }
 
