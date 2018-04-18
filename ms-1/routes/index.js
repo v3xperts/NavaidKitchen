@@ -407,15 +407,12 @@ router.post('/filterKitchen',function(req,res){
      if(req.body.restaurant == 'fastDelivery'){
       conditions.fastestdelivery = true;
      }
-     if(req.body.restaurant == 'open'){
-      conditions.openingstatus = "open";
-     }
     }
- if(req.body.range > 0 && req.body.lat != 0 && req.body.lng != 0){
-  conditions.loc = {
-   $near: [req.body.lat, req.body.lng],
-   $maxDistance: req.body.range/111.12
-  }
+	 if(req.body.range > 0 && req.body.lat != 0 && req.body.lng != 0){
+	  conditions.loc = {
+	   $near: [req.body.lat, req.body.lng],
+	   $maxDistance: req.body.range/111.12
+	  }
  }
  
     console.log(conditions);

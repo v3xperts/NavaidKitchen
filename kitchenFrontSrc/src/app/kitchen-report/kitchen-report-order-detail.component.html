@@ -204,20 +204,23 @@
 				<div class="panel panel-default">
 					<div class="panel-body">
                           
-                            <p>Subtotal <b class="pull-right"> <small style="font-size: 10px;" *ngIf="order.currency"><b>{{order.currency}}</b></small>{{ order.subtotal ? order.subtotal.toFixed(2) : ''}} </b></p>
-
-                          <p *ngIf="order.discount && order.discount > 0"> Discount Amount ({{(order.discount/(order.subtotal/100)).toFixed(0)}}%) <b class="pull-right"> - <small style="font-size: 10px;" *ngIf="order.currency"><b>{{order.currency}}</b></small> {{order.discount.toFixed(2)}} </b></p>
+                            <p>Subtotal <b class="pull-right"> <small *ngIf="order.currency" style="font-size: 10px;"><b>   {{order.currency}}</b></small> {{ order.subtotal ? order.subtotal.toFixed(2) : ''}} </b></p>
                           
-                          <p *ngIf="order.discount && order.discount > 0" >Amount <b class="pull-right"> <small style="font-size: 10px;" *ngIf="order.currency"><b>{{order.currency}}</b></small>{{(order.subtotal- order.discount).toFixed(2)}} </b>
+                           <p *ngIf="order.deliveryCharges > 0"> Delivery Charges <b class="pull-right"> 
+                            <small *ngIf="order.currency" style="font-size: 10px;"><b>   {{order.currency}}</b></small> {{order.deliveryCharges.toFixed(2)}} </b>
                           </p>
 
-                          <p *ngIf="order.discount && order.discount > 0" >Included Tax ({{order.tax}}%) <b class="pull-right"> <small style="font-size: 10px;" *ngIf="order.currency"><b>{{order.currency}}</b></small> {{(((order.subtotal- order.discount)/100)*order.tax).toFixed(2)}} </b>
+                          <p *ngIf="order.discount && order.discount > 0"> Discount Amount <b class="pull-right"> - <small *ngIf="order.currency" style="font-size: 10px;"><b> {{order.currency}}</b></small> {{order.discount.toFixed(2)}} </b></p>
+                          
+                          <p *ngIf="order.discount && order.discount > 0" >Included Tax ({{order.tax}}%) <b class="pull-right"> 
+                            <small *ngIf="order.currency" style="font-size: 10px;"><b>   {{order.currency}}</b></small> {{((((order.subtotal + order.deliveryCharges)- order.discount)/100)*order.tax).toFixed(2)}} </b>
                           </p>
 
-                          <p *ngIf="!order.discount || order.discount == 0" >Included Tax({{order.tax}}%) <b class="pull-right"> <small style="font-size: 10px;" *ngIf="order.currency"><b>{{order.currency}}</b></small>{{(((order.subtotal)/100)*order.tax).toFixed(2)}} </b>
+                          <p *ngIf="!order.discount || order.discount == 0" >Included Tax({{order.tax}}%) <b class="pull-right"> 
+                            <small *ngIf="order.currency" style="font-size: 10px;"><b>   {{order.currency}}</b></small> {{(((order.subtotal + order.deliveryCharges)/100)*order.tax).toFixed(2)}} </b>
                           </p>
 
-                          <p>Total Amount <b class="pull-right"> <small style="font-size: 10px;" *ngIf="order.currency"><b>{{order.currency}}</b></small> {{ order.total ? order.total.toFixed(2) : ''}} </b></p>
+                          <p>Total Amount <b class="pull-right"> <small *ngIf="order.currency" style="font-size: 10px;"><b>   {{order.currency}}</b></small> {{ order.total ? order.total.toFixed(2) : ''}} </b></p>
 
 
 

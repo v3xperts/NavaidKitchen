@@ -17,11 +17,8 @@ toastr.options.timeOut = 3000;
 import {SelectModule, SelectItem, SelectComponent} from 'ng2-select';
 declare var moment : any ;
 import { HttpParams } from '@angular/common/http';
-
-
 import { AngularFireDatabase, AngularFireObject, AngularFireList } from 'angularfire2/database';
 import 'rxjs/add/operator/map';
-/*import firebase from 'firebase';*/
 import * as firebase from "firebase";
 
 
@@ -937,6 +934,7 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
                    }
                });
          //  console.log("sorted_rest", sorted_rest, this.restaurants);
+           sorted_rest.reverse();
            for(var i =0; i<sorted_rest.length; i++){
              var index = newrest.findIndex((item) => {
               return item._id == sorted_rest[i]._id
@@ -2631,7 +2629,6 @@ export class CustomerAccountInfoComponent implements OnInit {
     resturantListRating:any = [];
     timezone:any;
 
-
     constructor(
         public lf: FormBuilder, 
         public authService: AuthService,
@@ -2648,9 +2645,7 @@ export class CustomerAccountInfoComponent implements OnInit {
         public kitchenService: KitchenService,
         public ratingService : RatingService,
         public referralService : CustomerReferralService
-        ){
-        this.custid = JSON.parse(localStorage.getItem('currentCustomer'))._id;
-        }
+        ){this.custid = JSON.parse(localStorage.getItem('currentCustomer'))._id;}
 
 
     ngOnInit(){ 
@@ -2726,12 +2721,11 @@ export class CustomerAccountInfoComponent implements OnInit {
         this.getItems();
         this.myOrders();
         this.getCustomerRating();
-        this.loadDefaults();
-
+        this.loadDefaults();        
         
-    }
+        }
   
-    checktime(date){
+   public checktime(date){
         var date:any = new Date(date);
         var newDate = new Date(date.getTime()+date.getTimezoneOffset()*60*1000);
         var offset = date.getTimezoneOffset() / 60;
@@ -2741,7 +2735,7 @@ export class CustomerAccountInfoComponent implements OnInit {
     }
     
        
-    onKeyCardNumber(event){           
+    public onKeyCardNumber(event){           
             // console.log(event);
             var foo = this.customerCard.value.cardnumber.split("-").join("");
             if (foo.length > 0) {
@@ -2751,7 +2745,7 @@ export class CustomerAccountInfoComponent implements OnInit {
            }
 
 
-    getCustomerRating(){
+    public getCustomerRating(){
         //console.log("daaad");
         this.ratingService.getCustomerRating(this.custid).subscribe((data) => {
             var datai = data.message;            
@@ -2816,7 +2810,7 @@ export class CustomerAccountInfoComponent implements OnInit {
     }
 
 
-    reorder(order){
+    public reorder(order){
         this.reorderdSelectedOrder = order;
         if (JSON.parse(localStorage.getItem('cartinfo'))) {
             if(JSON.parse(localStorage.getItem('cartinfo'))['items'].length > 0 || JSON.parse(localStorage.getItem('cartinfo'))['combo'].length > 0 || JSON.parse(localStorage.getItem('cartinfo'))['package'].length > 0){
@@ -2834,7 +2828,7 @@ export class CustomerAccountInfoComponent implements OnInit {
     }
 
 
-    addToCart(){
+    public addToCart(){
         let total = this.calculateSubTotal();
         let obj = {};
         obj = {"customerid":this.reorderdSelectedOrder.customerid, "subtotal": total, "discount": "", "total": total, "ordertiming" : {}, "coupon" : "", "tax": this.reorderdSelectedOrder.tax, "restaurantid": this.reorderdSelectedOrder.restaurantid, "name": this.reorderdSelectedOrder.name, "items" : this.reorderdSelectedOrder.items, "combo" : this.reorderdSelectedOrder.combo, "package" : []};
@@ -2847,7 +2841,7 @@ export class CustomerAccountInfoComponent implements OnInit {
     }
 
 
-    calculateSubTotal(){
+    public calculateSubTotal(){
         let total = 0;
         if (this.reorderdSelectedOrder.package.length > 0) {
             for (var i = 0; i < this.reorderdSelectedOrder.package.length; i++) {
@@ -2861,7 +2855,7 @@ export class CustomerAccountInfoComponent implements OnInit {
     }
 
 
-    cancelOrder(order){ 
+    public cancelOrder(order){ 
         var obj = {
             _id: order._id,
             status: 'cancelled'
@@ -2895,7 +2889,7 @@ export class CustomerAccountInfoComponent implements OnInit {
         this.addressAddModel.reset();
         setTimeout(() => {
             this.initMap();
-        });
+        }, 1000);
     }
 
     public modelClosed(){
@@ -2915,6 +2909,10 @@ export class CustomerAccountInfoComponent implements OnInit {
 
             if(params["type"] == 'accountinfo'){ 
                 document.getElementById('accont-infotab').click();                  
+            }
+
+            if(params["type"] == 'myorders'){ 
+                document.getElementById('order-tab').click();                  
             }
         });
     }
@@ -3927,59 +3925,14 @@ export class FrontendCheckoutComponent implements OnInit {
                 cartinfoq.customerid = this.cid;
                 localStorage.setItem('cartinfo', JSON.stringify(cartinfoq));
             }  
+        this.checkoutsummary = JSON.parse(localStorage.getItem('cartinfo'));
+        this.getDeliveryCharges();
         }
 
-        this.checkoutsummary = JSON.parse(localStorage.getItem('cartinfo'));
         //this.checkoutsummary["note"] = "";
-       // console.log("checkoutsummary", this.checkoutsummary);
-        this.kitchenService.getOne(this.checkoutsummary.restaurantid).subscribe((data) => {   
-            if(data.message){
-            var data1 = data.message;
-            
-            this.checkoutsummary.subtotal = this.checkoutsummary.total;
-            this.finalTotalAmountabc = ((this.checkoutsummary.total/100)*this.checkoutsummary.tax)+this.checkoutsummary.total;            
-            var totalam = this.checkoutsummary.total;
-            var taxcalc = 0;
-            if(data1 && data1.tax && data1.tax.value){
-            taxcalc = (totalam / 100) * data1.tax.value;
-            }
-            this.finalTotalAmountabc = totalam + taxcalc;
-            this.checkoutsummary.total = totalam + taxcalc;
+        // console.log("checkoutsummary", this.checkoutsummary);
 
-            if(data1 && data1.tax && data1.tax.value){
-            this.checkoutsummary.tax = data1.tax.value;       
-            }else{
-            this.checkoutsummary.tax  = 0;
-            }   
-            this.checkoutsummary.total = this.checkoutsummary.total.toFixed(2);
-            this.finalTotalAmount = this.checkoutsummary.total;
-            }         
-
-
-
-           /* var da = new Date();
-            var vctime = da.getHours()+":"+da.getMinutes();
-            var dayss = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
-            var day = dayss[da.getDay()];
-            if(data1.openinghours.length > 0){
-            var dayindex = data1.openinghours.findIndex((days) => {
-                            return days.name == day && days.status == false
-                            });
-            console.log("dayindex", dayindex);
-            if(dayindex > 0){
-            var da = new Date();
-            vctime = da.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
-            console.log("jfkjk", data1.openinghours[dayindex].times[0].open <= vctime && data1.openinghours[dayindex].times[0].close >= vctime);
-            if(data1.openinghours[dayindex].times[0].open <= vctime && data1.openinghours[dayindex].times[0].close >= vctime){
-            this.todayOpenstatus = true;
-            }else{
-            this.todayOpenstatus = false;
-            }
-           }*/
-
-           this.initRest('now');       
-    
-           });    
+        
 
         //console.log("checkoutsummary", this.checkoutsummary);
         this.getCustomer();
@@ -3992,29 +3945,71 @@ export class FrontendCheckoutComponent implements OnInit {
         this.customerCard.valueChanges
         .subscribe(data => this.cardonValueChanged(data));
         this.cardonValueChanged(); // (re)set validation messages now
-      
-      this.getKitchenDetail();
-       this.getDeliveryCharges();
-    }
- 
-        
+        this.getKitchenDetail();
+       }
 
-  public getDeliveryCharges(){
-            this.deliveryChargesService.getDeliveryCharges().subscribe(
-                (data) => {
-                console.log("deliveryChargesService", data);
-             if(data.message.length > 0){
-               //var datacharge = data.message[0];
-               this.checkoutsummary.package.map((item, index) => {
+       public initcheckoutSummary(){
+
+             this.kitchenService.getOne(this.checkoutsummary.restaurantid).subscribe((data) => {   
+
+            if(data.message){
+            var data1 = data.message;
+
+            this.checkoutsummary.subtotal = this.checkoutsummary.total;
+            var totalam = this.checkoutsummary.subtotal + parseFloat(this.checkoutsummary.deliveryCharges);
+            var taxcalc = 0;
+            if(data1 && data1.tax && data1.tax.value){
+            taxcalc = ((totalam) / 100) * data1.tax.value;
+            }
+            console.log(totalam , taxcalc);
+            this.checkoutsummary["subtax"] = taxcalc;
+            this.finalTotalAmountabc = (totalam + taxcalc).toFixed(2);
+            this.checkoutsummary.total = (totalam + taxcalc).toFixed(2);
+            if(data1 && data1.tax && data1.tax.value){
+            this.checkoutsummary.tax = data1.tax.value;       
+            }else{
+            this.checkoutsummary.tax  = 0;
+            }   
+            this.finalTotalAmount = this.checkoutsummary.total;
+            } 
+            this.initRest('now'); 
+           });  
+
+          }
+
+
+       public getDeliveryCharges(){
+
+            this.deliveryChargesService.getDeliveryCharges().subscribe((data) => {
+
+            if(data.message.length > 0){
+
+            var datacharge = data.message[0];
+            var mealdeliveryCharges = 0;
+            this.deliveryCharges = datacharge.itemcharge;
+             this.checkoutsummary.package.map((item, index) => {
                    console.log("item, index", item, index);
-               });
-               //console.log("deliveryChargesService2", this.checkoutsummary);
-              //this.deliveryCharges = data.message[0];
+                   var totalarray = item.dayandmenus.map((item1 , index1) => {
+                     return item1.menuids.length > 0 ? datacharge.mealpackagecharge : 0;  
+                   });
+                   var sum = totalarray.reduce((a, b) => a + b, 0);
+                   mealdeliveryCharges += sum;
+                  });
+                 }  
 
-             }         
+                if(mealdeliveryCharges > datacharge.itemcharge){
+                this.deliveryCharges = mealdeliveryCharges;
+                }else if((mealdeliveryCharges < datacharge.itemcharge) || (mealdeliveryCharges == datacharge.itemcharge)){
+                this.deliveryCharges = datacharge.itemcharge;
                 }
-            );
-    }
+                this.checkoutsummary["deliveryCharges"] = parseFloat(this.deliveryCharges);
+               setTimeout(()=>{
+               this.initcheckoutSummary();
+               }, 500);
+               });
+
+
+            }
 
      public removeCard(index){
          if(this.cards[index]["selected"]){
@@ -4044,7 +4039,7 @@ export class FrontendCheckoutComponent implements OnInit {
         this.addressAddModel.reset();
         setTimeout(() => {
             this.initMap();
-            });
+            }, 1000);
         }
 
 
@@ -4565,31 +4560,30 @@ export class FrontendCheckoutComponent implements OnInit {
     }
 
     applyOnOrderPrice(data){
-       
-        let ordertotal = this.checkoutsummary.subtotal;
-        console.log("hfjgh", data, ordertotal);
+
+        let ordertotal = this.checkoutsummary.subtotal + parseFloat(this.checkoutsummary.deliveryCharges);
         this.checkoutsummary.coupon = data; 
         var disnewval:any = 0;
         var typelcase = data.type.toLowerCase();
         
-        if(typelcase == 'price'){    
-            console.log(ordertotal, data.percentorpricevalue);  
-            this.checkoutsummary.total = ordertotal - data.percentorpricevalue;
-            disnewval = data.percentorpricevalue;
-            this.checkoutsummary.discount = parseFloat(disnewval).toFixed(2);
-            if( data.percentorpricevalue == ordertotal){
-            this.checkoutsummary.discount = ordertotal;
+        if(typelcase == 'price'){ 
+            disnewval = ordertotal - data.percentorpricevalue;
+            this.checkoutsummary.discount = data.percentorpricevalue;
+            }else{ 
+            var valuedis:any = (ordertotal/100) * data.percentorpricevalue;    
+            disnewval = ordertotal - valuedis;
+            this.checkoutsummary.discount = parseFloat(valuedis).toFixed(2);
             }
-            }else{
-            console.log(ordertotal, data.percentorpricevalue);  
-            this.checkoutsummary.total -= (ordertotal/100) * data.percentorpricevalue;
-            disnewval = (ordertotal/100) * data.percentorpricevalue;
-            this.checkoutsummary.discount = parseFloat(disnewval).toFixed(2);
-            console.log(this.checkoutsummary.total);
-          }
-            this.finalTotalAmountabc = ordertotal - this.checkoutsummary.discount;
-            this.checkoutsummary.total = (this.finalTotalAmountabc + ((this.finalTotalAmountabc/100) * this.checkoutsummary.tax)).toFixed(2);
-            if(ordertotal == this.checkoutsummary.discount){
+
+            var totalam = disnewval;
+            var taxcalc = 0;
+            if(this.checkoutsummary && this.checkoutsummary.tax){
+            taxcalc = ((totalam) / 100) * this.checkoutsummary.tax;
+            }
+            this.checkoutsummary["subtax"] = taxcalc;
+             this.finalTotalAmountabc = parseFloat(totalam + +taxcalc);
+             this.checkoutsummary.total = (totalam + +taxcalc);
+            if(totalam <= 0){
             this.hidewithdiscount = false; 
             this.paybycash();
             }
@@ -4611,19 +4605,12 @@ export class FrontendCheckoutComponent implements OnInit {
     }
 
     removeCoupan(){
+
         this.checkoutsummary.coupon = "";
-        this.checkoutsummary.total = this.finalTotalAmount;
         this.voucharCode = "";
         this.checkoutsummary.discount = 0;
-
-        this.finalTotalAmountabc = ((this.checkoutsummary.subtotal/100)*this.checkoutsummary.tax)+this.checkoutsummary.subtotal;
-        var totalam = this.checkoutsummary.subtotal;
-        var taxcalc = (totalam / 100) * this.checkoutsummary.tax;
-        this.finalTotalAmountabc = totalam + taxcalc;
-        this.checkoutsummary.total = totalam + taxcalc;
-        this.checkoutsummary.tax = this.checkoutsummary.tax; 
-        this.checkoutsummary.total = this.checkoutsummary.total.toFixed(2);           
-        this.finalTotalAmount = this.checkoutsummary.total;
+        this.checkoutsummary = JSON.parse(localStorage.getItem('cartinfo'));           
+        this.getDeliveryCharges(); 
     }
 
     placeOrder(){
@@ -4720,7 +4707,8 @@ export class FrontendCheckoutComponent implements OnInit {
         this.checkoutsummary["timezone"] = Intl.DateTimeFormat().resolvedOptions().timeZone;
         this.checkoutsummary["created_at"] = new Date();
 
-        // console.log("this.checkoutsummary[", this.checkoutsummary["created_at"].ISODate(),new Date())
+        console.log("this.checkoutsummary[", this.checkoutsummary)
+        this.checkoutsummary.total = ((this.checkoutsummary.total < 0) ? 0 : this.checkoutsummary.total);
         this.orderService.add(this.checkoutsummary).subscribe(response => {
             this.loader_run = false;    
             localStorage.removeItem('cartinfo'); 

@@ -29,7 +29,7 @@
                                     <a id="saveaddress-tab" href="#b" data-toggle="tab">Saved Addresses</a>
                                 </li>
                                 <li (click)="myOrders()">
-                                    <a href="#c" data-toggle="tab">My Orders</a>
+                                    <a id="order-tab" href="#c" data-toggle="tab">My Orders</a>
                                 </li>
                                 <li>
                                     <a href="#d" data-toggle="tab">Saved Card</a>
@@ -555,9 +555,9 @@ No Record found!
                     </div>                   
                     
                     <div class="form-group">
-                    <label class="control-label col-sm-4" for="pwd">Expiration Date :</label>
+                    <label class="control-label col-sm-4" for="pwd1">Expiration Date :</label>
                     <div class="col-sm-4">
-                        <input type="text" class="form-control" id="pwd" placeholder="MM" formControlName="expirymonth">
+                        <input type="text" class="form-control" id="pwd1" placeholder="MM" formControlName="expirymonth">
                         <p style="padding:3px" *ngIf="cardformErrors.expirymonth" class="alert alert-danger">
                         {{ cardformErrors.expirymonth }}
                         </p> 
@@ -764,18 +764,19 @@ No Record found!
                             <div class="panel-body">
                           
                           <p>Subtotal <b class="pull-right"> <small *ngIf="selectedOrder.currency" style="font-size: 10px;"><b>   {{selectedOrder.currency}}</b></small> {{ selectedOrder.subtotal ? selectedOrder.subtotal.toFixed(2) : ''}} </b></p>
-
-                          <p *ngIf="selectedOrder.discount && selectedOrder.discount > 0"> Discount Amount ({{(selectedOrder.discount/(selectedOrder.subtotal/100)).toFixed(0)}}%) <b class="pull-right"> - <small *ngIf="selectedOrder.currency" style="font-size: 10px;"><b>   {{selectedOrder.currency}}</b></small> {{selectedOrder.discount.toFixed(2)}} </b></p>
                           
-                          <p *ngIf="selectedOrder.discount && selectedOrder.discount > 0" >Amount <b class="pull-right"> <small *ngIf="selectedOrder.currency" style="font-size: 10px;"><b>   {{selectedOrder.currency}}</b></small> {{(selectedOrder.subtotal- selectedOrder.discount).toFixed(2)}} </b>
+                           <p *ngIf="selectedOrder.deliveryCharges > 0"> Delivery Charges <b class="pull-right"> 
+                            <small *ngIf="selectedOrder.currency" style="font-size: 10px;"><b>   {{selectedOrder.currency}}</b></small> {{selectedOrder.deliveryCharges.toFixed(2)}} </b>
                           </p>
 
+                          <p *ngIf="selectedOrder.discount && selectedOrder.discount > 0"> Discount Amount <b class="pull-right"> - <small *ngIf="selectedOrder.currency" style="font-size: 10px;"><b> {{selectedOrder.currency}}</b></small> {{selectedOrder.discount.toFixed(2)}} </b></p>
+                          
                           <p *ngIf="selectedOrder.discount && selectedOrder.discount > 0" >Included Tax ({{selectedOrder.tax}}%) <b class="pull-right"> 
-                            <small *ngIf="selectedOrder.currency" style="font-size: 10px;"><b>   {{selectedOrder.currency}}</b></small> {{(((selectedOrder.subtotal- selectedOrder.discount)/100)*selectedOrder.tax).toFixed(2)}} </b>
+                            <small *ngIf="selectedOrder.currency" style="font-size: 10px;"><b>   {{selectedOrder.currency}}</b></small> {{((((selectedOrder.subtotal + selectedOrder.deliveryCharges)- selectedOrder.discount)/100)*selectedOrder.tax).toFixed(2)}} </b>
                           </p>
 
                           <p *ngIf="!selectedOrder.discount || selectedOrder.discount == 0" >Included Tax({{selectedOrder.tax}}%) <b class="pull-right"> 
-                            <small *ngIf="selectedOrder.currency" style="font-size: 10px;"><b>   {{selectedOrder.currency}}</b></small> {{(((selectedOrder.subtotal)/100)*selectedOrder.tax).toFixed(2)}} </b>
+                            <small *ngIf="selectedOrder.currency" style="font-size: 10px;"><b>   {{selectedOrder.currency}}</b></small> {{(((selectedOrder.subtotal + selectedOrder.deliveryCharges)/100)*selectedOrder.tax).toFixed(2)}} </b>
                           </p>
 
                           <p>Total Amount <b class="pull-right"> <small *ngIf="selectedOrder.currency" style="font-size: 10px;"><b>   {{selectedOrder.currency}}</b></small> {{ selectedOrder.total ? selectedOrder.total.toFixed(2) : ''}} </b></p>

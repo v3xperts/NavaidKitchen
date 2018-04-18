@@ -530,8 +530,10 @@ textarea#textarearesize0 {
           {{checkoutsummary.coupon.couponcode}} Coupon code applied <a href="javascript:void(0);" (click)="removeCoupan()"> <i class="fa fa-times pull-right" aria-hidden="true"></i> </a>
         </div>
       </div>
-        <table class="table ">
-            <tbody class="tableborder-0">
+        <table class="table" >
+        <p *ngIf="!hidewithdiscount">You order is free by mealdaay.com</p>
+            <tbody class="tableborder-0" *ngIf="hidewithdiscount">
+
                 <tr>
                     <td>Subtotal</td>
                     <td width="115"><span class="pull-left"></span>
@@ -540,57 +542,75 @@ textarea#textarearesize0 {
                       {{checkoutsummary.subtotal.toFixed(2)}} 
                       </small>
                       </span></td>
-                </tr>  
-                   
+                </tr> 
+                
+                <tr *ngIf="checkoutsummary && checkoutsummary.deliveryCharges > 0">
+                    <td>Delivery Charges</td>
+                    <td width="115"><span class="pull-left"></span>
+                      <span class="pull-right">
+                        <small> 
+                          <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b> {{checkoutsummary.deliveryCharges.toFixed(2)}}
+                        </small>
+                     </span>
+                   </td>
+                  </tr> 
 
                 <tr class="total-amount" *ngIf="checkoutsummary.discount != '' || checkoutsummary.discount > 0">
-                    <td>Discount Amount ({{(checkoutsummary.discount/(checkoutsummary.subtotal/100)).toFixed(0)}}%)</td>
+                    <td> Discount Amount <!-- ({{(checkoutsummary.discount/(checkoutsummary.subtotal/100)).toFixed(0)}}%) --></td>
                     <td width="115"><span class="pull-left"><b></b></span><span class="pull-right">-
                      <small *ngIf="checkoutsummary.discount > 0"> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b>
                       {{checkoutsummary.discount}} 
                       </small>
                      </span></td>
                 </tr>
-
-                <tr *ngIf="checkoutsummary.discount == 0">
+                
+                <tr *ngIf="checkoutsummary.discount != '' || checkoutsummary.discount > 0">
                     <td>Included Tax ({{checkoutsummary.tax}}%)</td>
                     <td width="115"><span class="pull-left"></span>
                       <span class="pull-right">
                         <small> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b>
-                        {{(finalTotalAmountabc - checkoutsummary.subtotal).toFixed(2)}}
+                         {{checkoutsummary.subtax ? checkoutsummary.subtax.toFixed(2) : ''}}
                       </small>
                      </span>
                    </td>
-                </tr> 
+                </tr>
+
+                <tr *ngIf="checkoutsummary.discount == '' || checkoutsummary.discount == 0">
+                    <td>Included Tax ({{checkoutsummary.tax}}%)</td>
+                    <td width="115"><span class="pull-left"></span>
+                      <span class="pull-right">
+                        <small> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b>
+                        {{checkoutsummary.subtax ? checkoutsummary.subtax.toFixed(2) : ''}}
+                      </small>
+                     </span>
+                   </td>
+                </tr>
 
                 <tr class="total-amount">
                     <td>Total Amount</td>
                     <td width="115"><span class="pull-left"><b></b></span><span class="pull-right">
                        <small *ngIf="finalTotalAmountabc > 0 || finalTotalAmountabc == 0"> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b>
-                        {{finalTotalAmountabc.toFixed(2)}}
+                        {{finalTotalAmountabc}}
                       </small></span></td>
                 </tr>
+
                 
-                <tr *ngIf="checkoutsummary.discount">
-                    <td>Included Tax ({{checkoutsummary.tax}}%)</td>
-                    <td width="115"><span class="pull-left"></span>
-                      <span class="pull-right">
-                        <small> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b>
-                        {{((finalTotalAmountabc/100) * checkoutsummary.tax).toFixed(2)}}
-                      </small>
-                     </span>
-                   </td>
-                </tr> 
+                
+
+              
 
                 <tr class="final-amt">                  
                     <td *ngIf="paymentoption == 'no'"> <span> <b>Select Pay Type </b></span> </td>
                     <td *ngIf="paymentoption == 'cash'"> <span><b> Pay by Cash </b></span> </td>
                     <td *ngIf="paymentoption == 'card'"> <span> <b>Pay by Card </b></span> </td>
-                    <td *ngIf="paymentoption"><span class="pull-right"><b>
-                     <small *ngIf="checkoutsummary.total"> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b>
-                        {{checkoutsummary.total}}
-                      </small>
-                     </b></span></td>                  
+                    <td *ngIf="paymentoption">
+                      <span class="pull-right">
+                      <b>
+                      <small *ngIf="checkoutsummary.total"> 
+                      <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b> {{checkoutsummary.total}} </small> 
+                      </b>
+                     </span>
+                   </td>                  
                 </tr>
                 
             </tbody>
