@@ -67,7 +67,7 @@ var KitchenSchema = new Schema({
  completeprofileservice : {type: Number, dafault : 0},
  currency: { type : String, uppercase: true, trim: true },
  shortName: { type : String, uppercase: true, trim: true },
- payoutdetail : {"accountholdername": {type: String , default : ""}, "accountnumber": {type: Number , default : ""}, "bankname": {type: String , default : ""}}
+ payoutdetail : {"accountholdername": {type: String , default : ""}, "accountnumber": {type: String , default : ""}, "bankname": {type: String , default : ""}}
  });
 
 // the schema is useless so far

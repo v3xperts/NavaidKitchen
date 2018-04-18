@@ -17,9 +17,9 @@ var userSchema = new Schema({
   status: { type: Boolean, default: true },
   created_at: Date,
   updated_at: Date,
-  adminpasscomplexity : {name: "", regex : ""},
-  ownerpasscomplexity : {name: "", regex : ""},
-  customerpasscomplexity : {name: "", regex : ""},
+  adminpasscomplexity : {name: {type: String, default : "none"}, regex : ""},
+  ownerpasscomplexity : {name: {type: String, default : "none"}, regex : ""},
+  customerpasscomplexity : {name: {type: String, default : "none"}, regex : ""},
 });
 
 userSchema.plugin(passportLocalMongoose);
