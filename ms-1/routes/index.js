@@ -581,7 +581,6 @@ router.post('/order-email',function(req,res,next){
         } else{  
                 //console.log("eml", data);      	
             if (data.length>0) {
-            	
             	emails.restroOrderEmailShoot(data[0].ownerId.email,data[0].username,req.body.order);
             	emails.customerOrderEmailShoot(req.body.customeremail,data[0].username,req.body.order);
                 res.json({error: false, message: 'Email send successfully.'});
@@ -593,10 +592,18 @@ router.post('/order-email',function(req,res,next){
 });
 
 
-router.post('/order-rejected-email',function(req,res,next){
-    emails.customerOrderRejectedEmailShoot(req.body.customeremail, req.body.order);
+router.post('/order-cancel-email',function(req,res,next){
+	if(req.body.customeremail){
+       emails.customerOrderRejectedEmailShoot(req.body.customeremail, req.body.order);
+	}
+	if(req.body.kitchenemail){
+       emails.kitchenOrderRejectedEmailShoot(req.body.kitchenemail, req.body.order);
+	   }
     res.json({error: false, message: 'Customer email Sent.'})
 });
+
 /*-------------------------------End Email for successfully-----------------------------------------------------------*/
+
+
 
 module.exports = router;
