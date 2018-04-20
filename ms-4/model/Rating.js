@@ -16,6 +16,7 @@ var RatingSchema = new Schema({
     items: [],
     combo: [],
     package: [],
+    ratingUpdateStatus: {type: Boolean, default: false}
 
 });
 
