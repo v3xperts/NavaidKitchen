@@ -103,21 +103,23 @@
     </div>
     <div class="collapse navbar-collapse" id="collapse_1">
       <ul class="nav navbar-nav navbar-left tabs custom-nav-right">
-        <li><a [routerLink]="['/customer/browse-restaurants']"  class="browser-resc"> Popular Kitchens </a></li>      
+        <!-- <li><a [routerLink]="['/customer/browse-restaurants']"  class="browser-resc"> Popular Kitchens </a></li>  -->     
         <li><a [routerLink]="['/customer/browse-restaurants']" class="browser-resc">Browse Restaurants</a></li>        
         <li *ngIf='currentCustomer'>
           <a class="dropdown-toggle browser-resc" data-toggle="dropdown" href="#" >&nbsp; {{currentCustomer.username}} <span class="glyphicon glyphicon-user"></span>&nbsp; <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a [routerLink]="['/customer/accountinfo']" [queryParams]="{'type': 'myfavorite'}"> <span class="glyphicon glyphicon-star-empty"></span>&nbsp;My favorite</a></li>
             <li><a [routerLink]="['/customer/accountinfo']" [queryParams]="{'type': 'accountinfo'}"> <i class="fa fa-user" aria-hidden="true"></i>&nbsp;Account Info</a></li>
-            <li><a [routerLink]="['/customer/accountinfo']" [queryParams]="{type: 'savedaddress'}"> <i class="fa fa-address-card" aria-hidden="true"></i> &nbsp; Saved Address</a></li> 
+
+            <li><a [routerLink]="['/customer/accountinfo']" [queryParams]="{'type': 'myfavorite'}"> <span class="glyphicon glyphicon-star-empty"></span>My favorite</a></li>
+            
+            <li><a [routerLink]="['/customer/accountinfo']" [queryParams]="{type: 'savedaddress'}"> <i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;Saved Address</a></li> 
 
             <li><a [routerLink]="['/customer/accountinfo']" [queryParams]="{type: 'myorders'}">
-             <i class="fa fa-address-card" aria-hidden="true"></i> &nbsp; My orders </a></li>   
+             <span class="glyphicon glyphicon-asterisk"></span>My orders </a></li>   
                       
-            <li>
-              <a [routerLink]="['/customer/change-password']" href="frontendChangePassword.html" > <span class="glyphicon glyphicon-asterisk"></span>&nbsp;Change Password</a>
-            </li>
+           <!--  <li>
+             <a [routerLink]="['/customer/change-password']" href="frontendChangePassword.html" > <span class="glyphicon glyphicon-asterisk"></span>&nbsp;Change Password</a>
+           </li> -->
             <li>
               <a href="javascript:void(0)" (click)="setlogout()"><i class="fa  fa-power-off"></i>&nbsp;Logout </a>
             </li>

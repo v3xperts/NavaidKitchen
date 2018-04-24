@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators,  FormControl , ReactiveFormsModule 
 import { ReCaptchaComponent } from 'angular2-recaptcha';
 import { SearchPipe } from "../filter2.pipe";
 import { SearchPipeRestaurant } from "../filter4.pipe";
-import { AlertService, AuthService, FrontendService, PaymentConfigService, DeliveryChargesService, SlidesService, RatingService, KitchenMenuService, KitchenItemService, FrontendRestaurantService, PageService, MasterService, OrderService, KitchenService , ComboService,IntroService, WeekMonthService, OfferService, CustomerReferralService, DriverService} from '../service/index';
+import { AlertService, AuthService, FrontendService, PaymentConfigService, DeliveryChargesService, SlidesService, RatingService, KitchenMenuService, KitchenItemService, FrontendRestaurantService, PageService, MasterService, OrderService, KitchenService , ComboService,IntroService, WeekMonthService, OfferService, CustomerReferralService, DriverService,UsersService} from '../service/index';
 import * as globalVariable from "../global";
 import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
 import {OrderPipe} from "../order.pipe";
@@ -17,6 +17,7 @@ toastr.options.timeOut = 3000;
 import {SelectModule, SelectItem, SelectComponent} from 'ng2-select';
 declare var moment : any ;
 import { HttpParams } from '@angular/common/http';
+
 import { AngularFireDatabase, AngularFireObject, AngularFireList } from 'angularfire2/database';
 import 'rxjs/add/operator/map';
 import * as firebase from "firebase";
@@ -547,7 +548,7 @@ export class FrontendResetPasswordComponent implements OnInit {
 }
 
 @Component({
-    selector: 'app-frontend',
+    selector: 'app-change-password',
     templateUrl: './frontendChangePassword.component.html',
     styleUrls: ['./frontend.component.css'],
     encapsulation: ViewEncapsulation.None
@@ -557,8 +558,25 @@ export class FrontendChangePasswordComponent implements OnInit {
     frontendProfile: FormGroup;
     returnUrl: string;
     err:any;
-    passwordp : any = /^(?=.*[0-9])(?=.*[A-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,25}$/;
+    passwordp : any = '';
     MutchPassword :any = false;
+    formshow : any = false;
+
+     formErrors = {   
+        'oldpassword' : '',
+        'newpassword'  : ''
+         
+    };
+
+    validationMessages = {   
+        'oldpassword' : {
+            'required':      'Old Password is required.'
+        },
+        'newpassword' : {
+            'required':      'New password is required.',
+            'pattern'   :    'Required'
+        }        
+    };
 
     constructor(
         public lf: FormBuilder, 
@@ -567,21 +585,52 @@ export class FrontendChangePasswordComponent implements OnInit {
         public router: Router,
         public alertService: AlertService,
         public route: ActivatedRoute,
-        
-        ) { }
+        public usersService : UsersService
+        ) {}
 
     ngOnInit() {
+         this.usersService.getComplexity().subscribe(data=>{ 
+            this.passwordp = data.message[0].customerpasscomplexity.regex;
+            this.setpasswordmessage(data.message[0].customerpasscomplexity.name);
+        
+        
         this.frontendProfile = this.lf.group({
             _id: ['', Validators.required],
-            oldpassword: ['', [Validators.required, Validators.pattern(this.passwordp)]],
+            oldpassword: ['', [Validators.required]],
             newpassword: ['', [Validators.required, Validators.pattern(this.passwordp)]],
+            confirmpassword : ['', Validators.required],
             match : ['', Validators.required]
         });
+        this.formshow = true;
+        
+
         this.frontendProfile.patchValue(JSON.parse(localStorage.getItem('currentCustomer')));
         this.frontendProfile.valueChanges
         .subscribe(data => this.onValueChanged(data));
         this.onValueChanged(); // (re)set validation messages now     
         toastr.clear();
+        });
+    }
+    
+    public setpasswordmessage(name){
+        if(name == 'simplepassword'){
+            this.validationMessages.newpassword.pattern = 'New password must contain min 8 Digits alphanumeric only';
+        }
+
+        if(name == 'medium'){
+            this.validationMessages.newpassword.pattern = 'TBD';
+            
+        }
+
+        if(name == 'complex'){
+            this.validationMessages.newpassword.pattern = 'TBD';
+            
+        }
+
+        if(name == 'none'){
+            this.validationMessages.newpassword.pattern = 'Required';
+            
+        }
     }
 
     frontendUpdate(){
@@ -590,23 +639,25 @@ export class FrontendChangePasswordComponent implements OnInit {
                 if (data.error) {
                     toastr.remove();
                     toastr.info(data.message); 
-                    //this._flashMessagesService.show(data.message, { cssClass: 'alert-danger', timeout: 10000 });
                 }else{
                     toastr.remove();
-                    toastr.info(data.message);
+                    this.frontendProfile.controls["oldpassword"].setValue("");
+                    this.frontendProfile.controls["newpassword"].setValue("");
+                    this.frontendProfile.controls["confirmpassword"].setValue("");
+                    $("#changePasswordModal").modal('hide');
+                    toastr.success(data.message);
                     //this.alertService.success(data.message, true);
-                    this.router.navigate(['/customer']);
+                    //setTimeout
+                    //this.router.navigate(['/customer']);
                 }
             }
             );
     }
 
     matchpassword(){  
-
-        if(this.frontendProfile.value.oldpassword == this.frontendProfile.value.newpassword){
+        if(this.frontendProfile.value.confirmpassword == this.frontendProfile.value.newpassword){
             this.frontendProfile.controls["match"].setValue(true);
             this.MutchPassword = false;
-
         }else{
             this.frontendProfile.controls["match"].setValue("");
             this.MutchPassword = true;
@@ -615,7 +666,6 @@ export class FrontendChangePasswordComponent implements OnInit {
     }  
 
     onValueChanged(data?: any) {
-
         if (!this.frontendProfile) {return;  }
         const form = this.frontendProfile;
 
@@ -635,21 +685,7 @@ export class FrontendChangePasswordComponent implements OnInit {
 
 
 
-    formErrors = {   
-        'oldpassword' : '',
-        'newpassword'  : ''   
-    };
-
-    validationMessages = {   
-        'oldpassword' : {
-            'required':      'Password is required.',
-            'pattern'   :    'Password must contain 8-25 characters, 1 Uppercase, 1 Lowercase, 1 Number, and 1 Special Charecter'
-        },
-        'newpassword' : {
-            'required':      'Password is required.',
-            'pattern'   :    'Password must contain 8-25 characters, 1 Uppercase, 1 Lowercase, 1 Number, and 1 Special Charecter'
-        }         
-    };
+   
 }
 
 @Component({
@@ -687,7 +723,7 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
     ratingOnRestIndexs : any = [];
     ratingOnRest : any = [];
     cousineList: any = [];
-    
+    listView:any = false;
 
 
     constructor(
@@ -782,6 +818,22 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
 
        
     }
+
+    setInListView(){
+           setTimeout(() => {
+           if(this.listView == true){
+             console.log("this.restaurants", this.restaurants , this.listView);
+             $('#products .item').addClass('list-group-item'); $('.thumbnail > img').removeClass('image-grid'); $('.thumbnail > img').addClass('image-list'); $('.caption').addClass('caption-minh');  $('.thumbnail').removeClass('thumbnail-grid'); 
+            }else{
+             $('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item'); $('.thumbnail > img').removeClass('image-list'); $('.thumbnail > img').addClass('image-grid'); $('.caption').removeClass('caption-minh'); $('.thumbnail').addClass('thumbnail-grid');
+            }
+          }, 20);
+    }
+    
+    public listViews(res){
+    this.listView = res;
+    }
+
 
     public checkdetail(restaurant){
         var da = new Date();
@@ -945,6 +997,7 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
              newrest.splice(index, 1);
              }
            this.restaurants = restroarray.concat(newrest);
+           this.setInListView();
            }
        });
          }
@@ -960,8 +1013,8 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
 
     jq(){
         $(document).ready(function() {
-            $('#list').click(function(event){event.preventDefault(); $('#products .item').addClass('list-group-item'); $('.thumbnail > img').removeClass('image-grid'); $('.thumbnail > img').addClass('image-list'); $('.caption').addClass('caption-minh');  $('.thumbnail').removeClass('thumbnail-grid'); });
-            $('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item'); $('.thumbnail > img').removeClass('image-list'); $('.thumbnail > img').addClass('image-grid'); $('.caption').removeClass('caption-minh'); $('.thumbnail').addClass('thumbnail-grid');});
+            $('#list').click(function(event){ $('#products .item').addClass('list-group-item'); $('.thumbnail > img').removeClass('image-grid'); $('.thumbnail > img').addClass('image-list'); $('.caption').addClass('caption-minh');  $('.thumbnail').removeClass('thumbnail-grid'); });
+            $('#grid').click(function(event){ $('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item'); $('.thumbnail > img').removeClass('image-list'); $('.thumbnail > img').addClass('image-grid'); $('.caption').removeClass('caption-minh'); $('.thumbnail').addClass('thumbnail-grid');});
         });
     }
 
@@ -1049,6 +1102,7 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
             //console.log("all rest2 "); 
            // console.log(this.restaurants); 
             this.restaurants = data.message; 
+            
         });
     }
   
@@ -1152,15 +1206,15 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
                         }
                     }
                 }
-            }
-            else{
+               } else{
                 this.restaurants =  data.message;  
                 if(this.filterOfdetail.sortby == 'rating'){
                     this.restaurentRating();
                 }
-            }  
+            } 
 
-            console.log("this.restaurants", this.restaurants);           
+            this.setInListView(); 
+                      
         });
 
     }
@@ -1293,7 +1347,7 @@ export class CustomerRestaurantDetailComponent implements OnInit {
     packageRating:any= [];
     packageRatingIndex:any = [];
     customerObj:any = [];
-    reviewRating : any = {"valueOfTimeRating": 0, "deliveryTimeRating": 0, "orderPackagingRating": 0, "review": []};
+    reviewRating : any = {"valueOfTimeRating": 0, "deliveryTimeRating": 0, "orderPackagingRating": 0, "review": [], "ratingUpdateStatus": false};
     modelOpen: any = '';
     customizedPackageTotalPrice:any = 0;
     diffDays:any;    
@@ -1675,12 +1729,15 @@ export class CustomerRestaurantDetailComponent implements OnInit {
         }
         setTimeout(()=> {
                 var mind = new Date();
+                var mind2 = new Date();
                 var tmind = mind.setDate(mind.getDate() + +this.restaurantsdetail.mealpackageallowdays);
+                console.log("aa", +this.restaurantsdetail.mealpackageallowdays + +1);
+                var tmind2 = mind2.setDate(mind2.getDate() + +this.restaurantsdetail.mealpackageallowdays + +1);
                 $('#startDate').datetimepicker({format:'YYYY-MM-DD', "minDate": tmind,  widgetPositioning: {
                     horizontal: 'right',
                     vertical: 'bottom'
                 }});
-                $('#endDate').datetimepicker({format:'YYYY-MM-DD', "minDate": tmind, widgetPositioning: {
+                $('#endDate').datetimepicker({format:'YYYY-MM-DD', "minDate": tmind2, widgetPositioning: {
                     horizontal: 'right',
                     vertical: 'bottom'
                 }}); 
@@ -2628,6 +2685,10 @@ export class CustomerAccountInfoComponent implements OnInit {
     customerReviewRating: any = [];
     resturantListRating:any = [];
     timezone:any;
+    custinfo:any;
+
+    firebaseOrders = [];
+    firestore = firebase.database().ref('/orders');
 
     constructor(
         public lf: FormBuilder, 
@@ -2644,8 +2705,9 @@ export class CustomerAccountInfoComponent implements OnInit {
         public orderService : OrderService,
         public kitchenService: KitchenService,
         public ratingService : RatingService,
-        public referralService : CustomerReferralService
-        ){this.custid = JSON.parse(localStorage.getItem('currentCustomer'))._id;}
+        public referralService : CustomerReferralService,
+        public afd: AngularFireDatabase,
+        ){this.custinfo = JSON.parse(localStorage.getItem('currentCustomer')); this.custid = this.custinfo._id;}
 
 
     ngOnInit(){ 
@@ -2693,9 +2755,10 @@ export class CustomerAccountInfoComponent implements OnInit {
             cardnumber: ['',[Validators.required,Validators.pattern(accardpattern)]],
             expirymonth: ['',[Validators.required,Validators.pattern(accardem)]],
             expiryyear : ['',[Validators.required,Validators.pattern(accardey)]],
-            cvc: ['',[Validators.required,Validators.pattern(accardcvc)]]
+            cvc: ['',[Validators.required,Validators.pattern(accardcvc)]],
+            clicked: ['',[Validators.required]]
             });
-
+        this.customerCard.controls["clicked"].setValue(true);
         this.customerCard.controls["_id"].setValue(this.custid);
 
         this.getCustomer();
@@ -2749,6 +2812,8 @@ export class CustomerAccountInfoComponent implements OnInit {
         //console.log("daaad");
         this.ratingService.getCustomerRating(this.custid).subscribe((data) => {
             var datai = data.message;            
+            this.customerReviewRating = datai; 
+
             var temparr = [];            
             datai.forEach((item) => {
                 var index = temparr.indexOf(item.restaurantId);
@@ -2856,6 +2921,17 @@ export class CustomerAccountInfoComponent implements OnInit {
 
 
     public cancelOrder(order){ 
+        
+        var checkindex = this.orders.findIndex((item) => {
+         return item._id == order._id;
+        });
+        console.log("checkindex", checkindex);
+        if(checkindex > -1){
+         this.orders[checkindex].status = 'cancelled';
+        }
+
+        order["customerid"] = this.custinfo;
+
         var obj = {
             _id: order._id,
             status: 'cancelled'
@@ -2865,14 +2941,61 @@ export class CustomerAccountInfoComponent implements OnInit {
            this.selectedOrder.status = 'cancelled';
            }
 
+        
         this.orderService.update(obj).subscribe((data) => {
-            console.log("data => " , data);
             if (!data.error) {
-                this.myOrders();
-            }
-        });
-    }
+                //this.myOrders();
 
+                 this.changeFirebaseOrderStatus('cancelled', order._id);
+
+                this.kitchenService.getOne(order.restaurantid).subscribe((data) => {
+                var obj1 = {customeremail: order.customerid.email, order: order, kitchenemail : data.message.email};
+                this.kitchenService.orderCancelMail(obj1).subscribe(() =>{});
+                });
+        toastr.remove();
+        toastr.success('This order has Cancel');
+                }
+
+            });
+
+      }
+
+
+ changeFirebaseOrderStatus(type , orderid){
+
+    let itemRef = this.afd.object('orders');
+    var count = 0;
+
+    itemRef.snapshotChanges().subscribe(action => {
+
+      let arr = action.payload.val();
+
+      let pushArr = [];
+
+      for (var k in arr){
+        if (arr.hasOwnProperty(k)) {
+          pushArr.push({'key':k,'orderDetail':arr[k]})
+        }
+      }
+      this.firebaseOrders = pushArr;
+    });
+
+    setTimeout(()=>{
+      if (this.firebaseOrders && this.firebaseOrders.length > 0) {
+        let indx = this.firebaseOrders.findIndex((mn)=> mn.orderDetail['orderID'] == orderid)
+
+        if (indx > -1) {
+          this.updateFirebaseOrderStatus(this.firebaseOrders[indx]['key'],type);
+        }
+      }
+    },5000)
+  }
+
+  updateFirebaseOrderStatus(key, type){
+    this.afd.list(this.firestore).update(key, { orderStatus: type, type: 'item' }).then(() => {
+      console.log('Order Updated');
+    });
+  }
 
 
     public referralAdd(){
@@ -2922,9 +3045,6 @@ export class CustomerAccountInfoComponent implements OnInit {
             var orderRestaurant = data.message;      
             var listOfIds = orderRestaurant.map(item => item.restaurantid)
             .filter((value, index, self) => self.indexOf(value) === index);
-
-            //console.log("this.orders", this.orders, listOfIds);
-
             this.getRestaurantsDetail(listOfIds, orderRestaurant);      
         });
     }
@@ -2946,13 +3066,26 @@ export class CustomerAccountInfoComponent implements OnInit {
                     orderRestaurant[i]["image"] =  allrestro[index].image;
                 }
                 orders.push(orderRestaurant[i]);          
-            }
+                }
 
-            //console.log("ordersyii", this.orders);
-            this.orders = orders;
 
+            var updateRatingOrders = [];
+            orders.forEach((item, i) => {
+            var index = this.customerReviewRating.findIndex((itemfind) => {
+                 return itemfind.orderId == item._id;
+             });
+            if(index != -1){
+             orders[i]["ratingUpdateStatus"] = this.customerReviewRating[index].ratingUpdateStatus;
+             }else{
+             orders[i]["ratingUpdateStatus"] = false;
+             }
+             updateRatingOrders.push(orders[i]);
+            });
+            this.orders = updateRatingOrders;
         });
-    }
+      }
+    
+
 
     public selectOrder(order){
         //console.log("ggg", order);
@@ -2983,8 +3116,17 @@ export class CustomerAccountInfoComponent implements OnInit {
             "items": this.rating.items,          
             "combo": this.rating.combo,          
             "package": this.rating.package,          
-        };
-        //console.log("data obj", obj);  
+            "ratingUpdateStatus" : true,
+            };
+
+        //console.log("data obj", obj);
+        var indexx = this.orders.findIndex((items) => {
+            return obj.orderId == items._id;
+        });  
+        if(indexx > -1){
+         this.orders[indexx].ratingUpdateStatus = true;
+        }
+
         this.ratingService.add(obj).subscribe((data) => {
       //  console.log("data", data);
         $('#myrating').modal('hide');
@@ -3009,7 +3151,8 @@ export class CustomerAccountInfoComponent implements OnInit {
                 "items": [],
                 "combo" : [],
                 "package": [],
-                "orderId": order._id
+                "orderId": order._id,
+                "ratingUpdateStatus": false 
             };
 
             order.items.forEach((item) => {
@@ -3044,10 +3187,10 @@ export class CustomerAccountInfoComponent implements OnInit {
 
     public setRestroRating(order){
         var obj = {"orderId": order._id,"customerId" : this.custid};
-        //console.log("obj", obj)
         this.ratingService.checkRestroRating(obj).subscribe((presetRating) => {
             if(presetRating.message.length > 0){
                 var data = presetRating.message[0];  
+                console.log("ratingnitrms",data);
                 if(data.orderPackagingRating){
                     this.rating.orderPackagingRating.rating = data.orderPackagingRating;
                 }
@@ -3056,6 +3199,9 @@ export class CustomerAccountInfoComponent implements OnInit {
                 }
                 if(data.valueOfTimeRating){
                     this.rating.valueOfTimeRating.rating = data.valueOfTimeRating;
+                }
+                if(data.ratingUpdateStatus){
+                    this.rating.ratingUpdateStatus  = data.ratingUpdateStatus;
                 }
                 if(data.review){
                     this.rating.review = data.review;
@@ -3525,41 +3671,70 @@ export class CustomerAccountInfoComponent implements OnInit {
 
     mes:any = "";
     public updateCard(){
+        
+         var abc = this.customerCard.value.cardnumber.split("-").join("");
+        this.customerCard.value.cardnumber = abc;  
+         var checkcardindex =  this.customerdetail.cardinfo.findIndex((item) => {
+             console.log("hio", item.cardnumber , this.customerCard.value.cardnumber +";"+
+              item.expirymonth , this.customerCard.value.expirymonth +";"+
+              item.expiryyear , this.customerCard.value.expiryyear);
+             return item.cardnumber == this.customerCard.value.cardnumber 
+             && item.expirymonth == this.customerCard.value.expirymonth
+             && item.expiryyear == this.customerCard.value.expiryyear
+             });
 
-        var abc = this.customerCard.value.cardnumber.split("-").join("");
-        this.customerCard.value.cardnumber = abc;
-         console.log("this.customerCard.value.cardnumber", this.customerCard.value.cardnumber);
-
+         console.log("checkcardindex:", checkcardindex)
+         if(checkcardindex > -1){
+           toastr.remove();
+           toastr.error("This card is already exist."); 
+         }else{
+          
+         this.customerCard.controls["clicked"].setValue('');     
         (<any>window).Stripe.card.createToken({
         number: this.customerCard.value.cardnumber,
         exp_month: this.customerCard.value.expirymonth,
         exp_year: this.customerCard.value.expiryyear,
         cvc: this.customerCard.value.cvc
-        }, (status, response) => {
+        }, (status, response) => {            
         if (status === 200) {
       //  console.log("success", response);        
         this.mes = "";
         toastr.clear();
         toastr.success("successfully Added!");
         this.customerCard.value["cardtype"] = response.card.brand.toLowerCase(); 
+
+        
        // console.log("this.customerCard.value", this.customerCard.value);
        setTimeout(()=>{
-
         this.newCardAdd();
-       }, 1000);
-        } else {  
-      //  console.log("errr");
+        }, 1000);
+
+
+        } else {     
         this.mes = "";   
         toastr.clear();
         toastr.error(response.error.message); 
+        this.chlickednewCardAdd();
         }
 
         });
+
+    }
+    }
+    
+    public chlickednewCardAdd(){
+        this.customerCard.controls["clicked"].setValue(true);
+        $(".modal-body").trigger('click');
     }
     
     public newCardAdd(){
+        var abc = this.customerCard.value.cardnumber.split("-").join("");
+        this.customerCard.value.cardnumber = abc;
+        console.log("dfdsh", this.customerdetail.cardinfo.length);
         
-        //console.log("c", this.customerdetail.cardinfo, this.customerCard.value );
+        if(this.customerdetail.cardinfo.length == 0){
+            this.customerCard.value["default"] = true;
+        }
         this.customerdetail.cardinfo.push(this.customerCard.value);
         //console.log("", this.customerdetail.cardinfo);
          
@@ -3569,9 +3744,21 @@ export class CustomerAccountInfoComponent implements OnInit {
         this.updateCustomerDetail();
         this.customerCard.reset();
         this.customerCard.controls["_id"].setValue(this.custid);
+         this.customerCard.controls["clicked"].setValue(true);
+          console.log("TRP", this.customerCard.value); 
+
         $("#creditModal").modal('hide');
     }
 
+    public cardMakeDefault(index){
+      var leng = this.customerdetail.cardinfo.length;
+      for(var i = 0; i<leng; i++){
+         this.customerdetail.cardinfo[i].default = false;
+      }
+      this.customerdetail.cardinfo[index].default = true; 
+      console.log("ttr", this.customerdetail.cardinfo);
+      this.updateCustomerDetail();
+    }
 
     public updateCustomerDetail(){
         var obj = {_id : this.custid, "cardinfo": this.customerdetail.cardinfo};
@@ -3855,6 +4042,8 @@ export class FrontendCheckoutComponent implements OnInit {
     hidewithdiscount:any = true;
     orderEntry = firebase.database().ref('/orders');
     deliveryCharges:any;
+    showForm:any = false;
+
 
     constructor(
         public lf: FormBuilder,
@@ -3910,10 +4099,10 @@ export class FrontendCheckoutComponent implements OnInit {
             cardnumber :['',[Validators.required,Validators.pattern(accardpattern)]], 
             expirymonth : ['',[Validators.required,Validators.pattern(accardem)]],              
             expiryyear : ['',[Validators.required,Validators.pattern(accardey)]],   
-            cvc : ['',[Validators.required,Validators.pattern(accardcvc)]] 
+            cvc : ['',[Validators.required,Validators.pattern(accardcvc)]], 
+            clicked : ['',Validators.required] 
         });
-
-
+        this.customerCard.controls['clicked'].setValue(true);
         /* 
         if(localStorage.getItem('currentCustomer')){
         this.cid = JSON.parse(localStorage.getItem('currentCustomer'))._id;
@@ -4266,12 +4455,34 @@ export class FrontendCheckoutComponent implements OnInit {
     }
 
    
+ public chlickednewCardAdd(){
+     console.log();
+        this.customerCard.controls["clicked"].setValue(true);
+       // $(".modal-body").trigger('click');
+    }
+
 
     addCard(){
+        console.log("meetig", this.customerCard.value)
+         
+         console.log(this.customerCard.value)
+         
+         var abc = this.customerCard.value.cardnumber.split("-").join("");
+        this.customerCard.value.cardnumber = abc; 
+        var checkcardindex =  this.cards.findIndex((item) => {
+             console.log("hhio", item.cardnumber , this.customerCard.value.cardnumber);
+             return item.cardnumber == this.customerCard.value.cardnumber 
+             && item.expirymonth == this.customerCard.value.expirymonth
+             && item.expiryyear == this.customerCard.value.expiryyear
+             });
+
+
+         if(checkcardindex > -1){
+           toastr.remove();
+           toastr.error("This card is already exist."); 
+         }else{
+         this.customerCard.controls["clicked"].setValue("");
        // console.log("this.customerCard.value", this.customerCard.value);
-        var abc = this.customerCard.value.cardnumber.split("-").join("");
-        this.customerCard.value.cardnumber = abc;
-        console.log("this.customerCard.value.cardnumber", this.customerCard.value.cardnumber);
         (<any>window).Stripe.card.createToken({
         number: this.customerCard.value.cardnumber,
         exp_month: this.customerCard.value.expirymonth,
@@ -4281,31 +4492,25 @@ export class FrontendCheckoutComponent implements OnInit {
         if (status === 200) {
        // console.log("success"); 
         this.customerCard.value["cardtype"] = response.card.brand.toLowerCase();
-        var indexcheck = this.cards.findIndex((item) => {
-         return item.cardnumber == this.customerCard.value.cardnumber && item.cardtype == this.customerCard.value.cardtype && item.expirymonth == this.customerCard.value.expirymonth && item.expiryyear == this.customerCard.value.expiryyear && item.cvc == this.customerCard.value.cvc ;
-        });  
-        if(indexcheck > -1){
-            toastr.clear();
-            toastr.error("Your card info already exist.");
-        }else{
-            this.cards.push(this.customerCard.value);
-            console.log("this.customerCard.value", this.customerCard.value);
-            this.addNewCard();
-            toastr.clear();
-            toastr.success("Your card info is valid!");   
-        }
+        var abc = this.customerCard.value.cardnumber.split("-").join("");
+        this.customerCard.value.cardnumber = abc;
+        if(this.cards.length == 0){this.customerCard.value.default = true;}
+        this.cards.push(this.customerCard.value);
+        this.addNewCard();
         } else {  
-        toastr.clear();
+        toastr.remove();
         toastr.error(response.error.message);
-       // console.log("errr");    
+        this.chlickednewCardAdd(); 
         }
         });
 
         }
+        }
 
 
-   showForm:any = false;
-   toggleAddcard(){
+
+   
+   public toggleAddcard(){
    if(this.showForm){
        this.showForm = false;
    }else{
@@ -4322,9 +4527,22 @@ export class FrontendCheckoutComponent implements OnInit {
         this.frontendService.updateFrontend(obj).subscribe(data => {
             //console.log("update adress", data);
             this.customerCard.reset();
-             $('.refresh2').trigger('click');
+            this.chlickednewCardAdd();
+            $('.refresh2').trigger('click');
+            if(this.cards.length > 0){
+            
+            var defaultindex = this.cards.findIndex((item) => {
+            return item.default == true;
+            });
+
+            setTimeout(() => {
+            $("div.panel-theme:eq('"+defaultindex+"')").click();
+            }, 200);
+
+            }
         });
        }
+
     
    getKitchenDetail()
    {
@@ -4554,9 +4772,24 @@ export class FrontendCheckoutComponent implements OnInit {
 
     paybycash(){
         this.paymentoption = 'cash'; 
+        
+
     }
     paybycard(){
-        this.paymentoption = 'card';
+            this.paymentoption = 'card';
+            var defaultindex = this.cards.findIndex((item) => {
+            return item.default == true;
+            });
+            setTimeout(() => {
+            $("div.panel-theme:eq('"+ defaultindex +"')").click();
+            }, 200);
+
+
+       /* if(this.cards.length > 0){
+        setTimeout(() => {
+        $("div.panel-theme:eq('0')").click();
+        }, 100);
+        }*/
     }
 
     applyOnOrderPrice(data){

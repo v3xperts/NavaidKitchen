@@ -1,11 +1,10 @@
 <app-headerowner></app-headerowner>
 <div class="rightMenu col-lg-9 col-md-9 col-sm-9 col-lg-9" style="padding:0px;">	
-	<div class="nameAndAddress" id="Menu1" style="position: absolute; z-index: 0;     min-width: 700px; max-height: 525px;overflow: auto;">   
-      
-      <div class="firstDiv">
-      <span class="">Tax</span>                
-      </div>
-        <div class="secondDiv marginzero">
+	<div class="nameAndAddress" id="Menu1" style="position: absolute; z-index: 0; min-width: 700px;">       
+        <div class="secondDiv marginzero" style="padding: 15px;">
+  
+        <h5 class="">Tax</h5>                
+        
         <div class="panel panel-default">
           <div class="panel-body"> 
         <form [formGroup]="openingAddModel" (ngSubmit)="restaurantUpdate()">        
@@ -20,7 +19,7 @@
         </div>
           <div class="form-group col-sm-12">
           <div class="form-group marginzero" *ngIf="sta.status">
-          <h4><b>Tax for location</b></h4>
+          <h5><b>Tax for location</b></h5>
           <hr>
           <div class="col-sm-6"><p *ngIf="restaurants.zipcode"> <label>Zipcode:</label> &nbsp;<span class="capitalize2">{{restaurants.zipcode}}</span></p></div>
           <div class="col-sm-6"><p *ngIf="restaurants.city"> <label> City: </label>&nbsp; <span class="capitalize2">{{restaurants.city}}</span></p></div>

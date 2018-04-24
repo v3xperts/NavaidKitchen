@@ -570,8 +570,6 @@ router.get("/heatmaplatlng", (req, res) => {
 /*-------------------------------END referral--------------------------------------------------------*/
 
 
-
-
 /*-------------------------------Start Email for successfully-----------------------------------------------------------*/
 router.post('/order-email',function(req,res,next){
     var response={};
@@ -588,8 +586,9 @@ router.post('/order-email',function(req,res,next){
                 res.json({error: true, message: 'It did not find any restaurant.'});
             } 
         };
-    }); 
-});
+        }); 
+    });
+
 
 
 router.post('/order-cancel-email',function(req,res,next){

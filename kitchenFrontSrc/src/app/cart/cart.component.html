@@ -58,7 +58,7 @@
        <b *ngIf="orderDetail.total > 0"> Total Amount : &nbsp; &nbsp; 
         <small *ngIf="orderDetail.total > 0">
         <b style="font-size: 9px;"> {{orderDetail.currency}} </b>
-        {{orderDetail.total}}
+        {{orderDetail.total.toFixed(2)}}
         </small>
     </b>
     </div>

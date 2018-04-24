@@ -378,34 +378,6 @@ textarea#textarearesize0 {
 <div *ngIf="showForm">
 
           <form [formGroup]="customerCard" (ngSubmit)="addCard()" class="form-horizontal">
-        
-                <!--  <div class="form-group">
-                <label class="control-label col-sm-4" for="email">Card Type:</label>
-                <div class="col-sm-8">
-                <div class="pl-20 card-inline">
-                <label class="radio pl-25 ">
-                <input value="visa" type="radio" formControlName="cardtype">
-                <img class="online-card"  src="../assets/image/visa.svg"
-                />
-                </label>
-                <label class="radio pl-25 ">
-                <input value="master" type="radio" formControlName="cardtype">
-                <img class="online-card" src="../assets/image/master.svg" />
-                </label>
-                <label class="radio pl-25 ">
-                <input value="mastro" type="radio" formControlName="cardtype" >
-                <img class="online-card"  src="../assets/image/mastro.svg"/>
-                </label>
-                </div>
-                </div>                         
-                </div> -->
-
-               <!--  <div class="form-group">
-                <label class="control-label col-sm-4" for="pwd">Email:</label>
-                <div class="col-sm-8">
-                <input type="text" class="form-control" id="pwd" placeholder="Email" formControlName="email">
-                </div>
-                </div> -->
 
                 <div class="form-group">
                 <label class="control-label col-sm-4" for="email">Card Number:</label>
@@ -420,27 +392,29 @@ textarea#textarearesize0 {
                 <div class="form-group">
                 <label class="control-label col-sm-4" for="pwd">Expiration Date :</label>
                 <div class="col-sm-4">
-                <select class="form-control" formControlName="expirymonth">
-                <option value="">MM</option>
-                <option value="01">01</option>
-                <option value="02">02</option>
-                <option value="03">03</option>
-                <option value="04">04</option>
-                <option value="05">05</option>
-                <option value="06">06</option>
-                <option value="07">07</option>
-                <option value="08">08</option>
-                <option value="09">09</option>
-                <option value="10">10</option>
-                <option value="11">11</option>
-                <option value="12">12</option>
-                </select>  
-               <span style="padding:3px" *ngIf="cardformErrors.expirymonth" class="alert alert-danger">
-               {{ cardformErrors.expirymonth }}
-               </span> 
+                <!-- <select class="form-control" formControlName="expirymonth">
+                 <option value="">MM</option>
+                 <option value="01">01</option>
+                 <option value="02">02</option>
+                 <option value="03">03</option>
+                 <option value="04">04</option>
+                 <option value="05">05</option>
+                 <option value="06">06</option>
+                 <option value="07">07</option>
+                 <option value="08">08</option>
+                 <option value="09">09</option>
+                 <option value="10">10</option>
+                 <option value="11">11</option>
+                 <option value="12">12</option>
+                 </select> --> 
+
+                 <input type="text" class="form-control" id="pwd1" placeholder="MM" formControlName="expirymonth">
+                        <p style="padding:3px" *ngIf="cardformErrors.expirymonth" class="alert alert-danger">
+                        {{ cardformErrors.expirymonth }}
+                        </p> 
                 </div>
                 <div class="col-sm-4">
-                <select class="form-control" formControlName="expiryyear">
+                <!-- <select class="form-control" formControlName="expiryyear">
                 <option value="">YYYY</option>
                 <option label="2017" value="17">2017</option>
                 <option label="2018" value="18">2018</option>
@@ -452,10 +426,11 @@ textarea#textarearesize0 {
                 <option label="2024" value="24">2024</option>
                 <option label="2025" value="25">2025</option>
                 <option label="2026" value="26">2026</option>
-                </select>
-                <span style="padding:3px" *ngIf="cardformErrors.expiryyear" class="alert alert-danger">
+                </select> -->
+                <input type="text" class="form-control" id="pwd" placeholder="YY" formControlName="expiryyear">
+                <p style="padding:3px" *ngIf="cardformErrors.expiryyear" class="alert alert-danger">
                 {{ cardformErrors.expiryyear }}
-                </span>
+                </p>                
                 </div>
                 </div>
 
@@ -486,7 +461,7 @@ textarea#textarearesize0 {
 <div class="col-lg-12 refresh2">
 <div class="col-lg-6" *ngFor="let card of cards; let i = index; ">
 <div class="panel panel-theme"(click)="selectCard(i)">
-  <div class="panel-body" style="position: relative;">
+  <div class="panel-body" style="position: relative;cursor: pointer;">
   <p class="cardselectedd"><i aria-hidden="true" style="color: green; position: absolute;" class="fa fa-check-square fa-1x pull-right" *ngIf="card.selected ? true : false"></i> 
     <i aria-hidden="true" style="color: black; position: absolute; margin: 17px 4px;" class="fa fa-remove fa-1x" (click)=removeCard(i)></i>
   </p>
@@ -619,10 +594,8 @@ textarea#textarearesize0 {
          <!--  {{checkoutsummary.ordertiming.type}} {{paymentoption}} -->
          <!-- {{checkoutsummary.ordertiming.type}}{{cvc}} -->
             <div class="col-sm-12">            
-                <button class="btn btn-block btn-success" style="position: relative; min-height: 35px; outline: none;" (click)="placeOrder()" [disabled]="(checkoutsummary.ordertiming.type == '' || (checkoutsummary.ordertiming.type == 'later' && checkoutsummary.ordertiming.datetime == '') || checkoutsummary.ordertiming.type == 'f' || (paymentoption == 'no') || (paymentoption == 'card' && cvc == ''))"> 
-
+                <button class="btn btn-block btn-success" style="position: relative; min-height: 35px; outline: none;" (click)="placeOrder()" [disabled]="(checkoutsummary.ordertiming.type == '' || (checkoutsummary.ordertiming.type == 'later' && checkoutsummary.ordertiming.datetime == '') || checkoutsummary.ordertiming.type == 'f' || (paymentoption == 'no') || (paymentoption == 'card' && cvc.length != 3))"> 
                   <div class="loader1" *ngIf="loader_run"></div><span>Place Order</span>
-                  
                 </button>
             </div>
         </div>

@@ -10,10 +10,12 @@
             <div *ngFor="let user of users" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 10px;">
                 <div class="mainMenuItem" style="margin-top: 0px;">
                     <div *ngIf="user.image" class="itemImage col-lg-2 col-md-2 col-sm-2 col-xs-2" style="height: 55px;">
-                        <img src="{{imageUrl}}{{user.image}}" class="img-responsive ownerimg1" style="height: inherit;width: 100%">
+                        <img src="{{imageUrl}}{{user.image}}" class="img-responsive ownerimg1" style="height: inherit;width: 100%;     max-width: 50px;
+    max-height: 47px;">
                     </div>
                     <div *ngIf="!user.image" class="itemImage col-lg-2 col-md-2 col-sm-2 col-xs-2" style="height: 55px;">
-                        <img src="./assets/image/menu.jpg" class="img-responsive ownerimg1" style="height: inherit;width: 100%">
+                        <img src="./assets/image/menu.jpg" class="img-responsive ownerimg1" style="height: inherit;width: 100%;     max-width: 50px;
+    max-height: 47px;">
                     </div>
                     <div class="itemDesc col-lg-8 col-md-8 col-sm-8 col-xs-8"> {{user.name}}</div>
                     <div class="icons col-lg-2 col-md-2 col-sm-2 col-xs-2" style="">
@@ -24,10 +26,12 @@
                 <div   *ngFor="let item of items">
                     <div *ngIf="item.menuId._id == user._id" class="subMenuItem">
                         <div *ngIf="item.image" class="itemImage col-lg-2 col-md-2 col-sm-2 col-xs-2" style="height: 55px;">
-                            <img src="{{imageUrl}}{{item.image}}" class="img-responsive ownerimg1" style="height: inherit;width: 100%">
+                            <img src="{{imageUrl}}{{item.image}}" class="img-responsive ownerimg1" style="height: inherit;width: 100%;     max-width: 50px;
+    max-height: 47px;">
                         </div>
                         <div *ngIf="!item.image" class="itemImage col-lg-2 col-md-2 col-sm-2 col-xs-2" style="height: 55px;">
-                            <img src="./assets/image/menu.jpg" class="img-responsive ownerimg1" style="height: inherit;width: 100%">
+                            <img src="./assets/image/menu.jpg" class="img-responsive ownerimg1" style="height: inherit;width: 100%;     max-width: 50px;
+    max-height: 47px;">
                         </div>
                         <div class="itemDesc col-lg-8 col-md-8 col-sm-8 col-xs-8"> {{item.name}}</div>
                         <div class="itemDesc col-lg-8 col-md-8 col-sm-8 col-xs-8"> 

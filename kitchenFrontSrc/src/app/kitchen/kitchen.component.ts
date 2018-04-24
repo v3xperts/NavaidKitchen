@@ -39,7 +39,8 @@ export class KitchenlistComponent implements OnInit {
     allKitchens: any = [];
     documents: any = [];
     url1 = globalVariable.imageUrl;
-    
+    payoutdetail:any;
+
     constructor(public kitchenService: KitchenService,public router: Router,public alertService: AlertService) { }
 
     ngOnInit() {
@@ -47,6 +48,7 @@ export class KitchenlistComponent implements OnInit {
     }   
     
     public showDocument(itemdata){
+   
        $("#showdocument").modal({ show: true, 
            keyboard: false
            });
@@ -55,7 +57,8 @@ export class KitchenlistComponent implements OnInit {
        });
        if(index > -1){
          this.documents = this.allKitchens[index].documentation;
-         console.log(this.allKitchens[index].documentation);
+         console.log(this.allKitchens[index]);
+         this.payoutdetail = this.allKitchens[index];
        }
     }
 

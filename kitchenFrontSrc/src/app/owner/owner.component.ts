@@ -2131,6 +2131,7 @@ export class KitchenDocumentComponent implements OnInit {
     uinfo : any;
     openingAddModel : FormGroup;
     filenameAddModel : FormGroup;
+    payoutAddModel : FormGroup;
     restaurants : any = [];
     bankinfoobj : any = [];  
     progress : any = 0;
@@ -2151,6 +2152,13 @@ export class KitchenDocumentComponent implements OnInit {
         this.openingAddModel = this.lf.group({
             imgenable : [],     
             _id: []
+        }); 
+
+
+        this.payoutAddModel = this.lf.group({
+            accountholdername : ['', Validators.required],     
+            accountnumber: ['', Validators.required],
+            bankname: ['', Validators.required]
         });
 
         this.filenameAddModel = this.lf.group({
@@ -2179,15 +2187,19 @@ export class KitchenDocumentComponent implements OnInit {
     public initailfun() {
         this.kitchenService.getOne(this.uinfo._id).subscribe(users => {      
             this.restaurants = users.message;
+            console.log("doutl", this.restaurants)
             this.openingAddModel.controls["_id"].setValue(this.restaurants._id);
             this.bankinfoobj = this.restaurants.bankinginformation;
+                if(this.restaurants.payoutdetail){
+                    this.payoutAddModel.patchValue(this.restaurants.payoutdetail);
+                }
             });
             }
 
     
 
     public restaurantUpdatePayout(){
-            var payout =  { _id: this.uinfo._id, bankinginformation: this.bankinfoobj};
+            var payout =  { "_id": this.uinfo._id, "bankinginformation": this.bankinfoobj , "payoutdetail": this.payoutAddModel.value};
             this.kitchenService.updateKitchen(payout).subscribe((data) => {
                 this.initailfun();
                 this.router.navigate(['/owner/kitchen-tax']);
@@ -2286,7 +2298,6 @@ export class KitchenDocumentComponent implements OnInit {
      this.restaurants.documentation.splice(i,1);
      var data = {_id : this.uinfo._id, documentation: this.restaurants.documentation};
      this.kitchenService.updateKitchen(data).subscribe((data) => {});
-
     }
 
     number(len){
@@ -2299,6 +2310,7 @@ export class KitchenDocumentComponent implements OnInit {
         }   
         }
        }
+
 
 @Component({
     selector: 'app-tax',

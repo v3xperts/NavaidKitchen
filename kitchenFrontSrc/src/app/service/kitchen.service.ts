@@ -78,7 +78,7 @@ export class KitchenService {
     }
 
     orderCancelMail(data) {
-        return this.http.post(globalVariable.url1+'order-rejected-email',data)
+        return this.http.post(globalVariable.url1+'order-cancel-email',data)
         .map(
             (response: Response) => response.json()
         );

@@ -48,6 +48,7 @@ import { SliderComponent , SliderListComponent } from './slider/slider.component
 import { IntroComponent , IntroListComponent } from './intro/slider.component';
 import { CartComponent } from './cart/cart.component';
 import { RatingComponent } from './rating/rating.component';
+import { ShowRatingComponent } from './showrating/rating.component';
 import { KitchenReportComponent, KitchenReportOrderComponent, KitchenReportDashboardComponent,KitchenReportOrderListComponent, KitchenReportCustomersComponent, OwnerEssentialsComponent, OwnerListViewComponent} from './kitchen-report/kitchen-report.component';
 import { KitchenDriverComponent, KitchenDriverListComponent } from './kitchen-driver/kitchen-driver.component';
 import { DriverupdateComponent, DriveraddComponent, AdmindriverComponent, DriverRestaurantComponent } from './admin-driver/index';
@@ -111,7 +112,7 @@ let providers = {
     WeeklyComponent, WeeklyDayAddComponent,CustomermailactivateComponent,
     MonthlyComponent, MonthlyDayAddComponent, MonthlyDayEditComponent, MonthlyDayListComponent,
     ComboComponent, ComboEditComponent, ComboListComponent,OfferComponent, OfferAddComponent, OfferEditComponent, OfferListComponent, ReferralComponent, ReferralRegisterComponent,CustomerReferralComponent, CustomerReferralRegisterComponent,OwnerCuisinesComponent,FrontendCheckoutComponent, FrontendThankYouComponent, OwnerKitchenServicesComponent,
-    PasswordComponent,PasswordComplexityComponent,PasswordChangeComponent,OwnerTaxComponent,OwnerActivateOfferingComponent, SliderComponent ,IntroComponent , IntroListComponent, CartComponent, RatingComponent, 
+    PasswordComponent,PasswordComplexityComponent,PasswordChangeComponent,OwnerTaxComponent,OwnerActivateOfferingComponent, SliderComponent ,IntroComponent , IntroListComponent, CartComponent, RatingComponent,ShowRatingComponent, 
     KitchenReportComponent,KitchenReportOrderComponent,KitchenReportDashboardComponent,KitchenReportOrderListComponent, KitchenReportCustomersComponent, KitchenDriverComponent, KitchenDriverListComponent,ReferralListComponent,
     DriverupdateComponent, DriveraddComponent, AdmindriverComponent, DriverRestaurantComponent, AdminCustomerComponent,CustomeraddComponent, CustomerupdateComponent, AdminHeatmapComponent, AdminHeatmapDashboardComponent, KitchenServicesOrderListComponent, PaymentKeyConfigComponent, CustomerDrivermailactivateComponent, FrontendDriverResetPasswordComponent, OwnerRestaurantBasicComponent,OwnerMenuSetupComponent, OwnerBonusPointComponent, OwnerMyDriverComponent, OwnerEssentialsComponent, OwnerListViewComponent, AdminDeliveryChargesComponent],
   imports: [ 

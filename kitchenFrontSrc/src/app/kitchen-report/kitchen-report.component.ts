@@ -254,7 +254,7 @@ export class KitchenReportOrderComponent implements OnInit {
     this.updateOrder(obj);
     console.log("mu order", order)
     if(param == 'rejected'){
-    var obj1 = {customeremail: order.customerid.username, order: order};
+    var obj1 = {customeremail: order.customerid.email, order: order};
     this.kitchenService.orderCancelMail(obj1).subscribe(() =>{});
     }
     this.changeFirebaseOrderStatus(param);

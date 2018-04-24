@@ -803,3 +803,6 @@ div.classinputserch:first-child > div.btn-group > button.btn-default{
 .p-15{
   margin: 15px;
 }
+.capitalize2{
+    text-transform: capitalize;
+}

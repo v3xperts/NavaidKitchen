@@ -41,7 +41,7 @@
                                                 <th class="btnsialign">Bussiness Amount</th>
                                                 <th class="btnsialign">Show Orders</th>
                                                 <th class="btnsialign">Offers</th>
-                                                <th class="btnsialign">Docs</th>
+                                                <th class="btnsialign">Docs & Payout</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -125,9 +125,10 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title"> Documents </h4>
+          <h4 class="modal-title"> Documents & Payout Information </h4>
         </div>
         <div class="modal-body">
+          <h4 class="text-center"><b>Document files</b></h4>
           <div class="row p-15">
                <div class="col-lg-4 coldoc1" *ngFor="let doc of documents">
                     <a href="javascript:void(0)" (click)="clickUrl(doc.filename)">
@@ -139,6 +140,38 @@
                </div>
                <p *ngIf="documents.length == 0" class="text-center"> No Document Uploaded </p>
           </div>
+          
+          
+          <div class="row" style="margin-top: 52px;">
+          <div class="panel panel-default">
+          <h4 class="text-center"><b>Payout Information</b></h4>
+          <div class="panel-body">
+          <div class="form-horizontal" *ngIf="payoutdetail">
+          <div class="form-group">
+          <label for="accountnumber" class="control-label col-sm-3"> Payout Accepted : </label>
+          <div class="col-sm-9 pd-t-10" *ngIf="payoutdetail && payoutdetail.bankinginformation"> 
+           <span> {{payoutdetail.bankinginformation}} </span></div>
+          </div>
+          <div class="form-group ">
+          <label for="accountnumber" class="control-label col-sm-3">Account Holder Name:</label>
+          <div class="col-sm-9 pd-t-10" *ngIf="payoutdetail && payoutdetail.payoutdetail.accountholdername"><span class="capitalize2">{{payoutdetail.payoutdetail.accountholdername ? payoutdetail.payoutdetail.accountholdername : 'N/A'}} </span> </div>
+          </div>
+          <div class="form-group">
+          <label for="accountnumber" class="control-label col-sm-3">Account Number:</label>
+          <div class="col-sm-9 pd-t-10" *ngIf="payoutdetail && payoutdetail.payoutdetail.accountnumber"> 
+          <span> {{payoutdetail.payoutdetail.accountnumber ? payoutdetail.payoutdetail.accountnumber : 'N/A'}} </span> </div>
+          </div>
+          <div class="form-group">
+          <label for="accountnumber" class="control-label col-sm-3">Bank Name:</label>
+          <div class="col-sm-9 pd-t-10"  *ngIf="payoutdetail && payoutdetail.payoutdetail.bankname"> 
+            <span class="capitalize2">{{payoutdetail.payoutdetail.bankname ? payoutdetail.payoutdetail.bankname : 'N/A'}}</span>  </div>
+          </div>
+          </div>
+          </div>
+          </div>
+          </div>
+
+        </div>
         </div>
         <div class="modal-footer">
           
@@ -146,5 +179,5 @@
       </div>
       
     </div>
-  </div>
+  
  

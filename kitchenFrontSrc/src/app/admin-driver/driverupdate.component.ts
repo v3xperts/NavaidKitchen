@@ -94,11 +94,10 @@ export class DriverupdateComponent implements OnInit {
 
    
 checkemail(){
-      var showformdata = (<HTMLInputElement>document.getElementById("email")).value;
-      this.driverService.Uniqueemail(showformdata).subscribe(drivers => {        
+     // var showformdata = (<HTMLInputElement>document.getElementById("email")).value;
+      /*this.driverService.Uniqueemail(showformdata).subscribe(drivers => {        
       this.driversemail = drivers.error;
-        });
-     
+      });*/
     }
 
     public getDriver(id) {

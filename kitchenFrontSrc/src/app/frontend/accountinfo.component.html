@@ -33,10 +33,12 @@
                                 </li>
                                 <li>
                                     <a href="#d" data-toggle="tab">Saved Card</a>
-                                </li><!-- 
-                                <li>
+                                </li>                                
+                                <!-- 
+                                    <li>
                                     <a href="#e" data-toggle="tab">Payment Report</a>
-                                </li> -->
+                                    </li> 
+                                  -->
                                 <li>
                                     <a href="#g" data-toggle="tab">Review</a>
                                 </li>
@@ -49,7 +51,7 @@
                             </ul>
                         </div>
                     </div>
-<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
                         <hr class="visible-xs">
                         <div class="tab-content">
                             <div class="tab-pane active" id="a">
@@ -61,7 +63,7 @@
 
                               </div>    
                               <div class="col-sm-9 cust_forge">
-                              &nbsp; &nbsp;<a [routerLink]="['/customer/change-password']">Change Password</a>
+                              &nbsp; &nbsp;<a href="javascript:void(0)" data-toggle="modal" data-target="#changePasswordModal">Change Password</a>
                               </div>
                               </div>
                               <!-- <div class="form-group">
@@ -237,7 +239,7 @@
                             <p class="text-muted mb-0">
                                <b>Order ID:</b> {{order._id.substr(18,6)}}
                             </p>
-                              <p class="text-muted mb-0"> <b> Order Amount: </b> <small style="font-size: 10px;" *ngIf="order.currency"><b>{{order.currency}}</b></small> {{order.total}} </p>
+                              <p class="text-muted mb-0"> <b> Order Amount: </b> <small style="font-size: 10px;" *ngIf="order.currency"><b>{{order.currency}}</b></small> {{order.total.toFixed(2)}} </p>
 
                              <p class="text-muted mb-0"><b>Today:</b> {{order.created_at | date:'medium'}} </p>                            
 
@@ -248,7 +250,7 @@
                         </div>
                         <div class="media-body text-right" style="    vertical-align: bottom;">
                           <!-- {{order.status}} -->
-                            <button type="submit" class="btn btn-default rounded-0" *ngIf="order.status == 'delivered'" data-toggle="modal" data-target="#myrating" (click)="myrating(order)">
+                            <button type="submit" class="btn btn-default rounded-0" *ngIf="order.status == 'delivered' && !order.ratingUpdateStatus" data-toggle="modal" data-target="#myrating" (click)="myrating(order)">
                                 <i class="fa fa-star text-success"></i> Rate</button>
                             <button type="button" class="btn btn-default rounded-0" *ngIf="order.status == 'delivered'"  (click)="reorder(order)">
                                 <i class="fa fa-refresh text-success"></i> Reorder</button>
@@ -302,6 +304,11 @@
                                         </table>
                                         </div>
                                   <div class="media-body text-right" style="vertical-align: bottom;">
+                           
+                           <small class="text-success" style="color:green;font-size: 13px;font-weight: 700;" *ngIf="carddetail.default">Default Card</small>
+                           <button type="submit" class="btn btn-default rounded-0 makedefault" *ngIf="!carddetail.default" (click)="cardMakeDefault(i)"> 
+                  <i class="fa fa-check-circle text-success"></i>
+                Set Default </button>   
                                    <button class="btn btn-default rounded-0" type="submit" (click)=removeCard(i)>
                                    <i class="fa fa-trash-o text-danger"></i> Delete</button>
                                   </div>
@@ -569,6 +576,7 @@ No Record found!
                         </p> 
                     </div>
                     </div>
+
                     <div class="form-group">
                     <label class="control-label col-sm-4" for="cvc">CVV:</label>
                     <div class="col-sm-8">
@@ -578,7 +586,9 @@ No Record found!
                         </p> 
                     </div>
                     </div>
+
                     <p class="rederr text-center" *ngIf="mes != ''">{{mes}}</p>
+                    
                     <div class="form-group">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <button type="submit" class="btn btn-success pull-right" [disabled]="!customerCard.valid"> Add card </button>
@@ -832,22 +842,38 @@ No Record found!
     <div class="form-group">
       <label class="control-label col-sm-6 text-muted"> Order Packaging </label>
       <div class="col-sm-6">
-        <small>
+
+        <small  *ngIf="!rating.ratingUpdateStatus">
         <app-rating [rating]='rating.orderPackagingRating.rating' [type]='rating.orderPackagingRating.type' (ratingClick)='ratingComponetClick($event)'></app-rating>
         </small>
+       
+      <small *ngIf="rating.ratingUpdateStatus">
+        <app-show-rating [rating]='rating.orderPackagingRating.rating' [type]='rating.orderPackagingRating.type'></app-show-rating>
+        </small>
+
       </div>
     </div> <div class="form-group">
       <label class="control-label col-sm-6 text-muted"> Delivery Time </label>
       <div class="col-sm-6">
-        <small>
+
+        <small *ngIf="!rating.ratingUpdateStatus">
         <app-rating [rating]='rating.deliveryTimeRating.rating' [type]='rating.deliveryTimeRating.type' (ratingClick)='ratingComponetClick($event)'></app-rating>
         </small>
+
+        <small *ngIf="rating.ratingUpdateStatus">
+        <app-show-rating [rating]='rating.deliveryTimeRating.rating' [type]='rating.deliveryTimeRating.type'></app-show-rating>
+        </small>
+
       </div>
     </div> <div class="form-group">
       <label class="control-label col-sm-6 text-muted"> Value of Money </label>
       <div class="col-sm-6">
-       <small>
+       <small *ngIf="!rating.ratingUpdateStatus">
         <app-rating [rating]='rating.valueOfTimeRating.rating' [type]='rating.valueOfTimeRating.type' (ratingClick)='ratingComponetClick($event)'></app-rating>
+        </small>
+
+        <small *ngIf="rating.ratingUpdateStatus">
+        <app-show-rating [rating]='rating.valueOfTimeRating.rating' [type]='rating.valueOfTimeRating.type'></app-show-rating>
         </small>
       </div>
     </div>
@@ -856,7 +882,10 @@ No Record found!
 <hr>
 <h4 class="text-muted mb-0 text-center mb-15"> <small> <b> Give your review about this order.</b></small></h4> 
 <hr>
-<textarea *ngIf="rating" [(ngModel)]="rating.review" class="form-control" rows="4" width="100%" placeholder="Your review help to other learn about your order experience from this restaurant"></textarea>
+<span *ngIf="rating">
+<textarea *ngIf="!rating.ratingUpdateStatus" [(ngModel)]="rating.review" class="form-control" rows="4" width="100%" placeholder="Your review help to other learn about your order experience from this restaurant"></textarea>
+<p  *ngIf="rating.ratingUpdateStatus">{{rating.review}}</p>
+</span>
 </div>
 <div class="modal-footer">
 <button type="button" class="btn btn-success" (click)="updateRating()"> Submit </button>
@@ -962,5 +991,21 @@ No Record found!
 </div>
 </div>
 
+
+<div id="changePasswordModal" class="modal fade" role="dialog" data-backdrop="static" data-keyboard="false">
+  <div class="modal-dialog ">
+    <!-- Modal content-->
+    <div class="modal-content">    
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Change Password</h4>
+      </div> 
+      <div class="modal-body">
+        <app-change-password></app-change-password>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 <app-footerfrontend></app-footerfrontend>

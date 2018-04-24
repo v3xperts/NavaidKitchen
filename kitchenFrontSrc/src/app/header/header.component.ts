@@ -93,7 +93,7 @@ export class HeaderfrontendComponent implements OnInit, OnDestroy {
             'pattern'   :    'Email not in well format.'
         }, 
         'password' : {
-            'required':      '',
+            'required':      'Password is required',
             'pattern'   :    'Password must contain 8-25 characters, 1 Uppercase, 1 Lowercase, 1 Number, and 1 Special Charecter'
         }            
     };

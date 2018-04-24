@@ -22,7 +22,7 @@ import {  ComboComponent, ComboEditComponent, ComboListComponent} from './combo/
 import {  OfferComponent,OfferAddComponent,OfferEditComponent, OfferListComponent} from './offer/offer.component'
 import {  ReferralComponent, ReferralRegisterComponent,ReferralListComponent} from './referral/referral.component'
 import {  CustomerReferralComponent, CustomerReferralRegisterComponent} from './customerreferral/referral.component'
-import { FrontendComponent,FrontendLoginComponent,CustomermailactivateComponent, FrontendForgetPasswordComponent, FrontendRegisterComponent, FrontendProfileComponent, FrontendResetPasswordComponent, FrontendChangePasswordComponent, FrontendCustomerComponent, FrontendBrowseRestaurantsComponent, CustomerRestaurantDetailComponent, CustomerAccountInfoComponent, FrontendPageComponent, FrontendContactUsComponent, FrontendCheckoutComponent,FrontendThankYouComponent , CustomerDrivermailactivateComponent, FrontendDriverResetPasswordComponent} from './frontend/frontend.component';
+import { FrontendComponent,FrontendLoginComponent,CustomermailactivateComponent, FrontendForgetPasswordComponent, FrontendRegisterComponent, FrontendProfileComponent, FrontendResetPasswordComponent, FrontendCustomerComponent, FrontendBrowseRestaurantsComponent, CustomerRestaurantDetailComponent, CustomerAccountInfoComponent, FrontendPageComponent, FrontendContactUsComponent, FrontendCheckoutComponent,FrontendThankYouComponent , CustomerDrivermailactivateComponent, FrontendDriverResetPasswordComponent} from './frontend/frontend.component';
 import { SliderComponent, SliderListComponent } from './slider/slider.component';
 import { IntroComponent, IntroListComponent } from './intro/slider.component';
 import { KitchenReportComponent,KitchenReportOrderComponent, KitchenReportDashboardComponent, KitchenReportOrderListComponent, KitchenReportCustomersComponent , OwnerEssentialsComponent,OwnerListViewComponent} from './kitchen-report/kitchen-report.component';
@@ -189,7 +189,6 @@ const appRoutes: Routes = [
             { path: 'profile', component: FrontendProfileComponent },
             { path: 'reset-password/:id', component: FrontendResetPasswordComponent },    
             { path: 'driver/reset-password/:id', component: FrontendDriverResetPasswordComponent },    
-            { path: 'change-password', component: FrontendChangePasswordComponent },
             { path: 'browse-restaurants', component: FrontendBrowseRestaurantsComponent },            
             { path: 'referral', component: CustomerReferralComponent },
             { path: 'referralregister/:id', component: CustomerReferralRegisterComponent },
