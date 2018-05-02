@@ -106,15 +106,18 @@
         <!-- <li><a [routerLink]="['/customer/browse-restaurants']"  class="browser-resc"> Popular Kitchens </a></li>  -->     
         <li><a [routerLink]="['/customer/browse-restaurants']" class="browser-resc">Browse Restaurants</a></li>        
         <li *ngIf='currentCustomer'>
-          <a class="dropdown-toggle browser-resc" data-toggle="dropdown" href="#" >&nbsp; {{currentCustomer.username}} <span class="glyphicon glyphicon-user"></span>&nbsp; <span class="caret"></span></a>
+          <a class="dropdown-toggle browser-resc" data-toggle="dropdown" href="#" >&nbsp; 
+            <span *ngIf="currentCustomer.accounttype != 'guest'"> {{currentCustomer.username}}</span>
+            <b *ngIf="currentCustomer.accounttype == 'guest'"> Guest </b>
+            <span class="glyphicon glyphicon-user"></span>&nbsp; <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a [routerLink]="['/customer/accountinfo']" [queryParams]="{'type': 'accountinfo'}"> <i class="fa fa-user" aria-hidden="true"></i>&nbsp;Account Info</a></li>
+            <li  *ngIf="currentCustomer.accounttype != 'guest'"><a [routerLink]="['/customer/accountinfo']" [queryParams]="{'type': 'accountinfo'}"> <i class="fa fa-user" aria-hidden="true"></i>&nbsp;Account Info</a></li>
 
-            <li><a [routerLink]="['/customer/accountinfo']" [queryParams]="{'type': 'myfavorite'}"> <span class="glyphicon glyphicon-star-empty"></span>My favorite</a></li>
+            <li  *ngIf="currentCustomer.accounttype != 'guest'"><a [routerLink]="['/customer/accountinfo']" [queryParams]="{'type': 'myfavorite'}"> <span class="glyphicon glyphicon-star-empty"></span>My favorite</a></li>
             
-            <li><a [routerLink]="['/customer/accountinfo']" [queryParams]="{type: 'savedaddress'}"> <i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;Saved Address</a></li> 
+            <li  *ngIf="currentCustomer.accounttype != 'guest'"><a [routerLink]="['/customer/accountinfo']" [queryParams]="{type: 'savedaddress'}"> <i class="fa fa-address-card" aria-hidden="true"></i>&nbsp;Saved Address</a></li> 
 
-            <li><a [routerLink]="['/customer/accountinfo']" [queryParams]="{type: 'myorders'}">
+            <li  *ngIf="currentCustomer.accounttype != 'guest'"><a [routerLink]="['/customer/accountinfo']" [queryParams]="{type: 'myorders'}">
              <span class="glyphicon glyphicon-asterisk"></span>My orders </a></li>   
                       
            <!--  <li>
@@ -394,8 +397,8 @@
         </div>
         <div class="modal-body">
         <ul class="nav nav-tabs nav-pills nav-justified">
-        <li class="active"><a data-toggle="tab" href="#sectionA">Login as candidate</a></li>
-        <li><a data-toggle="tab" href="#sectionB">Login as guest</a></li>
+        <li class="active"><a data-toggle="tab" href="#sectionA">Login as User</a></li>
+        <li><a data-toggle="tab" href="#sectionB">Continue as Guest</a></li>
         </ul>
           <div class="tab-content">
             <div id="sectionA" class="tab-pane fade in active">
@@ -404,6 +407,9 @@
             <form role="form"  [formGroup]="loginForm" (ngSubmit)="loginCheckout()">
               <div class="form-group">
               <input formControlName="username" class="form-control" placeholder="Email Id" type="text" autofocus>
+              <div *ngIf="formErrors.username" class="alert alert-danger">
+                 {{ formErrors.username }}
+               </div>
               </div>
               <div class="form-group">
               <input formControlName="password" class="form-control" placeholder="Password" type="password">
@@ -425,6 +431,9 @@
             <fieldset>                            
                 <div class="form-group">
                     <input formControlName="email" class="form-control" placeholder="Email" type="email">
+                <div *ngIf="formErrorsg.email" class="alert alert-danger">
+                 {{ formErrorsg.email }}
+               </div>
                 </div>
                 <button class="btn btn-lg btn-success btn-block" [disabled]="!guestloginForm.valid">Login</button>
             </fieldset>

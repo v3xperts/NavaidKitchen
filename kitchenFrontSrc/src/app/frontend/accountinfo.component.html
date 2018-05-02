@@ -63,7 +63,7 @@
 
                               </div>    
                               <div class="col-sm-9 cust_forge">
-                              &nbsp; &nbsp;<a href="javascript:void(0)" data-toggle="modal" data-target="#changePasswordModal">Change Password</a>
+                              &nbsp; &nbsp;<a href="javascript:void(0);" data-toggle="modal" data-target="#changePasswordModal">Change Password</a>
                               </div>
                               </div>
                               <!-- <div class="form-group">
@@ -389,7 +389,7 @@
 </div>
 <div class="media-body">
 <h3 class="media-heading" style="font-size: 13px;">
-<a href="javascript:void(0)" data-toggle="tooltip" title="{{item.name}}">{{item.name | ellipsis:60}} </a>
+<a href="javascript:void(0);" data-toggle="tooltip" title="{{item.name}}">{{item.name | ellipsis:60}} </a>
 </h3>
 <p><small *ngIf="restro.name.currency" style="font-size: 10px;"><b>{{restro.name.currency}}</b></small>{{item.price}}</p>
 </div>                  
@@ -745,7 +745,8 @@ No Record found!
                                 </p> 
                                 <div id="package{{package._id+ pi}}" class="panel-collapse collapse" aria-expanded="false">
                                 <div class="panel-body mt-0">
-                                <div class="col-lg-4 col-sm-6 col-xs-12 col-md-4 mb-7" style="padding: 0px 4px;" *ngFor="let date of package.dayandmenus">
+                                <ng-container *ngFor="let date of package.dayandmenus;"> 
+                                <div class="col-lg-4 col-sm-6 col-xs-12 col-md-4 mb-7" style="padding: 0px 4px;"  *ngIf="date.menuids.length > 0">
                                   <div style="padding: 5px; border: 1px solid lightgrey;">
                                 <h4 class="media-heading">  <small>{{date.date}} </small> <small class="text-success capitalize2 pull-right"> {{date.status ? 'Delivered' : 'Pending'}} </small></h4> 
                                 <div *ngFor="let menu of date.menuids">
@@ -760,6 +761,7 @@ No Record found!
                                 </div>
                                 </div>
                                 </div>
+                                </ng-container>
                                 </div>
                                 </div>   
                                 </div>

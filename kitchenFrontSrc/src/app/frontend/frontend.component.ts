@@ -3010,9 +3010,11 @@ export class CustomerAccountInfoComponent implements OnInit {
 
     public addNewAddress(){
         this.addressAddModel.reset();
+        this.userinfo.lat = "";
+        this.userinfo.lng = "";
         setTimeout(() => {
             this.initMap();
-        }, 1000);
+        }, 1500);
     }
 
     public modelClosed(){
@@ -3221,16 +3223,60 @@ export class CustomerAccountInfoComponent implements OnInit {
                 //console.log(customer,"customerdf");
                 this.frontendService.getCityLatLng(customer.).subscribe((data) => {});
                 });*/
-            },
-            (error) => { 
+
+            },(error) => { 
                 toastr.error("Here is an issue to detect an auto fill address!");
-
-
+                this.elseMapRun();
             });
-        } else {
-            alert("Geolocation is not supported by this browser.");
+            } else {
+            toastr.error("Geolocation is not supported by this browser.");
+            this.elseMapRun();
         }
-    }
+       }
+  
+
+     public elseMapRun(){
+            console.log("elseMapRun");
+            var input = (<HTMLInputElement>document.getElementById('pac-input'));
+            var options = {types: []};
+            var autocomplete = new google.maps.places.Autocomplete(input, options);
+            autocomplete.addListener('place_changed', () => {
+                var place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    window.alert("No details available for input: '" + place.name + "'");
+                    return;
+                }
+                if (place.address_components) {
+                    let city,country,lat,lng;
+                    console.log(place.address_components);
+
+                            
+                            this.addresspart = [];
+                            for (var i = 0; i < place.address_components.length; i++) {
+                            var addressType = place.address_components[i].types[0];
+                            if (this.componentForm[addressType]) {
+                            var val = place.address_components[i][this.componentForm[addressType]]; 
+                            if(addressType == 'locality'){
+                            this.addressAddModel.controls["city"].setValue(val);
+                            }
+                            if(addressType == 'postal_code'){
+                            this.addressAddModel.controls["zipcode"].setValue(val);
+                            }
+                            if(addressType == 'country'){
+                            this.addressAddModel.controls["country"].setValue(val);
+                            } 
+                            this.addressAddModel.controls["address"].setValue(input.value);                                    
+                            }
+                            } 
+                          
+
+                    this.userinfo.lat = place.geometry.location.lat();
+                    this.userinfo.lng = place.geometry.location.lng();
+                    this.mapRun();
+                  }
+            });
+
+           }
 
 
     public mapRun(){
@@ -4226,9 +4272,11 @@ export class FrontendCheckoutComponent implements OnInit {
 
     public addNewAddress(){
         this.addressAddModel.reset();
+        this.userinfo.lat = "";
+        this.userinfo.lng = "";
         setTimeout(() => {
             this.initMap();
-            }, 1000);
+            }, 1500);
         }
 
 
@@ -4247,13 +4295,57 @@ export class FrontendCheckoutComponent implements OnInit {
             },
             (error) => { 
                 toastr.error("Here is an issue to detect an auto fill address!");
+                this.elseMapRun();
 
             });
         } else {
-            alert("Geolocation is not supported by this browser.");
+            toastr.error("Geolocation is not supported by this browser.");
+            this.elseMapRun();
         }
     }
 
+
+   public elseMapRun(){
+            console.log("elseMapRun");
+            var input = (<HTMLInputElement>document.getElementById('pac-input'));
+            var options = {types: []};
+            var autocomplete = new google.maps.places.Autocomplete(input, options);
+            autocomplete.addListener('place_changed', () => {
+                var place = autocomplete.getPlace();
+                if (!place.geometry) {
+                    window.alert("No details available for input: '" + place.name + "'");
+                    return;
+                }
+                if (place.address_components) {
+                    let city,country,lat,lng;
+                    console.log(place.address_components);
+                    
+                        this.addresspart = [];
+                        for (var i = 0; i < place.address_components.length; i++) {
+                        var addressType = place.address_components[i].types[0];
+                        if (this.componentForm[addressType]) {
+                        var val = place.address_components[i][this.componentForm[addressType]]; 
+                        if(addressType == 'locality'){
+                        this.addressAddModel.controls["city"].setValue(val);
+                        }
+                        if(addressType == 'postal_code'){
+                        this.addressAddModel.controls["zipcode"].setValue(val);
+                        }
+                        if(addressType == 'country'){
+                        this.addressAddModel.controls["country"].setValue(val);
+                        } 
+                        this.addressAddModel.controls["address"].setValue(input.value);                                    
+                        }
+                        } 
+
+
+                    this.userinfo.lat = place.geometry.location.lat();
+                    this.userinfo.lng = place.geometry.location.lng();
+                    this.mapRun();
+                  }
+                  });
+
+           }
 
 
 
@@ -4917,7 +5009,7 @@ export class FrontendCheckoutComponent implements OnInit {
     var obj = {"id": response.card.id, "amount": Math.round(parseFloat(this.checkoutsummary.total)), "token": response.id, "currency": this.newrestaurantsdetail.currency}
     this.orderService.cardPayment(obj).subscribe((data) => {        
         this.successOrder(data);
-    });
+        });
     };
 
 
@@ -4965,6 +5057,9 @@ export class FrontendCheckoutComponent implements OnInit {
             this.kitchenService.orderMail(obj2).subscribe(res => {});     
             setTimeout(()=>{
                 var makethis = this;
+                if(this.currentCustomerDetail.accounttype == 'guest'){
+                   localStorage.removeItem('currentCustomer');
+                   }
                 this.route.navigate(['/customer/thankyou']);
                 $('#collapse_1').trigger('click');
             }, 1000);

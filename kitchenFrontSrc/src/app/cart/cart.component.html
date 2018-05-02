@@ -16,7 +16,7 @@
                 <span class="input-group-addon inputgroupy">{{item.qty}}</span>
                 <span class="input-group-addon glyphicon glyphicon-plus inputgroupy" (click)="increaseItem(item._id)"></span>
         </td>
-        <td class="cart-item-width">{{item.name}}</td> <td style="min-width: 57px;"> <small *ngIf="item.price > 0"> <b style="font-size: 9px;"> {{orderDetail.currency}} </b> {{item.price * item.qty}} </small></td>
+        <td class="cart-item-width" style="white-space: initial; word-break: break-all;">{{item.name}}</td> <td style="min-width: 57px;"> <small *ngIf="item.price > 0"> <b style="font-size: 9px;"> {{orderDetail.currency}} </b> {{item.price * item.qty}} </small></td>
         <td> <span class="glyphicon glyphicon-minus-sign removecontainer" (click)="removeItem(item._id)"></span> </td>
         </tr> 
 
@@ -27,7 +27,7 @@
                 <span class="input-group-addon inputgroupy">{{combo.qty}}</span>
                 <span class="input-group-addon glyphicon glyphicon-plus inputgroupy" (click)="increaseCombo(combo._id)"></span>
         </td>
-        <td class="cart-item-width"> {{combo.name | ellipsis:50}} </td> <td style="min-width: 57px;"> 
+        <td class="cart-item-width" style="white-space: initial; word-break: break-all;"> {{combo.name | ellipsis:50}} </td> <td style="min-width: 57px;"> 
              <small *ngIf="combo.finalcomboprice > 0"> <b  style="font-size: 9px;" > {{orderDetail.currency}} </b> {{combo.finalcomboprice * combo.qty}} </small>
             </td>
         <td> <span class="glyphicon glyphicon-minus-sign removecontainer" (click)="removeCombo(combo._id)"></span> </td>
@@ -40,7 +40,7 @@
                 <span class="input-group-addon inputgroupy">{{package.qty}}</span>
                 <span class="input-group-addon glyphicon glyphicon-plus inputgroupy" (click)="increasePackage(indexx)"></span>
         </td>        
-        <td class="cart-item-width"> {{package.name | ellipsis:50}} <b><small>{{package.discount ? '('+package.discount+'%) OFF' : ''}}</small></b> </td> <td style="min-width: 57px;"> 
+        <td class="cart-item-width" style="white-space: initial; word-break: break-all;"> {{package.name | ellipsis:50}} <b><small>{{package.discount ? '('+package.discount+'%) OFF' : ''}}</small></b> </td> <td style="min-width: 57px;"> 
         <small *ngIf="package.packageprice > 0">
         <b style="font-size: 9px;"> {{orderDetail.currency}} </b>
         {{package.packageprice * package.qty}}

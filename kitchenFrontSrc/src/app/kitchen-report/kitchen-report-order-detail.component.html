@@ -178,7 +178,8 @@
                                 
                                 <div id="package{{package._id + pi}}" class="panel-collapse collapse" aria-expanded="false">
                                 <div class="panel-body  mt-0 grid-0">
-                                <div class="col-lg-4 col-sm-6 col-xs-12 col-md-4 mb-7 thambnail-0" style="padding: 0px 4px;" *ngFor="let date of package.dayandmenus">
+                                <ng-container *ngFor="let date of package.dayandmenus;">    
+                                <div class="col-lg-4 col-sm-6 col-xs-12 col-md-4 mb-7 thambnail-0" style="padding: 0px 4px;" *ngIf="date.menuids.length > 0">
                                 <div style="padding: 5px; border: 1px solid lightgrey;">    
                                 <h4 class="media-heading"> <small>{{date.date}}</small> <small class="text-success capitalize2 pull-right"> {{date.status ? 'Delivered' : 'Pending'}} <!-- <button *ngIf="!date.status" class="btn-sm btn-success btn">Deliver</button> --></small></h4> 
                                 <div *ngFor="let menu of date.menuids" style="padding: 0px 4px;">
@@ -193,6 +194,7 @@
                                 </div>
                                 </div>
                                 </div>
+                                </ng-container>
                                 </div>
                                 </div>   
                                 </div>

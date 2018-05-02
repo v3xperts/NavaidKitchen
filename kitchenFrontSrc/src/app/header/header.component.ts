@@ -120,9 +120,14 @@ export class HeaderfrontendComponent implements OnInit, OnDestroy {
     ngOnInit() {
 
         this.guestloginForm = this.lf.group({
-            email: ['', Validators.required],
+            email: ['', [Validators.required, Validators.pattern(this.emailp)]],
             });
         
+        this.guestloginForm.valueChanges
+        .subscribe(data => this.onValueChangedg(data));
+        this.onValueChangedg(); // (re)set validation messages now 
+
+
         this.incomingData = {"customerid" : "", "total": 0, "restaurantid": "", "name": "","items" : [], "combo": [], "package": []}; 
         if(localStorage.getItem('cartinfo')){
             if(JSON.parse(localStorage.getItem('cartinfo')).items.length > 0 || JSON.parse(localStorage.getItem('cartinfo')).combo.length > 0 || JSON.parse(localStorage.getItem('cartinfo')).package.length > 0){
@@ -152,9 +157,16 @@ export class HeaderfrontendComponent implements OnInit, OnDestroy {
         this.restaurantsDetail(); 
         //this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/customer';
         this.loginForm = this.lf.group({
-            username: ['', Validators.required],
+            username: ['', [Validators.required, Validators.pattern(this.emailp)]],
             password: ['', Validators.required],
         });
+
+        this.loginForm.valueChanges
+        .subscribe(data => this.onValueChanged(data));
+        this.onValueChanged(); // (re)set validation messages now 
+
+
+
         this.usersService.getComplexity().subscribe(data=>{ 
 
             this.passwordp = data.message[0].customerpasscomplexity.regex;
@@ -226,6 +238,22 @@ export class HeaderfrontendComponent implements OnInit, OnDestroy {
 
     }
 
+  public onValueChanged(data?: any) {
+        if (!this.loginForm) {return;  }
+        const form = this.loginForm;
+        for (const field in this.formErrors) {
+            // clear previous error message (if any)
+            this.formErrors[field] = '';
+            const control = form.get(field);      
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessages[field];
+                for (const key in control.errors) {
+                    this.formErrors[field] += messages[key] + ' ';          
+                }
+            }
+        }
+    }
+
 
 public resetform(){
     this.loginForm.reset();
@@ -248,6 +276,7 @@ private guestlogin(){
            this.authService.getFrontend(obj).subscribe(
             (data) => {   
             if (!data.error) { 
+                console.log("guest@", data.data);
                 localStorage.setItem('currentCustomer', JSON.stringify(data.data));   
                 $("#checkout-signin-model").modal('hide');  
                 this.checkoutLogin= false;  
@@ -385,6 +414,23 @@ private guestlogin(){
         }
     }
 
+
+
+
+
+
+    formErrors = {    
+        'username' : ''        
+    };
+
+    validationMessages = {   
+        'username' : {
+            'required':      'Email is required.',
+            'pattern'   :    'Email not in well format.'
+        }      
+    };
+
+
     formErrorsf = {    
         'email' : ''        
     };
@@ -395,6 +441,40 @@ private guestlogin(){
             'pattern'   :    'Email not in well format.'
         }      
     };
+
+
+
+        onValueChangedg(data?: any) {
+        if (!this.guestloginForm) {return;  }
+        const form = this.guestloginForm;
+        for (const field in this.formErrorsg) {
+            // clear previous error message (if any)
+            this.formErrorsg[field] = '';
+            const control = form.get(field);      
+            if (control && control.dirty && !control.valid) {
+                const messages = this.validationMessagesg[field];
+                for (const key in control.errors) {
+                    this.formErrorsg[field] += messages[key] + ' ';          
+                }
+            }
+        }
+    }
+
+
+
+
+formErrorsg = {    
+        'email' : ''        
+    };
+
+    validationMessagesg = {   
+        'email' : {
+            'required':      'Email is required.',
+            'pattern'   :    'Email not in well format.'
+        }      
+    };
+
+
 
     public showform(type){
         this.addidClass();
@@ -1161,6 +1241,7 @@ export class FooterfrontendComponent implements OnInit {
             'pattern'   :    'Email not in well format.'
         }      
     };
+
 
     forgetPass(){
         NProgress.start(); 

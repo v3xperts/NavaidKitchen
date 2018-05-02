@@ -205,7 +205,8 @@ textarea#textarearesize0 {
 
           <div id="package{{package._id + pi}}" class="panel-collapse collapse" aria-expanded="false">
           <div class="panel-body mt-0 grid-0">
-          <div class="col-lg-4 col-sm-4 col-xs-12 col-md-4 mb-7 thambnail-0" style="padding: 0px 4px;" *ngFor="let date of package.dayandmenus;">
+          <ng-container *ngFor="let date of package.dayandmenus;">
+          <div class="col-lg-4 col-sm-4 col-xs-12 col-md-4 mb-7 thambnail-0" *ngIf="date.menuids.length > 0" style="padding: 0px 4px;">
           <div style="padding: 5px; border: 1px solid lightgrey;">
           <h4 class="media-heading"><small>{{date.date}} </small></h4> 
            <div *ngFor="let menu of date.menuids">
@@ -220,6 +221,7 @@ textarea#textarearesize0 {
           </div>
           </div>
           </div>
+          </ng-container>
           </div>
           </div> 
           </div>
@@ -290,7 +292,7 @@ textarea#textarearesize0 {
 					<input type="radio" name="ordertiming" [checked]="checkedd" (click)="setordertime('now')" />
 					<span></span> Now
 				</label>
-				<label class="notallowed" *ngIf="newrestaurantsdetail && newrestaurantsdetail.preorderforlater">
+				<label class="notallowed" *ngIf="newrestaurantsdetail && newrestaurantsdetail.preorderforlater && checkoutsummary.package.length == 0">
 					<input type="radio" name="ordertiming" (click)="setordertime('later')">
 					<span></span> Pre-order for later
 				</label>
