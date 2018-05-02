@@ -25,7 +25,7 @@ status : {type : String, default : 'received'},
 created_at: { type: Date },
 cardPaidStatus: Object,
 timezone: String,
-menuStatus: {type: String , default: false},
+menuStatus: {type: Boolean , default: false},
 currency: String
 });
 
