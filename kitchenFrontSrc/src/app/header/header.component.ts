@@ -132,7 +132,7 @@ export class HeaderfrontendComponent implements OnInit, OnDestroy {
         if(localStorage.getItem('cartinfo')){
             if(JSON.parse(localStorage.getItem('cartinfo')).items.length > 0 || JSON.parse(localStorage.getItem('cartinfo')).combo.length > 0 || JSON.parse(localStorage.getItem('cartinfo')).package.length > 0){
                 this.incomingData = JSON.parse(localStorage.getItem('cartinfo')); 
-                console.log("this.incomingData", this.incomingData); 
+               // console.log("this.incomingData", this.incomingData); 
             }               
         }else{
             this.incomingData = {"customerid" : "", "total": 0, "restaurantid": "", "name": "","items" : [],"combo": [], "package": []}; 
@@ -141,10 +141,10 @@ export class HeaderfrontendComponent implements OnInit, OnDestroy {
             if ("geolocation" in navigator) {
                     navigator.geolocation.getCurrentPosition(
                         (position) => {
-                        console.log("cordinate success");    
+                      //  console.log("cordinate success");    
                         this.getgeo(position.coords.latitude, position.coords.longitude);      
                         }, (err) => {
-                         console.log("cordinate errors", err);
+                        // console.log("cordinate errors", err);
                         this.setonheader();
                         });
             }
@@ -213,7 +213,7 @@ export class HeaderfrontendComponent implements OnInit, OnDestroy {
          this.loginForm.patchValue(this.keeplogin);
         }
         //localStorage.setItem("keeplogin", JSON.stringify(this.keeplogin));
-        console.log( "incomingData", this.incomingData );
+        //console.log( "incomingData", this.incomingData );
 
             $('body').on("click", ".someyourContainer", function (e) {
             $(this).parent().is(".open") && e.stopPropagation();
@@ -268,7 +268,7 @@ public loginCheckout(){
 private guestlogin(){
     var obj = {"accounttype": 'guest', "username": this.guestloginForm.value.email, "email" : this.guestloginForm.value.email, "password": "mealdaay123", "status": true};
     this.frontendService.addCustomer(obj).subscribe((data) => {
-         console.log("data", data);
+         //console.log("data", data);
          if(data.error){
          toastr.remove();
          toastr.error('You are already exist. Please login with Credentials.');
@@ -276,7 +276,7 @@ private guestlogin(){
            this.authService.getFrontend(obj).subscribe(
             (data) => {   
             if (!data.error) { 
-                console.log("guest@", data.data);
+           //     console.log("guest@", data.data);
                 localStorage.setItem('currentCustomer', JSON.stringify(data.data));   
                 $("#checkout-signin-model").modal('hide');  
                 this.checkoutLogin= false;  
@@ -380,7 +380,7 @@ private guestlogin(){
         NProgress.start();   
         this.authService.forgetPasswordFrontend(this.forgetForm.value).subscribe(
             (data) => { 
-                console.log(data);
+               // console.log(data);
             // alert("mail send");       
                 if (data.error) {                  
                     NProgress.done();
@@ -524,7 +524,7 @@ restlogin(type){
         NProgress.start();        
         this.authService.getFrontend(this.loginForm.value).subscribe(
             (data) => {
-                console.log("this.loginForm.value2", data);
+              //  console.log("this.loginForm.value2", data);
                 if (!data.error) {
 
                     localStorage.setItem('currentCustomer', JSON.stringify(data.data));
@@ -673,13 +673,13 @@ restlogin(type){
                    geocoder.geocode({ 'latLng': latlng }, (results, status) => {
                       if (status == google.maps.GeocoderStatus.OK) {
                       if (results.length) {
-                      console.log("results[0]", results[0]);
+                    //  console.log("results[0]", results[0]);
                       results[0].address_components.forEach((value, index) => {
                           if(results[0].address_components[index].types.indexOf('country') > -1){
                                 var obj = {"countryname" : results[0].address_components[index].long_name};
                                 this.masterService.getIdByCountry(obj).subscribe(item =>{
                                 if(item.message.length > 0){
-                                console.log("remot 1");
+                           //     console.log("remot 1");
                                 var obj1 = {"country": results[0].address_components[index].long_name, countryid : item.message[0]._id};
                                 if(!localStorage.getItem('currentCountry')){
                                 localStorage.setItem('currentCountry' , JSON.stringify(obj1));
@@ -738,15 +738,15 @@ restlogin(type){
 
             var obj ={"countryname": ""};
             this.frontendService.getCountryName().subscribe((data) =>{
-                console.log("nn", data);
+              //  console.log("nn", data);
                 if(localStorage.getItem('currentCountry')){
                 obj["countryname"] = JSON.parse(localStorage.getItem('currentCountry')).country;
                 }else{
                 obj["countryname"] = data.country_name;
                 }
-                console.log("nnnn", obj)
+             //   console.log("nnnn", obj)
                this.masterService.getIdByCountry(obj).subscribe((item) => {
-                console.log("dsfhd", item.message);
+             //   console.log("dsfhd", item.message);
                 if(item.message.length > 0)
                 {
                     var counitm = {"country": item.message[0].countryName,"countryid": item.message[0]._id}
@@ -759,7 +759,7 @@ restlogin(type){
                     }
                 }      
                 if(localStorage.getItem('currentCountry')){
-                    console.log("gett", localStorage.getItem('currentCountry'));
+               //     console.log("gett", localStorage.getItem('currentCountry'));
                 this.countryname = JSON.parse(localStorage.getItem('currentCountry')).country;
                 }
                 $("#collapse_1").trigger('click');
@@ -796,7 +796,7 @@ export class HeaderownerComponent implements OnInit {
 
     constructor(public kitchenService: KitchenService, public authService : AuthService, public router: Router, private activatedRoute:ActivatedRoute) { 
         this.currentOwner = JSON.parse(localStorage.getItem('currentOwner'));
-        console.log("activatedRoute", this.activatedRoute, this.router.url);
+       // console.log("activatedRoute", this.activatedRoute, this.router.url);
         this.getKitchen();      
         }
 
@@ -982,7 +982,7 @@ export class FooterfrontendComponent implements OnInit {
 
 
     public matchpasswordreg(){
-        console.log(this.loginFormr.value.password , this.loginFormr.value.newpassword);
+       // console.log(this.loginFormr.value.password , this.loginFormr.value.newpassword);
         if(this.loginFormr.value.password != null && this.loginFormr.value.newpassword != null && this.loginFormr.value.password != "" && this.loginFormr.value.newpassword != "" && this.loginFormr.value.password != this.loginFormr.value.newpassword){
             this.loginFormr.controls["matchpass"].setValue("");
             this.MutchPassword = true;   
@@ -1058,7 +1058,7 @@ export class FooterfrontendComponent implements OnInit {
         NProgress.start();
         this.authService.getOwner(this.loginForm.value).subscribe(
             (data) => {
-                console.log("dsdsh", data)
+               // console.log("dsdsh", data)
                 if (data.status) {
 
                     if(data && data.data && data.data.ownerId && data.data.ownerId.status){

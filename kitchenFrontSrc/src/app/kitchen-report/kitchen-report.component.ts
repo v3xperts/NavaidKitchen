@@ -218,13 +218,14 @@ export class KitchenReportCustomersComponent implements OnInit {
 })
 export class KitchenReportOrderComponent implements OnInit {
 
-  // ownerInfo :any;
+  //ownerInfo :any;
   order: any;
   orderId:any;
   imgurl:any = globalVariable.imageUrl;
   ratingDetail:any;
+  ratinghtml:any = '';
   rat:any = false;
-
+  stage:any;
   firebaseOrders = [];
   firestore = firebase.database().ref('/orders');
 
@@ -273,7 +274,9 @@ export class KitchenReportOrderComponent implements OnInit {
   }*/
 
   public updateOrder(obj){
+    console.log(obj)
     this.orderService.update(obj).subscribe((data) => {
+        console.log("upd", data);
         this.getOrder();
     });
   }
@@ -307,7 +310,7 @@ export class KitchenReportOrderComponent implements OnInit {
           }else{
             count = this.firebaseOrders[indx]['orderDetail'].count + 1;
           }
-          this.updateFirebaseOrderStatus(this.firebaseOrders[indx]['key'],type, count);
+          this.updateFirebaseOrderStatus(this.firebaseOrders[indx]['key'], type, count);
         }
       }
     },5000)
@@ -336,16 +339,39 @@ export class KitchenReportOrderComponent implements OnInit {
       this.frontendService.getOneCust(data.message.customerid).subscribe((customer) => {
         data.message.customerid = customer.message;
         this.order = data.message;
+        this.getStage();
         console.log("my ordre", this.order);
-        this.initMap();
+        setTimeout(()=> {this.initMap();},1500);
       }); 
     });
   }
+ 
+  getStage(){
+        let orderStatus = this.order.status;
+
+        if (orderStatus == 'received') {
+            this.stage = 1
+        }
+        if (orderStatus == 'accepted') {
+            this.stage = 2
+        }
+        if (orderStatus == 'completed' || orderStatus == 'driverrejected') {
+            this.stage = 3
+        }
+        if (orderStatus == 'driveraccepted') {
+            this.stage = 4
+        }
+        if (orderStatus == 'delivered') {
+            this.stage = 5
+        }
+    }   
 
   public getOrderRating(){
+    this.ratinghtml= "";
 	  this.ratingService.getOrderRating(this.orderId).subscribe((data) => {        
       console.log("date", data);
       this.ratingDetail = data.message;
+      this.ratinghtml = this.ShowRatingStar(this.ratingDetail);
       this.rat = true;
     });
   }

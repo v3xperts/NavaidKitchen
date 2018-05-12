@@ -184,7 +184,7 @@ export class MasterService {
         }  
 
     getIdByCountry(data){
-      console.log(data);
+      
        return this.http.post(globalVariable.url+'getcountryid',data)
               .map(
                   (response: Response) => response.json()

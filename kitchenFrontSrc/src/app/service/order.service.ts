@@ -52,7 +52,7 @@ export class OrderService {
 
 
     cardPayment(data) {
-      console.log(data);
+      
       return this.http.post(globalVariable.url4+'charge/', data)
         .map(
           (response: Response) => response.json()

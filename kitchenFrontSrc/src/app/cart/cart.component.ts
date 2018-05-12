@@ -151,7 +151,6 @@ export class CartComponent implements OnInit {
 			this.orderDetail.total =  parseInt(this.orderDetail.total) + (parseInt(item[j].price) * parseInt(item[j].qty));     
 		}     
 		callback();
-
 	}
 
 	public comboPriceCalculate(callback){

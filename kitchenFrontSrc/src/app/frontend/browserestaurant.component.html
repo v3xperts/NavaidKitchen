@@ -25,7 +25,7 @@
               </option>  
         </select>
         </div>
-      <div class="col-sm-12 col-lg-2 col-md-2 col-xs-12 classinputserch">
+      <div class="col-sm-12 col-lg-2 col-md-2 col-xs-12 classinputserch" style="margin-top: -2px;">
        <div class="searchBox">   
             <div id="imaginary_container"> 
                 <div class="input-group stylish-input-group" style="width:100%;">
@@ -34,13 +34,13 @@
             </div>
       </div>
       </div>
-      <div class="col-sm-12 col-lg-1 col-md-1 col-xs-12 classinputserch">
+      <div class="col-sm-12 col-lg-1 col-md-1 col-xs-12 classinputserch" style="margin-top: -2px;">
       <button class="classinputserchbtn srchl srcx" (click)="searchdata()">
           <i class="fa fa-search" aria-hidden="true"></i>
       </button>
       </div>
 
-    <div class="btn-group col-lg-3 col-md-3 col-sm-12 col-xs-12 browseralien1" >          
+    <div class="btn-group col-lg-3 col-md-3 col-sm-12 col-xs-12 browseralien1">          
           <div class="pull-right">       
           <div class="btn-group">
       <div class="dropdown pull-left">
@@ -119,11 +119,11 @@
       <p *ngIf="restaurants.length == 0" class="text-center"> No Results Found. </p>
       <div id="products" class="row list-group">
       <div class="item  col-xs-12 col-sm-6  col-md-4 col-lg-4" *ngFor="let restaurant of restaurants | SearchPipeRestaurant: userFilter2;">
-        <a [routerLink]="['/customer/restaurant-detail/',restaurant._id]"><div [ngClass]="checkdetail(restaurant) == true ? '' : 'grid-css'">
-            <div *ngIf="checkdetail(restaurant) != true" class="close-cls" >Closed</div>
+        <a [routerLink]="['/customer/restaurant-detail/',restaurant._id]"><div [ngClass]="restaurant.openclose == true ? '' : 'grid-css'">
+            <div *ngIf="restaurant.openclose != true" class="close-cls" >Closed</div>
         </div>
         </a>
-            <div  [routerLink]="['/customer/restaurant-detail/',restaurant._id]" style="cursor: pointer;" class="thumbnail thumbnail-grid" [ngStyle]="checkdetail(restaurant) == true ? {} : {'background': '#e2e2e2'}">
+            <div  [routerLink]="['/customer/restaurant-detail/',restaurant._id]" style="cursor: pointer;" class="thumbnail thumbnail-grid" [ngStyle]="restaurant.openclose == true ? {} : {'background': '#e2e2e2'}">
                 <img  [routerLink]="['/customer/restaurant-detail/',restaurant._id]" class="group list-group-image image-grid list-pointer12" src="{{restaurant.image  == '' ? './assets/image/face.png' :  imgurl2 + restaurant.image}}" alt="" />
                 <!-- <div><img src="./assets/image/hert.png" width="25px" height="25px" /></div> -->
                 <div class="caption">

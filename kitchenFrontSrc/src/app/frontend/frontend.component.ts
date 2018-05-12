@@ -37,7 +37,7 @@ export class FrontendCustomerComponent implements OnInit {
         this.paymentConfigService.getKey().subscribe((data) => {
             if(data.message.length > 0){
                 Stripe.setPublishableKey(data.message[0].keypublishable);
-                console.log("publish key", data.message[0].keypublishable);
+                //console.log("publish key", data.message[0].keypublishable);
             }
         });
     }
@@ -109,10 +109,10 @@ export class FrontendComponent implements OnInit {
     }
 
     public getTestimonials() {
-        console.log('thist')
+        //console.log('thist')
         this.testimonial.getTestimonial().subscribe((data) => {
-            console.log('data');
-            console.log(data);
+            //console.log('data');
+           // console.log(data);
         });
     }
     public handleEvent(childData){
@@ -794,7 +794,7 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
 
         this.refreshSelectPicker();
         this.route.queryParams.subscribe(params => { 
-            console.log("localStorage.getItem('currentCountry')", localStorage.getItem('currentCountry'));
+           // console.log("localStorage.getItem('currentCountry')", localStorage.getItem('currentCountry'));
             if(params['country'] && typeof params['country'] != 'undefined' && params['country'] != ""){                
                 this.filterOfdetail.country = params['country'].toLowerCase(); 
             }else if(localStorage.getItem('currentCountry')){
@@ -845,7 +845,7 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
     setInListView(){
            setTimeout(() => {
            if(this.listView == true){
-             console.log("this.restaurants", this.restaurants , this.listView);
+            // console.log("this.restaurants", this.restaurants , this.listView);
              $('#products .item').addClass('list-group-item'); $('.thumbnail > img').removeClass('image-grid'); $('.thumbnail > img').addClass('image-list'); $('.caption').addClass('caption-minh');  $('.thumbnail').removeClass('thumbnail-grid'); 
             }else{
              $('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item'); $('.thumbnail > img').removeClass('image-list'); $('.thumbnail > img').addClass('image-grid'); $('.caption').removeClass('caption-minh'); $('.thumbnail').addClass('thumbnail-grid');
@@ -858,12 +858,12 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
     }
 
 
-    public checkdetail(restaurant){
+   /* public checkdetail(restaurant){
         var da = new Date();
         var vctime = da.getHours()+":"+da.getMinutes();
         var dayindex = da.getDay()-1;
-        //console.log("d index", dayindex, restaurant.restaurantname);
-        if(dayindex > -1){
+        console.log("d index", dayindex, restaurant.restaurantname);
+            if(dayindex > -1){
             var da = new Date();
             vctime = da.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true });
             var ocdateindex:any = -1;
@@ -874,17 +874,71 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
             });
             }
             if((restaurant.openinghours.length > 0 && restaurant.openinghours[dayindex].status == false && ocdateindex > -1) || restaurant.openinghours.length == 0){                        
+            console.log("abc1");
             return true;
             }else{
+            console.log("abc2");
             return false;        
             }
             }else{
+             console.log("abc3");
              return false;           
             }
-      }
+      }*/
+    
+    checkdetail(){
+        var today = new Date();
+        var day = today.getDay();
+        var daylist = ["sunday", "monday", "tuesday", "wednesday ", "thursday", "friday", "saturday"];
+        let todayDay = daylist[day];
+        var hour = today.getHours();
+        var minute = today.getMinutes();
+        var prepand = (hour >= 12) ? " PM " : " AM ";
+        hour = (hour >= 12) ? hour - 12 : hour;
+        if (hour === 0 && prepand === ' PM ') {
+            hour = 12;
+            prepand = ' PM';
+        }
+        if (hour === 0 && prepand === ' AM ') {
+            hour = 12;
+            prepand = ' AM';
+        }
+        var ctime = hour + ':' + minute + prepand;
 
+        for (let index = 0; index < this.restaurants.length; index++) {
+            var element = this.restaurants[index].openinghours;
+            if (element.length > 0) {
+                for (const key in element) {
+                    if (element[key].name == daylist[day]) {
+                        if (!element[key].status) {
+                            for (const key2 in element[key].times) {
+                                var a = "11/23/2014 " + ctime;
+                                var b = "11/23/2014 " + element[key].times[key2].open;
+                                var c = "11/23/2014 " + element[key].times[key2].close;
+                                var aDate = new Date(a).getTime();
+                                var bDate = new Date(b).getTime();
+                                var cDate = new Date(c).getTime();
+                                if (aDate > bDate && aDate < cDate) {
+                                    this.restaurants[index].openclose = true;
+                                    break;
+                                } else {
+                                    this.restaurants[index].openclose = false;
+                                }
+                            }
+                        } else {
+                            this.restaurants[index].openclose = true;
+                        }
+                    }
+                }
+            } else {
+                this.restaurants[index].openclose = false;
+            }
+        }
+    }
 
     public ShowRatingStar(index){
+
+      //  console.log("ratingOnRest", index);
 
         var indexobj = this.ratingOnRest[index];
         var arr = indexobj.averageQuantity.toFixed(1).toString().split(".");            
@@ -955,7 +1009,7 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
         this.coui = "";
         this.filterOfdetail.country = childData.country;
         this.filterOfdetail.sortby = "";
-        console.log(this.filterOfdetail, "hiii");
+        //console.log(this.filterOfdetail, "hiii");
         this.searchdata();
         }
 
@@ -986,6 +1040,7 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
         }
 
         this.restaurants = filterres1;
+        this.checkdetail();
 
     }  
 
@@ -1020,6 +1075,7 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
              newrest.splice(index, 1);
              }
            this.restaurants = restroarray.concat(newrest);
+           this.checkdetail();
            this.setInListView();
            }
        });
@@ -1062,7 +1118,7 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
                   
         } 
 
-        console.log("querydata.cousine", querydata.cousine);
+       // console.log("querydata.cousine", querydata.cousine);
         delete querydata.lat;  
         delete querydata.lng;
         this.queryString = "";
@@ -1082,7 +1138,7 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
                 if(data.message.length > 0 && data.message[0].customerfavrestro){
                         favouriteRestro = data.message[0].customerfavrestro;
                         this.favouritelist = favouriteRestro.map((rest) => {return rest.id});
-                        console.log(this.favouritelist," this.favouritelist");
+                        // console.log(this.favouritelist," this.favouritelist");
                 }
             });
            }
@@ -1122,8 +1178,10 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
         }
         //console.log(this.city);       
         this.frontendRestaurantService.getAllRestrob(cityo).subscribe(data => {
+          
             //console.log("all rest2 "); 
-           // console.log(this.restaurants); 
+           //console.log(this.restaurants); 
+
             this.restaurants = data.message; 
             
         });
@@ -1214,8 +1272,8 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
         this.filterOfdetail.lat = localStorage.getItem('latop');
         this.filterOfdetail.lng = localStorage.getItem('lngop');
 
-       console.log("reflact Detail"); 
-       console.log(this.filterOfdetail); 
+       //console.log("reflact Detail"); 
+       //console.log(this.filterOfdetail); 
 
         this.frontendRestaurantService.reflactAllRest(this.filterOfdetail).subscribe(data => {
             var data2 = data.message;
@@ -1230,7 +1288,8 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
                     }
                 }
                } else{
-                this.restaurants =  data.message;  
+                this.restaurants =  data.message; 
+                this.checkdetail();
                 if(this.filterOfdetail.sortby == 'rating'){
                     this.restaurentRating();
                 }
@@ -1259,6 +1318,8 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
             //console.log(data);
             this.filteredRet = data.message;      
             this.restaurants = this.filteredRet;
+            this.checkdetail();
+
         });
     }
 
@@ -1294,7 +1355,8 @@ export class FrontendBrowseRestaurantsComponent implements OnInit {
                 const index2 = this.restaurantsd.findIndex(item => item._id === this.menu[i].kitchenId);                
                 if(index1 === -1){ 
                     if(index2 !== -1){
-                        this.restaurants.push(this.restaurantsd[index2]);  
+                        this.restaurants.push(this.restaurantsd[index2]);
+                        this.checkdetail();
                     }
                 }
             }
@@ -1376,7 +1438,7 @@ export class CustomerRestaurantDetailComponent implements OnInit {
     diffDays:any;    
     todayDay :any;
     todayOpend : any = false;
-
+    ratingHtml:any;
 
     constructor(
         public lf: FormBuilder, 
@@ -1450,7 +1512,7 @@ export class CustomerRestaurantDetailComponent implements OnInit {
     }
 
 
-    public todayOpen(){
+    /*public todayOpen(){
 
             var da = new Date();
             var vctime = da.getHours()+":"+da.getMinutes();
@@ -1461,16 +1523,16 @@ export class CustomerRestaurantDetailComponent implements OnInit {
             var ocdateindex:any = -1;
 
             if(this.restaurantsdetail.openinghours.length > 0 && this.restaurantsdetail.openinghours[dayindex].status == false){
-                console.log("31");    
+                //console.log("31");    
             ocdateindex = this.restaurantsdetail.openinghours[dayindex].times.findIndex((items) =>{
             return (Date.parse('01/01/2011 '+items.open) <= Date.parse('01/01/2011 '+vctime) && Date.parse('01/01/2011 '+items.close) >= Date.parse('01/01/2011 '+vctime)) || (items.open == "" && items.close == "");
             });
             }
             if((ocdateindex > -1) || (this.restaurantsdetail.openinghours.length == 0)){
-            console.log("32");    
+            //console.log("32");    
             this.todayOpend = true;
             }else{
-                console.log("33");    
+                //console.log("33");    
             this.todayOpend = false;
             }
             }else{
@@ -1478,7 +1540,58 @@ export class CustomerRestaurantDetailComponent implements OnInit {
              this.todayOpend = false;   
             }
         }
+*/
 
+
+todayOpen(){
+        var today = new Date();
+        var day = today.getDay();
+        var daylist = ["sunday", "monday", "tuesday", "wednesday ", "thursday", "friday", "saturday"];
+        let todayDay = daylist[day];
+        var hour = today.getHours();
+        var minute = today.getMinutes();
+        var prepand = (hour >= 12) ? " PM " : " AM ";
+        hour = (hour >= 12) ? hour - 12 : hour;
+        if (hour === 0 && prepand === ' PM ') {
+            hour = 12;
+            prepand = ' PM';
+        }
+        if (hour === 0 && prepand === ' AM ') {
+            hour = 12;
+            prepand = ' AM';
+        }
+        var ctime = hour + ':' + minute + prepand;
+
+        
+            var element = this.restaurantsdetail.openinghours;
+            if (element.length > 0) {
+                for (const key in element) {
+                    if (element[key].name == daylist[day]) {
+                        if (!element[key].status) {
+                            for (const key2 in element[key].times) {
+                                var a = "11/23/2014 " + ctime;
+                                var b = "11/23/2014 " + element[key].times[key2].open;
+                                var c = "11/23/2014 " + element[key].times[key2].close;
+                                var aDate = new Date(a).getTime();
+                                var bDate = new Date(b).getTime();
+                                var cDate = new Date(c).getTime();
+                                if (aDate > bDate && aDate < cDate) {
+                                    this.todayOpend = true;
+                                    break;
+                                } else {
+                                    this.todayOpend = false;
+                                }
+                            }
+                        } else {
+                            this.todayOpend = true;
+                        }
+                    }
+                }
+            } else {
+                this.todayOpend = false;
+            }
+        
+    }
 
     public getReviewRating(){
         this.ratingService.getReviewRating(this.restid).subscribe((data) =>{
@@ -1670,13 +1783,12 @@ export class CustomerRestaurantDetailComponent implements OnInit {
 
 
     public ShowRatingStar(index){
-        
+        if(index > -1){
         var indexobj = this.ratingOnRest[index];
-       // console.log("indexobj", indexobj);
+        //console.log("indexobj", indexobj);
         var arr = indexobj.averageQuantity.toFixed(1).toString().split(".");    
         var newassing = 0;
         var html = "";  
-
         for(var i=0; i<arr[0];i++){
             newassing += 1;
             html += '<span class="stardiv on"></span>';
@@ -1698,6 +1810,7 @@ export class CustomerRestaurantDetailComponent implements OnInit {
         }
 
         return html;
+        }
     }
 
 
@@ -1705,7 +1818,10 @@ export class CustomerRestaurantDetailComponent implements OnInit {
         this.ratingService.getAllRestroRating().subscribe((data)=>{
             var indexs = data.message;
             this.ratingOnRestIndexs = indexs.map((item)=>{ return item._id });
+           // console.log("sad", this.ratingOnRestIndexs);
             this.ratingOnRest = indexs;
+           // console.log("jklkj", this.restaurantsdetail._id, this.ratingOnRestIndexs.indexOf(this.restaurantsdetail._id));
+            this.ratingHtml = this.ShowRatingStar(this.ratingOnRestIndexs.indexOf(this.restaurantsdetail._id));
             //console.log("ratingOnRest" , this.ratingOnRestIndexs, this.ratingOnRest); 
 
           
@@ -1748,13 +1864,13 @@ export class CustomerRestaurantDetailComponent implements OnInit {
 
     public datePickerEnable(){
         if(this.restaurantsdetail.mealpackageallowdays){
-        console.log("this.restaurantsdetail.mealpackageallowdays", this.restaurantsdetail.mealpackageallowdays);
+       // console.log("this.restaurantsdetail.mealpackageallowdays", this.restaurantsdetail.mealpackageallowdays);
         }
         setTimeout(()=> {
                 var mind = new Date();
                 var mind2 = new Date();
                 var tmind = mind.setDate(mind.getDate() + +this.restaurantsdetail.mealpackageallowdays);
-                console.log("aa", +this.restaurantsdetail.mealpackageallowdays + +1);
+               // console.log("aa", +this.restaurantsdetail.mealpackageallowdays + +1);
                 var tmind2 = mind2.setDate(mind2.getDate() + +this.restaurantsdetail.mealpackageallowdays + +1);
                 $('#startDate').datetimepicker({format:'YYYY-MM-DD', "minDate": tmind,  widgetPositioning: {
                     horizontal: 'right',
@@ -1795,7 +1911,7 @@ export class CustomerRestaurantDetailComponent implements OnInit {
 
            /* var startDate = new Date(this.customizeDate.startDate);
             var endDate = new Date(this.customizeDate.endDate);*/
-            console.log("s, e, today", s, e, today, (s <= e) && (s >= today && e >= today));
+           // console.log("s, e, today", s, e, today, (s <= e) && (s >= today && e >= today));
             if((s <= e) && (s >= today && e >= today)){
                 this.customizeDate.error = false;
             }else{
@@ -1844,7 +1960,7 @@ export class CustomerRestaurantDetailComponent implements OnInit {
             var indexs = this.selectedMealPackage.dayandmenus.findIndex((indexitem) => {return indexitem.day == dayName});            
           //  console.log(indexs);
             if(indexs > -1){
-                console.log("selectedmeal", this.selectedMealPackage);
+            //    console.log("selectedmeal", this.selectedMealPackage);
                 if (typeof this.revised != 'undefined' && this.revised && this.customizedPackage.length < 7) {
                     this.customizedPackage.push(this.jsonfy({"date":dateDay.toLocaleDateString(), "status": false, "menuids": [], "tempmenuids": this.selectedMealPackage.dayandmenus[indexs].menuids}));
                 }
@@ -1860,7 +1976,7 @@ export class CustomerRestaurantDetailComponent implements OnInit {
                     this.customizedPackage.push(this.jsonfy({"date": dateDay.toLocaleDateString(), "status": false, "menuids": [], "tempmenuids": []}));
                 }
                 this.tempCustomizedPackage.push(this.jsonfy({"date": dateDay.toLocaleDateString(), "status": false, "menuids": [], "tempmenuids": []}));
-                console.log("this.tempCustomizedPackage", this.tempCustomizedPackage);
+               // console.log("this.tempCustomizedPackage", this.tempCustomizedPackage);
             }
             startDate.setDate(startDate.getDate()+1);
         }
@@ -1976,9 +2092,9 @@ export class CustomerRestaurantDetailComponent implements OnInit {
         var findindex = this.customizedPackage[selectindex].menuids.findIndex((item) => {
             return item._id == selectitem._id;
         });
-        console.log("rep",this.customizedPackage, selectindex, menuitemindex, selectitem, findindex);
+       // console.log("rep",this.customizedPackage, selectindex, menuitemindex, selectitem, findindex);
         if(findindex != -1){
-            console.log("index1", findindex);
+       //     console.log("index1", findindex);
             this.customizedPackage[selectindex].menuids.splice(findindex, 1); 
             this.customizedPackage[selectindex].tempmenuids[menuitemindex].selected = false;
 
@@ -1999,7 +2115,7 @@ export class CustomerRestaurantDetailComponent implements OnInit {
                 }
             }
         }else{
-            console.log("index2", findindex);
+           // console.log("index2", findindex);
             this.customizedPackage[selectindex].menuids.push(JSON.parse(JSON.stringify(selectitem)));
             this.customizedPackage[selectindex].tempmenuids[menuitemindex].selected = true;
             this.tempCustomizedPackage[selectindex]['menuids'].push(JSON.parse(JSON.stringify(selectitem)));
@@ -2020,10 +2136,10 @@ export class CustomerRestaurantDetailComponent implements OnInit {
             }
         }
 
-        console.log("this.customizedPackage");
-        console.log(this.customizedPackage);
-        console.log("this.tempCustomizedPackage");
-        console.log(this.tempCustomizedPackage);
+        //console.log("this.customizedPackage");
+     //   console.log(this.customizedPackage);
+      //  console.log("this.tempCustomizedPackage");
+     //   console.log(this.tempCustomizedPackage);
         this.customizedPackageTotalPrice = this.calculatePriceForFlexible(this.customizedPackage);
     }
 
@@ -2109,18 +2225,18 @@ export class CustomerRestaurantDetailComponent implements OnInit {
         this.orderdetails.name = this.restaurantsdetail.restaurantname;
         this.orderdetails.restaurantid = this.restaurantsdetail._id;
         let obj = this.selectedMealPackage;
-        console.log("this.selectedMealPackage obj", obj, this.tempCustomizedPackage, this.customizedPackage, this.selectedMealPackage);
+     //   console.log("this.selectedMealPackage obj", obj, this.tempCustomizedPackage, this.customizedPackage, this.selectedMealPackage);
         if (typeof this.revised != 'undefined' && this.revised) {
             var flexprice = this.calculatePriceForFlexible(this.tempCustomizedPackage);
             obj['packageprice'] = flexprice - ((flexprice/100) * obj.discount);
 
-           console.log("this.tempCustomizedPackage", this.tempCustomizedPackage);
+        //   console.log("this.tempCustomizedPackage", this.tempCustomizedPackage);
         }
 
         if (typeof this.revised == 'undefined' || !this.revised){
             var flexprice2 = this.customizedPackageTotalPrice;
             obj['packageprice'] = flexprice2 - ((flexprice2/100) * obj.discount);
-            console.log("this.customizedPackageTotalPrice", this.customizedPackageTotalPrice);
+       //     console.log("this.customizedPackageTotalPrice", this.customizedPackageTotalPrice);
         }
 
         this.updateArr(this.tempCustomizedPackage,(data)=>{
@@ -2182,12 +2298,12 @@ export class CustomerRestaurantDetailComponent implements OnInit {
         
         var iid = item;
         var rn1 = this.getrestroname(iid.kitchenId);
-        console.log("addComboOrderDetail", rn1);
+        //console.log("addComboOrderDetail", rn1);
         if(this.orderdetails.restaurantid == '' || this.orderdetails.restaurantid == iid.kitchenId){
             //console.log("this.orderdetails.restaurantid empty");
            // this.orderdetails.restaurantid = iid.kitchenId;
            // this.orderdetails.name = rn1;
-            console.log("combonamedd", this.orderdetails);
+         //   console.log("combonamedd", this.orderdetails);
             if(this.orderdetails.combo.length == 0){
                 item.qty = 1;
                 this.orderdetails.combo.push(item);
@@ -2220,7 +2336,7 @@ export class CustomerRestaurantDetailComponent implements OnInit {
             //this.orderdetails.restaurantid = itemsd.kitchenId;
             this.orderdetails.customerid = this.custid;
            // this.orderdetails.name = restname; 
-            console.log("mealpackagenamedd", this.orderdetails);
+         //   console.log("mealpackagenamedd", this.orderdetails);
         }
         //if(itemsd.type == 'fixed'){
             this.orderdetails.total += parseFloat(itemsd.packageprice);
@@ -2261,7 +2377,7 @@ export class CustomerRestaurantDetailComponent implements OnInit {
             //console.log("this.orderdetails.restaurantid empty");
             this.orderdetails.restaurantid = iid.kitchenId;
             this.orderdetails.name = rn1;
-            console.log("addItemOrderDetail add new", this.orderdetails);
+         //   console.log("addItemOrderDetail add new", this.orderdetails);
             if(this.orderdetails.items.length == 0){
                 iid.qty = 1;
                 this.orderdetails.items.push(iid);
@@ -2455,7 +2571,7 @@ export class CustomerRestaurantDetailComponent implements OnInit {
         this.frontendRestaurantService.getOneRestro(this.restid).subscribe(data => {         
             this.restaurantsdetail = data.message;
             var tcusines = { cuisines :data.message.cuisines};
-            console.log('tcusines', tcusines);
+           // console.log('tcusines', tcusines);
             this.masterService.getOneCuisinesmultiple(tcusines).subscribe((data) => {
             this.cusines = data.message;
             });
@@ -2497,7 +2613,7 @@ export class CustomerRestaurantDetailComponent implements OnInit {
                     var edate = new Date(item.enddate);
                     var tdate = new Date();
 
-                    console.log("sgsgssp", sdate, item.startdate);
+            //        console.log("sgsgssp", sdate, item.startdate);
 
                     if(tdate <= sdate){
                     mealdaayarray.push(JSON.parse(JSON.stringify(item))); 
@@ -2712,6 +2828,7 @@ export class CustomerAccountInfoComponent implements OnInit {
 
     firebaseOrders = [];
     firestore = firebase.database().ref('/orders');
+    stage: any;
 
     constructor(
         public lf: FormBuilder, 
@@ -2747,7 +2864,7 @@ export class CustomerAccountInfoComponent implements OnInit {
             cellphone: ['',Validators.required],
             gender: [''],
             dob: [''],
-            termsandcondition: ['',Validators.required],
+            /*termsandcondition: ['',Validators.required],*/
         });
         
         this.referralAddModel = this.lf.group({      
@@ -2810,6 +2927,26 @@ export class CustomerAccountInfoComponent implements OnInit {
         this.loadDefaults();        
         
         }
+
+   getStage(){
+        let orderStatus = this.selectedOrder.status;
+
+        if (orderStatus == 'received') {
+            this.stage = 1
+        }
+        if (orderStatus == 'accepted') {
+            this.stage = 2
+        }
+        if (orderStatus == 'completed' || orderStatus == 'driverrejected') {
+            this.stage = 3
+        }
+        if (orderStatus == 'driveraccepted') {
+            this.stage = 4
+        }
+        if (orderStatus == 'delivered') {
+            this.stage = 5
+        }
+    }      
   
    public checktime(date){
         var date:any = new Date(date);
@@ -2948,7 +3085,7 @@ export class CustomerAccountInfoComponent implements OnInit {
         var checkindex = this.orders.findIndex((item) => {
          return item._id == order._id;
         });
-        console.log("checkindex", checkindex);
+       // console.log("checkindex", checkindex);
         if(checkindex > -1){
          this.orders[checkindex].status = 'cancelled';
         }
@@ -3016,7 +3153,7 @@ export class CustomerAccountInfoComponent implements OnInit {
 
   updateFirebaseOrderStatus(key, type){
     this.afd.list(this.firestore).update(key, { orderStatus: type, type: 'item' }).then(() => {
-      console.log('Order Updated');
+      //console.log('Order Updated');
     });
   }
 
@@ -3115,6 +3252,7 @@ export class CustomerAccountInfoComponent implements OnInit {
     public selectOrder(order){
         //console.log("ggg", order);
         this.selectedOrder = order;
+        this.getStage();
 
     }
 
@@ -3215,7 +3353,7 @@ export class CustomerAccountInfoComponent implements OnInit {
         this.ratingService.checkRestroRating(obj).subscribe((presetRating) => {
             if(presetRating.message.length > 0){
                 var data = presetRating.message[0];  
-                console.log("ratingnitrms",data);
+              //  console.log("ratingnitrms",data);
                 if(data.orderPackagingRating){
                     this.rating.orderPackagingRating.rating = data.orderPackagingRating;
                 }
@@ -3259,7 +3397,7 @@ export class CustomerAccountInfoComponent implements OnInit {
   
 
      public elseMapRun(){
-            console.log("elseMapRun");
+           // console.log("elseMapRun");
             var input = (<HTMLInputElement>document.getElementById('pac-input'));
             var options = {types: []};
             var autocomplete = new google.maps.places.Autocomplete(input, options);
@@ -3271,7 +3409,7 @@ export class CustomerAccountInfoComponent implements OnInit {
                 }
                 if (place.address_components) {
                     let city,country,lat,lng;
-                    console.log(place.address_components);
+              //      console.log(place.address_components);
 
                             
                             this.addresspart = [];
@@ -3320,7 +3458,7 @@ export class CustomerAccountInfoComponent implements OnInit {
         google.maps.event.addListenerOnce(map, 'idle', () => {
             var loadlat = marker.position.lat();
             var loadlng = marker.position.lng();
-            console.log("loadlat, loadlng", loadlat, loadlng);
+          //  console.log("loadlat, loadlng", loadlat, loadlng);
             this.getgeo(loadlat, loadlng);
         });
         google.maps.event.addListener(
@@ -3418,7 +3556,7 @@ export class CustomerAccountInfoComponent implements OnInit {
     public getFavouritesItem(){ 
         this.frontendService.getOneCust(this.custid).subscribe(data => {
             // this.favouritelistItem = [];
-            console.log(data.message.favouriteitems);
+          //  console.log(data.message.favouriteitems);
             var list = data.message.favouriteitems;
             var newarr = [];
             var len = this.items.length;
@@ -3474,14 +3612,14 @@ export class CustomerAccountInfoComponent implements OnInit {
     }
 
 
-    public updateterm(){
+    /*public updateterm(){
         //console.log(this.customerAddModel.value);
         if(this.customerAddModel.value.termsandcondition == ""){
             this.customerAddModel.controls["termsandcondition"].setValue(true);
         }else{
             this.customerAddModel.controls["termsandcondition"].setValue("");  
         }
-    }
+    }*/
 
     public getTimeData(even){
         var timeJ = even.getAttribute('id');
@@ -3609,7 +3747,7 @@ export class CustomerAccountInfoComponent implements OnInit {
         this.frontendService.getOneCust(this.custid).subscribe(data => {                
             this.customerdetail = data.message;
             $('.refresh1').trigger('click');
-        console.log("n", this.customerdetail);
+        //console.log("n", this.customerdetail);
             this.addresses = data.message.customeraddresses; 
             if(this.addresses.length == 1){
             this.addresses[0].default = true;
@@ -3750,15 +3888,15 @@ export class CustomerAccountInfoComponent implements OnInit {
          var abc = this.customerCard.value.cardnumber.split("-").join("");
         this.customerCard.value.cardnumber = abc;  
          var checkcardindex =  this.customerdetail.cardinfo.findIndex((item) => {
-             console.log("hio", item.cardnumber , this.customerCard.value.cardnumber +";"+
+             /*console.log("hio", item.cardnumber , this.customerCard.value.cardnumber +";"+
               item.expirymonth , this.customerCard.value.expirymonth +";"+
-              item.expiryyear , this.customerCard.value.expiryyear);
+              item.expiryyear , this.customerCard.value.expiryyear);*/
              return item.cardnumber == this.customerCard.value.cardnumber 
              && item.expirymonth == this.customerCard.value.expirymonth
              && item.expiryyear == this.customerCard.value.expiryyear
              });
 
-         console.log("checkcardindex:", checkcardindex)
+        // console.log("checkcardindex:", checkcardindex)
          if(checkcardindex > -1){
            toastr.remove();
            toastr.error("This card is already exist."); 
@@ -3805,7 +3943,7 @@ export class CustomerAccountInfoComponent implements OnInit {
     public newCardAdd(){
         var abc = this.customerCard.value.cardnumber.split("-").join("");
         this.customerCard.value.cardnumber = abc;
-        console.log("dfdsh", this.customerdetail.cardinfo.length);
+       /// console.log("dfdsh", this.customerdetail.cardinfo.length);
         
         if(this.customerdetail.cardinfo.length == 0){
             this.customerCard.value["default"] = true;
@@ -3820,7 +3958,7 @@ export class CustomerAccountInfoComponent implements OnInit {
         this.customerCard.reset();
         this.customerCard.controls["_id"].setValue(this.custid);
          this.customerCard.controls["clicked"].setValue(true);
-          console.log("TRP", this.customerCard.value); 
+        //  console.log("TRP", this.customerCard.value); 
 
         $("#creditModal").modal('hide');
     }
@@ -3831,7 +3969,7 @@ export class CustomerAccountInfoComponent implements OnInit {
          this.customerdetail.cardinfo[i].default = false;
       }
       this.customerdetail.cardinfo[index].default = true; 
-      console.log("ttr", this.customerdetail.cardinfo);
+     // console.log("ttr", this.customerdetail.cardinfo);
       this.updateCustomerDetail();
     }
 
@@ -3839,7 +3977,7 @@ export class CustomerAccountInfoComponent implements OnInit {
         var obj = {_id : this.custid, "cardinfo": this.customerdetail.cardinfo};
         this.frontendService.updateFrontend(obj).subscribe((data)=>{
             this.customerdetail = {};
-            console.log("o", this.customerdetail);
+          //  console.log("o", this.customerdetail);
             this.getCustomer(); 
             toastr.clear();
             toastr.success("Update Info has done!");
@@ -4077,6 +4215,7 @@ export class FrontendContactUsComponent implements OnInit {
     encapsulation: ViewEncapsulation.None
 })
 export class FrontendCheckoutComponent implements OnInit {
+
     userFilter2 : any = "";
     addressAddModel : FormGroup;
     customerCard : FormGroup;
@@ -4118,7 +4257,9 @@ export class FrontendCheckoutComponent implements OnInit {
     orderEntry = firebase.database().ref('/orders');
     deliveryCharges:any;
     showForm:any = false;
-
+    resttaxinfo:any;
+    applyCoupanObj:any;
+                
 
     constructor(
         public lf: FormBuilder,
@@ -4129,12 +4270,11 @@ export class FrontendCheckoutComponent implements OnInit {
         public offerService : OfferService,
         public afd: AngularFireDatabase,
         public deliveryChargesService: DeliveryChargesService
-        ) {     
+        ){     
        
-
-        if(!localStorage.getItem('cartinfo') || !localStorage.getItem('currentCustomer')){
+         if(!localStorage.getItem('cartinfo') || !localStorage.getItem('currentCustomer')){
          this.route.navigate(['/customer/browse-restaurants']);
-        }
+         }
 
 
         if(localStorage.getItem('currentCustomer')){
@@ -4211,21 +4351,89 @@ export class FrontendCheckoutComponent implements OnInit {
         this.cardonValueChanged(); // (re)set validation messages now
         this.getKitchenDetail();
        }
+    
+        public addMenuItem(index){
+        this.checkoutsummary.items[index].qty += 1;
+        this.setItemTotal('add', this.checkoutsummary.items[index].price);
+        }
+
+        public removeMenuItem(index){
+        if(this.checkoutsummary.items[index].qty > 1){
+        this.checkoutsummary.items[index].qty -= 1;
+        this.setItemTotal('remove',this.checkoutsummary.items[index].price);
+        } 
+        }
+
+        public addComboItem(index){
+        this.checkoutsummary.combo[index].qty += 1;
+        this.setComboTotal('add', this.checkoutsummary.combo[index].price);
+        }
+
+        public removeComboItem(index){
+        if(this.checkoutsummary.combo[index].qty > 1){
+        this.checkoutsummary.combo[index].qty -= 1;
+        this.setComboTotal('remove', this.checkoutsummary.combo[index].price);
+        } 
+        }
+
+       public setItemTotal(type, price){
+       //  console.log(this.checkoutsummary.total, price);  
+         if(type == 'add'){
+         // console.log(parseFloat(this.checkoutsummary.total) , parseFloat(price))   
+          this.checkoutsummary.subtotal = parseFloat(this.checkoutsummary.subtotal)  + parseFloat(price);
+          this.setLocalToItem()
+         }
+         if(type == 'remove'){
+          this.checkoutsummary.subtotal = parseFloat(this.checkoutsummary.subtotal)  - parseFloat(price);
+          this.setLocalToItem()
+         }
+       }
+
+     
+
+       public setComboTotal(type, price){
+         if(type == 'add'){
+          this.checkoutsummary.subtotal = parseFloat(this.checkoutsummary.subtotal) + parseFloat(price);
+          this.setLocalToItem();
+         }
+         if(type == 'remove'){
+          this.checkoutsummary.subtotal = parseFloat(this.checkoutsummary.subtotal)  - parseFloat(price);
+          this.setLocalToItem();
+         }
+       }
+       
+        public setLocalToItem(){
+         this.checkoutsummary.total = this.checkoutsummary.subtotal;   
+         localStorage.setItem('cartinfo',JSON.stringify(this.checkoutsummary));
+        // console.log("dtaa", JSON.parse(localStorage.getItem('cartinfo')));
+         this.checkoutsummary = JSON.parse(localStorage.getItem('cartinfo'));
+         if(this.checkoutsummary.coupon != ''){
+         this.applyOnOrderPrice(this.applyCoupanObj);
+         }else{
+         this.getCheckoutData(this.resttaxinfo);
+         }
+       }
 
        public initcheckoutSummary(){
-
-             this.kitchenService.getOne(this.checkoutsummary.restaurantid).subscribe((data) => {   
-
+         this.kitchenService.getOne(this.checkoutsummary.restaurantid).subscribe((data) => {   
+         //   console.log(this.checkoutsummary);
             if(data.message){
-            var data1 = data.message;
+            this.resttaxinfo = data.message;            
+            this.getCheckoutData(this.resttaxinfo);
+            }
+            });  
+          }
 
+
+       public getCheckoutData(data1){ 
+          //  console.log(this.checkoutsummary);
             this.checkoutsummary.subtotal = this.checkoutsummary.total;
             var totalam = this.checkoutsummary.subtotal + parseFloat(this.checkoutsummary.deliveryCharges);
             var taxcalc = 0;
             if(data1 && data1.tax && data1.tax.value){
             taxcalc = ((totalam) / 100) * data1.tax.value;
             }
-            console.log(totalam , taxcalc);
+           // console.log(totalam , taxcalc);
             this.checkoutsummary["subtax"] = taxcalc;
             this.finalTotalAmountabc = (totalam + taxcalc).toFixed(2);
             this.checkoutsummary.total = (totalam + taxcalc).toFixed(2);
@@ -4234,12 +4442,9 @@ export class FrontendCheckoutComponent implements OnInit {
             }else{
             this.checkoutsummary.tax  = 0;
             }   
-            this.finalTotalAmount = this.checkoutsummary.total;
+            this.finalTotalAmount = this.checkoutsummary.total;        
+            this.initRest('now');
             } 
-            this.initRest('now'); 
-           });  
-
-          }
 
 
        public getDeliveryCharges(){
@@ -4252,7 +4457,7 @@ export class FrontendCheckoutComponent implements OnInit {
             var mealdeliveryCharges = 0;
             this.deliveryCharges = datacharge.itemcharge;
              this.checkoutsummary.package.map((item, index) => {
-                   console.log("item, index", item, index);
+            //       console.log("item, index", item, index);
                    var totalarray = item.dayandmenus.map((item1 , index1) => {
                      return item1.menuids.length > 0 ? datacharge.mealpackagecharge : 0;  
                    });
@@ -4290,14 +4495,12 @@ export class FrontendCheckoutComponent implements OnInit {
         }
 
        public onKeyCardNumber(event){           
-            // console.log(event);
             var foo = this.customerCard.value.cardnumber.split("-").join("");
             if (foo.length > 0) {
             foo = foo.match(new RegExp('.{1,4}', 'g')).join("-");
             }
             this.customerCard.controls["cardnumber"].setValue(foo);
             }
-
 
     public addNewAddress(){
         this.addressAddModel.reset();
@@ -4308,9 +4511,8 @@ export class FrontendCheckoutComponent implements OnInit {
             }, 1500);
         }
 
-
     public modelClose(){
-        $('#addAddressModel').modal('hide');  
+     $('#addAddressModel').modal('hide');  
     }
 
 
@@ -4335,7 +4537,7 @@ export class FrontendCheckoutComponent implements OnInit {
 
 
    public elseMapRun(){
-            console.log("elseMapRun");
+          //  console.log("elseMapRun");
             var input = (<HTMLInputElement>document.getElementById('pac-input'));
             var options = {types: []};
             var autocomplete = new google.maps.places.Autocomplete(input, options);
@@ -4347,7 +4549,7 @@ export class FrontendCheckoutComponent implements OnInit {
                 }
                 if (place.address_components) {
                     let city,country,lat,lng;
-                    console.log(place.address_components);
+             //       console.log(place.address_components);
                     
                         this.addresspart = [];
                         for (var i = 0; i < place.address_components.length; i++) {
@@ -4396,7 +4598,7 @@ export class FrontendCheckoutComponent implements OnInit {
         google.maps.event.addListenerOnce(map, 'idle', () => {
             var loadlat = marker.position.lat();
             var loadlng = marker.position.lng();
-            console.log("loadlat, loadlng", loadlat, loadlng);
+           // console.log("loadlat, loadlng", loadlat, loadlng);
             this.getgeo(loadlat, loadlng);
         });
         google.maps.event.addListener(
@@ -4583,21 +4785,21 @@ export class FrontendCheckoutComponent implements OnInit {
 
    
  public chlickednewCardAdd(){
-     console.log();
+     //console.log();
         this.customerCard.controls["clicked"].setValue(true);
        // $(".modal-body").trigger('click');
     }
 
 
     addCard(){
-        console.log("meetig", this.customerCard.value)
+       // console.log("meetig", this.customerCard.value)
          
-         console.log(this.customerCard.value)
+       //  console.log(this.customerCard.value)
          
          var abc = this.customerCard.value.cardnumber.split("-").join("");
         this.customerCard.value.cardnumber = abc; 
         var checkcardindex =  this.cards.findIndex((item) => {
-             console.log("hhio", item.cardnumber , this.customerCard.value.cardnumber);
+           //  console.log("hhio", item.cardnumber , this.customerCard.value.cardnumber);
              return item.cardnumber == this.customerCard.value.cardnumber 
              && item.expirymonth == this.customerCard.value.expirymonth
              && item.expiryyear == this.customerCard.value.expiryyear
@@ -4671,24 +4873,29 @@ export class FrontendCheckoutComponent implements OnInit {
        }
 
     
-   getKitchenDetail()
+   public getKitchenDetail()
    {
-   this.kitchenService.getOne(this.checkoutsummary.restaurantid).subscribe(dataa => {
-    console.log("dataa",dataa);
+    this.kitchenService.getOne(this.checkoutsummary.restaurantid).subscribe(dataa => {
+    //console.log("dataa",dataa);
     this.newrestaurantsdetail = dataa.message;
-   });
-
+    });
    } 
-   setordertime(param){
+
+
+
+   public setordertime(param){
 
     if(param == 'now'){
+    
+
     this.checkedd = true;    
     this.ordertiming = false;  
     this.checkoutsummary["ordertiming"] = {};  
 
     this.kitchenService.getOne(this.checkoutsummary.restaurantid).subscribe(dataa => {
             this.restaurantsdetail = dataa.message; 
-            var da = new Date();
+            
+            /*var da = new Date();
             var vctime = da.getHours()+":"+da.getMinutes();
             var dayindex = da.getDay() -1 ;
             if(dayindex > -1){
@@ -4702,6 +4909,7 @@ export class FrontendCheckoutComponent implements OnInit {
             }
           
             if((ocdateindex > -1) || (this.restaurantsdetail.openinghours.length == 0)){
+
             this.todayOpend = true;
             if(param == 'now'){
                 this.checkedd = true;
@@ -4722,8 +4930,85 @@ export class FrontendCheckoutComponent implements OnInit {
                 this.todayOpend = false; 
                 toastr.clear();
                 toastr.error('Restaurent Close.');
+        }*/
+
+
+        
+        var today = new Date();
+        var day = today.getDay();
+        var daylist = ["sunday", "monday", "tuesday", "wednesday ", "thursday", "friday", "saturday"];
+        let todayDay = daylist[day];
+        var hour = today.getHours();
+        var minute = today.getMinutes();
+        var prepand = (hour >= 12) ? " PM " : " AM ";
+        hour = (hour >= 12) ? hour - 12 : hour;
+        if (hour === 0 && prepand === ' PM ') {
+            hour = 12;
+            prepand = ' PM';
         }
+        if (hour === 0 && prepand === ' AM ') {
+            hour = 12;
+            prepand = ' AM';
+        }
+        var ctime = hour + ':' + minute + prepand;
+            var element = this.restaurantsdetail.openinghours;
+            if (element.length > 0) {
+                for (const key in element) {
+                    if (element[key].name == daylist[day]) {
+                        if (!element[key].status) {
+                            for (const key2 in element[key].times) {
+                                var a = "11/23/2014 " + ctime;
+                                var b = "11/23/2014 " + element[key].times[key2].open;
+                                var c = "11/23/2014 " + element[key].times[key2].close;
+                                var aDate = new Date(a).getTime();
+                                var bDate = new Date(b).getTime();
+                                var cDate = new Date(c).getTime();
+                                if (aDate > bDate && aDate < cDate) {
+                                    this.todayOpend = true;
+                                    if(param == 'now'){
+                                    this.checkedd = true;
+                                    this.ordertiming = false;
+                                    var date1 = new Date();
+                                    this.checkoutsummary["ordertiming"] = {"type" : 'now', "datetime" : moment(date1).format('YYYY-MM-DD HH:mm')};
+                                    }else{
+                                    this.checkoutsummary["ordertiming"] = {};
+                                    this.ordertiming = true;
+                                    this.datePickerEnable();
+                                    }
+                                    break;
+                                } else {
+                                    this.todayOpend = false;
+                                    toastr.clear();
+                                    toastr.error('Restaurent Close.');
+                                }
+                            }
+                        } else {
+                            this.todayOpend = true;
+                            if(param == 'now'){
+                            this.checkedd = true;
+                            this.ordertiming = false;
+                            var date1 = new Date();
+                            this.checkoutsummary["ordertiming"] = {"type" : 'now', "datetime" : moment(date1).format('YYYY-MM-DD HH:mm')};
+                            }else{
+                            this.checkoutsummary["ordertiming"] = {};
+                            this.ordertiming = true;
+                            this.datePickerEnable();
+                            }
+                        }
+                    }
+                }
+            } else {
+                this.todayOpend = false;
+                toastr.clear();
+                toastr.error('Restaurent Close.');
+            }
+        
+   
+
+
     });
+
+
     }else{
         this.todayOpend = false;
         this.checkoutsummary["ordertiming"] = {type:"later", datetime: ""};
@@ -4733,11 +5018,16 @@ export class FrontendCheckoutComponent implements OnInit {
      }
 
 
+
+
+
     public initRest(param){
         
         this.kitchenService.getOne(this.checkoutsummary.restaurantid).subscribe(dataa => {   
+
             var data1 = dataa.message;
-            var da = new Date();
+
+           /* var da = new Date();
             var vctime = da.getHours()+":"+da.getMinutes();
             var dayss = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
             var day = dayss[da.getDay()];
@@ -4776,7 +5066,68 @@ export class FrontendCheckoutComponent implements OnInit {
                 var date1 = new Date();
                 this.checkoutsummary["ordertiming"] = {"type" : 'now', "datetime" : moment(date1).format('YYYY-MM-DD HH:mm')};
                 }
-                }   
+                } */  
+             
+
+        var today = new Date();
+        var day = today.getDay();
+        var daylist = ["sunday", "monday", "tuesday", "wednesday ", "thursday", "friday", "saturday"];
+        let todayDay = daylist[day];
+        var hour = today.getHours();
+        var minute = today.getMinutes();
+        var prepand = (hour >= 12) ? " PM " : " AM ";
+        hour = (hour >= 12) ? hour - 12 : hour;
+        if (hour === 0 && prepand === ' PM ') {
+            hour = 12;
+            prepand = ' PM';
+        }
+        if (hour === 0 && prepand === ' AM ') {
+            hour = 12;
+            prepand = ' AM';
+        }
+        var ctime = hour + ':' + minute + prepand;
+            var element = data1.openinghours;
+            if (element.length > 0) {
+                for (const key in element) {
+                    if (element[key].name == daylist[day]) {
+                        if (!element[key].status) {
+                            for (const key2 in element[key].times) {
+                                var a = "11/23/2014 " + ctime;
+                                var b = "11/23/2014 " + element[key].times[key2].open;
+                                var c = "11/23/2014 " + element[key].times[key2].close;
+                                var aDate = new Date(a).getTime();
+                                var bDate = new Date(b).getTime();
+                                var cDate = new Date(c).getTime();
+                                if (aDate > bDate && aDate < cDate) {
+                                    this.todayOpendd = true;
+                                    if(param == 'now'){
+                this.checkedd = true;
+                this.ordertiming = false;
+                var date1 = new Date();
+                this.checkoutsummary["ordertiming"] = {"type" : 'now', "datetime" : moment(date1).format('YYYY-MM-DD HH:mm')};
+                }
+                                    break;
+                                } else {
+                                    this.todayOpendd = false;
+                                }
+                            }
+                        } else {
+                            this.todayOpendd = true;
+                            if(param == 'now'){
+                this.checkedd = true;
+                this.ordertiming = false;
+                var date1 = new Date();
+                this.checkoutsummary["ordertiming"] = {"type" : 'now', "datetime" : moment(date1).format('YYYY-MM-DD HH:mm')};
+                }
+                        }
+                    }
+                }
+            } else {
+                this.todayOpendd = false;
+            }
+        
+    
+
                 });
     }
 
@@ -4801,7 +5152,7 @@ export class FrontendCheckoutComponent implements OnInit {
         if(eleObj.value == ""){
            this.checkoutsummary.ordertiming.datetime = "";
         }
-        console.log("fgf", this.checkoutsummary.ordertiming.datetime)
+        // console.log("fgf", this.checkoutsummary.ordertiming.datetime)
         }
 
 
@@ -4898,10 +5249,8 @@ export class FrontendCheckoutComponent implements OnInit {
     }
 
     paybycash(){
-        this.paymentoption = 'cash'; 
-        
-
-    }
+        this.paymentoption = 'cash';
+        }
     paybycard(){
             this.paymentoption = 'card';
             var defaultindex = this.cards.findIndex((item) => {
@@ -4942,13 +5291,14 @@ export class FrontendCheckoutComponent implements OnInit {
             }
             this.checkoutsummary["subtax"] = taxcalc;
              this.finalTotalAmountabc = parseFloat(totalam + +taxcalc);
+             this.finalTotalAmountabc = this.finalTotalAmountabc.toFixed(2)
              this.checkoutsummary.total = (totalam + +taxcalc);
             if(totalam <= 0){
             this.hidewithdiscount = false; 
             this.paybycash();
             }
-            
-    }
+          
+          }
 
 
     applyCoupan(){
@@ -4959,17 +5309,23 @@ export class FrontendCheckoutComponent implements OnInit {
                 toastr.error("Please enter valid coupon code!")
             }else{
                 toastr.success("Coupon Applied.")
+                this.applyCoupanObj = data.message[0];
                 this.applyOnOrderPrice(data.message[0]);
             }
         });
     }
 
     removeCoupan(){
+        delete this.checkoutsummary.coupon;
+        delete this.checkoutsummary.discount;
 
-        this.checkoutsummary.coupon = "";
+        this.checkoutsummary["coupon"] = "";
         this.voucharCode = "";
-        this.checkoutsummary.discount = 0;
-        this.checkoutsummary = JSON.parse(localStorage.getItem('cartinfo'));           
+        this.checkoutsummary["discount"] = 0;
+        //console.log(this.checkoutsummary);
+        this.checkoutsummary.total = this.checkoutsummary.subtotal;
+        localStorage.setItem('cartinfo', JSON.stringify(this.checkoutsummary))
+        this.checkoutsummary = JSON.parse(localStorage.getItem('cartinfo'));
         this.getDeliveryCharges(); 
     }
 
@@ -5040,7 +5396,7 @@ export class FrontendCheckoutComponent implements OnInit {
 
 
     public stripeResponseHandler(status, response) {
-    console.log("resss", status, response);
+    // console.log("resss", status, response);
     var obj = {"id": response.card.id, "amount": Math.round(parseFloat(this.checkoutsummary.total)), "token": response.id, "currency": this.newrestaurantsdetail.currency}
     this.orderService.cardPayment(obj).subscribe((data) => {        
         this.successOrder(data);
@@ -5049,7 +5405,7 @@ export class FrontendCheckoutComponent implements OnInit {
 
 
    public successOrder(successData){
-            console.log("successData", successData);            
+            // console.log("successData", successData);            
             this.checkoutsummary["cardPaidStatus"] = successData;
             this.makeOrderTo();
            /* this.orderService.add(this.checkoutsummary).subscribe(response => {
@@ -5067,13 +5423,13 @@ export class FrontendCheckoutComponent implements OnInit {
         this.checkoutsummary["timezone"] = Intl.DateTimeFormat().resolvedOptions().timeZone;
         this.checkoutsummary["created_at"] = new Date();
 
-        console.log("this.checkoutsummary[", this.checkoutsummary)
+        // console.log("this.checkoutsummary[", this.checkoutsummary)
         this.checkoutsummary.total = ((this.checkoutsummary.total < 0) ? 0 : this.checkoutsummary.total);
         this.orderService.add(this.checkoutsummary).subscribe(response => {
             this.loader_run = false;    
             localStorage.removeItem('cartinfo'); 
             
-            console.log("this.checkoutsummary", response.message);
+            // console.log("this.checkoutsummary", response.message);
 
             this.afd.list(this.orderEntry).push({
                 orderID: response.message['_id'],
@@ -5082,7 +5438,7 @@ export class FrontendCheckoutComponent implements OnInit {
                 customerid: response.message['customerid'],
                 type: 'item'
             }).then(() => {
-                console.log('Order Pushed');
+                // console.log('Order Pushed');
                 /*alert('Order Pushed');*/
             })
 
@@ -5127,7 +5483,7 @@ export class FrontendThankYouComponent implements OnInit {
 
             if(localStorage.getItem('orderId')){
             this.orderId = JSON.parse(localStorage.getItem('orderId')); 
-            console.log(this.orderId);
+           // console.log(this.orderId);
 
             }
     }
@@ -5146,14 +5502,14 @@ export class CustomerDrivermailactivateComponent implements OnInit {
     ngOnInit() {
         this.activatedRoute.params.subscribe((params: Params) => {
             this.did = params['activationid'];  
-            console.log("this.drive did", this.did);
+           // console.log("this.drive did", this.did);
             this.mailactivate();              
         });    
        }
 
     public mailactivate(){
         var obj = {_id : this.did, isactivated: 1};
-        console.log(obj);
+       /// console.log(obj);
         this.driverService.updateDriver(obj).subscribe((data) => {
             if (data.error) {
                 toastr.remove();

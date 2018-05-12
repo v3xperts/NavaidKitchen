@@ -66,12 +66,14 @@
                               &nbsp; &nbsp;<a href="javascript:void(0);" data-toggle="modal" data-target="#changePasswordModal">Change Password</a>
                               </div>
                               </div>
+
                               <!-- <div class="form-group">
                               <label class="control-label col-sm-2 text-left" for="username">Username </label>
                               <div class="col-sm-7">
                               <input type="text" class="form-control" id="username" placeholder="Enter Username" formControlName="username" [readonly]="true">
                               </div> 
                               </div> -->
+
                               <div class="form-group">
                               <label class="control-label col-sm-2 text-left" for="firstname">First Name </label>
                               <div class="col-sm-7">          
@@ -108,30 +110,30 @@
                               </div>
                               </div>
 
-                              <div class="form-group">        
-                              <div class="col-sm-offset-2 col-sm-7">
-                              <div class="checkbox">
-                              <label class="pdl-0">
-                              <input type="checkbox" name="remember">
-                              <span class="cr"><i class="cr-icon fa fa-check"></i></span>
-                              Subscribe to our Newsletter
-                              </label>
-                              </div>
-                              </div>
-                              </div>
+                             <!--  <div class="form-group">        
+                             <div class="col-sm-offset-2 col-sm-7">
+                             <div class="checkbox">
+                             <label class="pdl-0">
+                             <input type="checkbox" name="remember">
+                             <span class="cr"><i class="cr-icon fa fa-check"></i></span>
+                             Subscribe to our Newsletter
+                             </label>
+                             </div>
+                             </div>
+                             </div> -->
 
-                              <div class="form-group">        
-                              <div class="col-sm-offset-2 col-sm-7">
-                              <div class="checkbox">
-                              <label class="pdl-0">
-                                <input type="checkbox" name="sms"> 
-                                <span class="cr">
-                                  <i class="cr-icon fa fa-check"></i></span>Subscribe to SMS
-                              </label>
-                              </div>
-                              </div>
-                              </div>
-
+                             <!--  <div class="form-group">        
+                             <div class="col-sm-offset-2 col-sm-7">
+                             <div class="checkbox">
+                             <label class="pdl-0">
+                               <input type="checkbox" name="sms"> 
+                               <span class="cr">
+                                 <i class="cr-icon fa fa-check"></i></span>Subscribe to SMS
+                             </label>
+                             </div>
+                             </div>
+                             </div> -->
+<!-- 
                               <div class="form-group">        
                               <div class="col-sm-offset-2 col-sm-7">
                               <div class="checkbox">
@@ -142,7 +144,7 @@
                               </label>
                               </div>
                               </div>
-                              </div>
+                              </div> -->
 
                               <div class="form-group">        
                               <div class="col-sm-offset-2 col-sm-7">
@@ -609,8 +611,51 @@ No Record found!
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">×</button>
                     <h4 class="modal-title">Order Detail</h4>
+                    
+                    <hr>
+                    <div class="stepwizard-order" *ngIf="selectedOrder && selectedOrder.status">
+
+                            <div class="stepwizard-row-order" *ngIf = "selectedOrder.status != 'cancelled' && selectedOrder.status != 'rejected'">
+
+                            <div class="stepwizard-step-order" [ngClass] = "1 <= stage ? 'stpewiz-green' : 'stpewiz-grey'">
+                            <button type="button" [ngClass] = "1 <= stage ? 'btn-success' : 'btn-default'" class="btn btn-default btn-circle-order">1</button>
+                            <p>Order Placed</p>
+                            </div>
+
+                            <div class="stepwizard-step-order" [ngClass] = "2 <= stage ? 'stpewiz-green' : 'stpewiz-grey'">
+                            <button type="button" [ngClass] = "2 <= stage ? 'btn-success' : 'btn-default'" class="btn btn-default btn-circle-order">2</button>
+                            <p>Payment <br>Received</p>
+                            </div>
+
+                            <div class="stepwizard-step-order" [ngClass] = "2 <= stage ? 'stpewiz-green' : 'stpewiz-grey'">
+                            <button type="button" [ngClass] = "2 <= stage ? 'btn-success' : 'btn-default'" class="btn btn-default btn-circle-order">3</button>
+                            <p>Preparing <br>
+                            your Order</p>
+                            </div> 
+
+                            <div class="stepwizard-step-order" [ngClass] = "3 <= stage ? 'stpewiz-green' : 'stpewiz-grey'">
+                            <button type="button" [ngClass] = "3 <= stage ? 'btn-success' : 'btn-default'" class="btn btn-default btn-circle-order">4</button>
+                            <p>Order Prepared&nbsp;<br>
+                            (Waiting for Driver!)
+                            </p>
+                            </div>
+
+                            <div class="stepwizard-step-order" [ngClass] = "4 <= stage ? 'stpewiz-green' : 'stpewiz-grey'">
+                            <button type="button" [ngClass] = "4 <= stage ? 'btn-success' : 'btn-default'" class="btn btn-default btn-circle-order">5</button>
+                            <p>On the Way</p>
+                            </div>
+
+                            <div class="stepwizard-step-order" [ngClass] = "5 <= stage ? 'stpewiz-green' : 'stpewiz-grey'">
+                            <button type="button" [ngClass] = "5 <= stage ? 'btn-success' : 'btn-default'" class="btn btn-default btn-circle-order">6</button>
+                            <p>Order <br>
+                            Delivered</p>
+                            </div>
+
+                            </div>
+                            </div>
                 </div>
                 <div class="modal-body"  *ngIf="selectedOrder">
+                 
                     <div class="media" data-toggle="modal" data-target="#myModal">
                         <div class="media-left">
                           <img src="{{ selectedOrder.image  == '' ? 'assets/image/face.png' :  imgurl2 + selectedOrder.image }}" class="media-object" style="width:60px" />

@@ -110,10 +110,18 @@ textarea#textarearesize0 {
 							</tr>                          
 							<tr *ngIf="checkoutsummary.items.length > 0" class="text-center orange"><td colspan="5"> 
                 <h4>Menu Item </h4></td></tr>
-							<tr *ngFor="let itm of checkoutsummary.items">							  
-                <td style="width: 553px;">
-									<p><img src="{{itm.image  == '' ? './assets/image/menu.png' : imageUrl + itm.image }}" class="img-responsive radius50" /><b class="">&nbsp;{{itm.name}}</b></p>									
+							<tr *ngFor="let itm of checkoutsummary.items; index as itemindex">	
+
+                <td style="min-width: 255px;max-width: 255px;">
+									<p>
+                    <img src="{{itm.image  == '' ? './assets/image/menu.png' : imageUrl + itm.image }}" class="img-responsive radius50" />
+                    <b class="">
+                   &nbsp;
+                   {{itm.name}}
+                   </b>
+                  </p>									
 								</td>
+
 								<!-- <td class="text-center">
 									<div><a href="javascript:void(0);" class="text-grey">Add special request</a>
 										<div style="display: none;">
@@ -121,17 +129,25 @@ textarea#textarearesize0 {
 										</div>
 									</div>
 								</td> -->
-								<td class="text-center">{{itm.qty}}</td>
+
+								<td class="text-center minmax-witd2">
+                <div class="input-group" style="max-width:0px; margin:auto;">
+                <span class="input-group-addon btn-sm" id="basic-addon1" (click)="removeMenuItem(itemindex)"><b>-</b></span>
+                <span class="input-group-addon btn-sm" id="basic-addon1" style="    background: white;">{{itm.qty}}</span>
+                <span class="input-group-addon btn-sm" id="basic-addon1" (click)="addMenuItem(itemindex)"><b>+</b></span> 
+                </div>
+                </td>
 								<td class="text-center"> <small *ngIf="itm.price > 0"> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b> {{itm.price}} </small></td>
 								<td class="text-center"> <small *ngIf="itm.price > 0"> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b> {{itm.qty * itm.price}} </small>
                 </td>
 							</tr>
 						</table> 
            <div *ngIf="checkoutsummary.combo.length > 0" class="text-center orange"><h4>Combo </h4></div>
-            <div *ngFor="let combo of checkoutsummary.combo">
+            <div *ngFor="let combo of checkoutsummary.combo; index as comboindex">
               <table class="table"> 
-              <tr data-toggle="collapse" [attr.data-target]="'#combo'+ combo._id">
-              <td style="width: 574px;">
+                <!-- data-toggle="collapse" [attr.data-target]="'#combo'+ combo._id" -->
+              <tr>
+              <td style="min-width: 271px;max-width: 271px;">
               <p>
               <img src="{{combo.image  == '' ? './assets/image/menu.png' : imageUrl + combo.image }}" class="img-responsive radius50" /><b class="">&nbsp;{{combo.name}} </b> <i class="fa fa-chevron-down orange" aria-hidden="true" data-toggle="collapse" [attr.data-target]="'#combo'+ combo._id" aria-expanded="false"></i></p>                  
               </td>
@@ -142,7 +158,13 @@ textarea#textarearesize0 {
               </div>
               </div>
               </td> -->
-              <td class="text-center">{{combo.qty}}</td>
+              <td class="text-center minmax-witd2">
+                <div class="input-group" style="max-width:0px; margin:auto;">
+                <span class="input-group-addon btn-sm" id="basic-addon1" (click)="removeComboItem(comboindex)"><b>-</b></span>
+                <span class="input-group-addon btn-sm" id="basic-addon1" style="    background: white;">{{combo.qty}}</span>
+                <span class="input-group-addon btn-sm" id="basic-addon1" (click)="addComboItem(comboindex)"><b>+</b></span> 
+                </div>
+              </td>
               <td class="text-center">  <small *ngIf="combo.finalcomboprice > 0"> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b> {{combo.finalcomboprice}} </small> </td>
               <td class="text-center">
                  <small *ngIf="combo.finalcomboprice"> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b> {{combo.qty * combo.finalcomboprice}} </small> 
@@ -175,7 +197,7 @@ textarea#textarearesize0 {
 
               <table class="table mb-0"> 
               <tr data-toggle="collapse" [attr.data-target]="'#package'+ package._id + pi" >
-              <td style="width: 560px;">
+              <td style="min-width: 303px;max-width: 303px;">
               <p>
               <img src="{{package.image  == '' ? './assets/image/menu.png' : imageUrl + package.image }}" class="img-responsive radius50" />  <b class="">&nbsp;{{package.name}}</b> <i class="fa fa-chevron-down orange" aria-hidden="true" data-toggle="collapse" [attr.data-target]="'#package'+ package._id+ pi" aria-expanded="false"></i></p>
               </td>
@@ -186,7 +208,7 @@ textarea#textarearesize0 {
               </div>
               </div>
               </td> -->
-              <td class="text-center">{{package.qty}}</td>
+              <td class="text-center minmax-witd2" >{{package.qty}}</td>
               <td class="text-center">
                 <small *ngIf="package.packageprice > 0"> <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b> {{package.packageprice}} </small>
                 </td>
@@ -227,12 +249,12 @@ textarea#textarearesize0 {
           </div>
           </div> 
           </div>
-          <div class="col-lg-12 text-right" style="padding-right: 63px;">
+          <div class="col-lg-12 text-right" style="padding-right: 35px;">
             <b>Total </b>  
             <span>
               <small>
               <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b>
-               {{checkoutsummary.subtotal}}
+               {{checkoutsummary.subtotal.toFixed(2)}}
                </small>
              </span>
           </div>

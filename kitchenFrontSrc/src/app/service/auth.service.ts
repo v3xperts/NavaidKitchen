@@ -20,7 +20,7 @@ export class AuthService {
       return this.http.post(globalVariable.url1+'login', data)
         .map((response: Response) => {
             let user = response.json();
-            console.log(user);
+            
             return user;            
                 });
   }

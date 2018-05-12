@@ -43,13 +43,14 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 mt-18">           
                     <span class="pull-max-right">
+                        <!-- {{todayOpend}} -->
                         <p class="text-success mb-7" *ngIf="todayOpend">Open</p>
 
                        <!--  <p class="text-success mb-7" *ngIf="todayOpend == false"> Closed </p> -->
                         <p class="mb-0">
                             <small>
-                                <span *ngIf="ratingOnRestIndexs.indexOf(restaurantsdetail._id) != -1">
-                                    <b [innerHTML]="ShowRatingStar(ratingOnRestIndexs.indexOf(restaurantsdetail._id))"></b>
+                                <span *ngIf="(ratingOnRestIndexs.indexOf(restaurantsdetail._id) != -1) && ratingHtml">
+                                    <b [innerHTML]="ratingHtml"></b>
                                 </span> 
                                 <span *ngIf="ratingOnRestIndexs.indexOf(restaurantsdetail._id) == -1">
                                     <span class="stardiv"></span>

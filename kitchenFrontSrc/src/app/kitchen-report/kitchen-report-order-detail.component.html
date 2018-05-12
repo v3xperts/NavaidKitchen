@@ -2,19 +2,71 @@
 	<div class="col-lg-12">
      <a class="btn btn-sm btn-success text-center" [routerLink]="['/owner/report/orderlist']"> <i class="fa fa-arrow-left" aria-hidden="true"></i> Back </a>      	
 	<div class="panel panel-default" style="margin-top:20px;">
-		<div class="panel-body">		
-			<div class="panel panel-default" *ngIf="order">			 
-			<div class="panel-body"> <b> OrderId : </b> <small *ngIf="order._id">{{order._id.substr(18,6)}} </small> &nbsp;&nbsp;&nbsp;&nbsp;
-			 <b class="capitalize2"> &nbsp;&nbsp;  
+		<div class="panel-body">
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="stepwizard-order" *ngIf="order && order.status">
+
+                            <div class="stepwizard-row-order" *ngIf = "order.status != 'cancelled' && order.status != 'rejected'">
+
+                            <div class="stepwizard-step-order" [ngClass] = "1 <= stage ? 'stpewiz-green' : 'stpewiz-grey'">
+                            <button type="button" [ngClass] = "1 <= stage ? 'btn-success' : 'btn-default'" class="btn btn-default btn-circle-order">1</button>
+                            <p>Order Placed</p>
+                            </div>
+
+                            <div class="stepwizard-step-order" [ngClass] = "2 <= stage ? 'stpewiz-green' : 'stpewiz-grey'">
+                            <button type="button" [ngClass] = "2 <= stage ? 'btn-success' : 'btn-default'" class="btn btn-default btn-circle-order">2</button>
+                            <p>Payment <br>Received</p>
+                            </div>
+
+                            <div class="stepwizard-step-order" [ngClass] = "2 <= stage ? 'stpewiz-green' : 'stpewiz-grey'">
+                            <button type="button" [ngClass] = "2 <= stage ? 'btn-success' : 'btn-default'" class="btn btn-default btn-circle-order">3</button>
+                            <p>Preparing <br>
+                            your Order</p>
+                            </div> 
+
+                            <div class="stepwizard-step-order" [ngClass] = "3 <= stage ? 'stpewiz-green' : 'stpewiz-grey'">
+                            <button type="button" [ngClass] = "3 <= stage ? 'btn-success' : 'btn-default'" class="btn btn-default btn-circle-order">4</button>
+                            <p>Order Prepared&nbsp;<br>
+                            (Waiting for Driver!)
+                            </p>
+                            </div>
+
+                            <div class="stepwizard-step-order" [ngClass] = "4 <= stage ? 'stpewiz-green' : 'stpewiz-grey'">
+                            <button type="button" [ngClass] = "4 <= stage ? 'btn-success' : 'btn-default'" class="btn btn-default btn-circle-order">5</button>
+                            <p>On the Way</p>
+                            </div>
+
+                            <div class="stepwizard-step-order" [ngClass] = "5 <= stage ? 'stpewiz-green' : 'stpewiz-grey'">
+                            <button type="button" [ngClass] = "5 <= stage ? 'btn-success' : 'btn-default'" class="btn btn-default btn-circle-order">6</button>
+                            <p>Order <br>
+                            Delivered</p>
+                            </div>
+
+                            </div>
+                            </div>
+                </div>
+            </div>	
+
+			<div class="panel panel-default" *ngIf="order">  
+            <div class="panel-body">
+             <b> OrderId : </b> <small *ngIf="order._id">{{order._id.substr(18,6)}} </small> &nbsp;&nbsp;&nbsp;&nbsp;            
+            <span class="pull-right"> {{ order.created_at | date:'medium'}} </span></div>
+          
+
+            
+			<div class="panel-body" *ngIf="order">
+            <b class="capitalize2">  
             
             <span class="text-success capitalize2" *ngIf="order.status == 'received'"> New Order &nbsp;  (<small><span class="text-success capitalize2" *ngIf="order.status == 'received' && order.paymenttype == 'cash'"> Order Placed </span>
 
            <span class="text-success capitalize2" *ngIf="order.status == 'received' && order.paymenttype == 'card'"> Payment Received </span></small>)
 
-                <button (click)="change_OrderStatus(order._id,'accepted')" class="btn btn-success"> Accept </button>
+                <button (click)="change_OrderStatus(order,'accepted')" class="btn btn-success pull-right"> Accept</button>
 
-                <button (click)="change_OrderStatus(order,'rejected')" class="btn btn-danger"> Reject </button>
-            </span>			
+                <button (click)="change_OrderStatus(order,'rejected')" class="btn btn-danger pull-right" style="margin-right:10px;"> Reject </button>
+            </span>         
 
             <span class="text-success capitalize2" *ngIf="order.status == 'completed' || order.status == 'driverrejected'">                 
                 <strong>Order Prepared</strong> <span>Waiting for Driver!</span>
@@ -22,7 +74,7 @@
            
 
           <span class="text-success capitalize2" *ngIf="order.status == 'accepted'"> Preparing your Order &nbsp;
-            <button (click)="change_OrderStatus(order._id,'completed')" class="btn btn-success"> Send Request to Driver(s) </button> 
+            <button (click)="change_OrderStatus(order,'completed')" class="btn btn-success"> Send Request to Driver(s) </button> 
           </span>
 
 
@@ -35,10 +87,8 @@
 
             <span class="text-success capitalize2" *ngIf="order.status == 'cancelled'"> Order Cancelled </span>
 
-			</b> 
-			<span class="pull-right"> {{ order.created_at | date:'medium'}} </span></div>
-			</div>
-
+            </b> 
+            <hr>
             <div class="col-lg-12" *ngIf="order">
                 <div class="col-lg-6 customerDetail-cls">
                 <div class="panel panel-default">
@@ -59,8 +109,10 @@
                 </div>
                 </div>
                 </div>
+			</div>
 
             <div class="col-lg-12"  *ngIf="order && order.note">
+                <hr>
             <div class="panel panel-default" style="margin-top:20px;">
                 <h4 class="text-center" > Customer note </h4>
                 <div class="panel-body">
@@ -75,8 +127,8 @@
             <div class="panel panel-default" style="margin-top:20px;">
                 <h4 class="text-center">Review Rating</h4>
             <div class="panel-body">
-            <span *ngIf="ratingDetail">
-            <b *ngIf="rat" [innerHTML]="ShowRatingStar(ratingDetail)"></b>
+            <span *ngIf="ratinghtml && ratinghtml != ''">
+            <b *ngIf="rat" [innerHTML]="ratinghtml"></b>
             </span>
             <hr>
             <div *ngIf="ratingDetail && ratingDetail.length > 0 && ratingDetail[0].review"> {{ratingDetail[0].review}}</div>
@@ -114,9 +166,11 @@
 			<div class="col-lg-12 mt-10">
 				<div id="map"></div>				
 			</div>
-   			<hr>
-                     <div class="mt-10" *ngIf="order">
-							<h4 style="color: #5AC15E; margin-top: 20px;"> Order Details </h4>
+        </div>
+   			              <hr>
+                     <div class="col-lg-12 mt-10" *ngIf="order">
+                        <h4 style="color: #5AC15E; margin-top: 20px;"> Order Details </h4>
+                        <hr>
                             <div class="panel panel-default" *ngIf="order.items.length > 0">
                             <div class="panel-body">
                             <h5 class="uppercase1" style="color: #5AC15E;"> Item List </h5>

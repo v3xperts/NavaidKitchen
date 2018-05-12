@@ -100,7 +100,7 @@ getAllitem(){
     }    
 
 getAllRestrob(data){
-  console.log(data);
+  
     return this.http.post(globalVariable.url1+'kitchenb/', data)
     .map((response: Response) => response.json());
   }
