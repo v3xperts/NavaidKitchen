@@ -11,11 +11,11 @@ var CustomerSchema = new Schema({
   homephone: String,
   cellphone: String,
   gender : String,
-  termsandcondition : String,
+  /*termsandcondition : String,*/
   status: { type: Boolean, default: false },
   customerpoints : { type: Number, default: 15 },
   customerfavrestro : [],
-  timezone: String,
+  /*timezone: String,*/
   profilePic: String,
   accounttype: {type: String, default: 'customer'},
   cardinfo: [{ cardtype : String, nameoncard : String, cardnumber : String, expirymonth : String, expiryyear : String, default: { type: Boolean, default: false }}],
