@@ -13,7 +13,7 @@ var users = require('./routes/users');
 var owners = require('./routes/owners');
 var slides = require('./routes/slides');
 var intro = require('./routes/intro');
-
+var Testimonial = require('./routes/Testimonial');
 var User = require('./model/User.js');
 
 var app = express();
@@ -42,24 +42,20 @@ allowCrossDomain = function(req, res, next) {
 
 app.use(allowCrossDomain);
 
-
-
-
 var storage = multer.diskStorage({ //multers disk storage settings
     destination: function (req, file, cb) {
         cb(null, '/NavaidKitchen/ms-6/public/uploads/');
         //cb(null, './public/uploads/');
-    },
+        },
     filename: function (req, file, cb) {
         var datetimestamp = Date.now();
         cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1]);
-    }
-});
+        }
+    });
 
 var upload = multer({ //multer settings
     storage: storage
 }).single('file');
-
 
 /** API path that will upload the files */
 app.post('/upload', function(req, res) {
@@ -112,7 +108,7 @@ app.use('/users', users);
 app.use('/owners', owners);
 app.use('/slides', slides);
 app.use('/intro', intro);
-
+app.use('/testimonial',Testimonial);
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
