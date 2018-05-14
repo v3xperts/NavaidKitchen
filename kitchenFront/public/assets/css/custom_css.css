@@ -87,7 +87,7 @@ text-align: center;
 .custom_need
 { 
   font-size: 16px;
-  border-bottom: 1px solid #F68B2D; 
+  border-bottom: 1px solid #ed202d; 
 }
 .form-ata{
   margin-top: 10px;
@@ -97,7 +97,7 @@ text-align: center;
           font-size: 14px;
 }
 .orange{
-  color: #F68B2D;
+  color: #ed202d;
 }
 .form-7{
   margin: 12px;
@@ -123,7 +123,7 @@ text-transform: capitalize;
     text-align: left;
     font-size: 18px;
     font-weight: bold; 
-    color: #f68b2d;   
+    color: #ed202d;   
 }
 
 .mycartdetail{
@@ -456,16 +456,16 @@ text-transform: capitalize;
 }
 
 .navcustom>li.active>a, .navcustom > li >a{
-    color: #f68b2d;
+    color: #ed202d;
     background-color: #d2b48c05;
     font-size: 17px;
 }
 .navcustom>li.active>a{
-   background-color: #f68b2d !important;
+   background-color: #ed202d !important;
    color: white !important;
 }
 .navcustom > li>a:hover, .navcustom > li>a:focus{
-   background-color: #f68b2d;
+   background-color: #ed202d;
    color: white;
 }
 .navcustom {
@@ -474,7 +474,7 @@ text-transform: capitalize;
 
 .navcustom > li >a:hover{
   background: #f5f5f5 !important;
-  color: #f68b2d !important;
+  color: #ed202d !important;
 }
 .listing{
     padding-top: 1rem;
@@ -833,7 +833,7 @@ p.payment-icons > img {
     right: 0;
 }
 .cartheader{
-    background: #F68B2D;
+    background: #ed202d;
     padding: 10px;
     margin-top: 0px;
     color: white;
@@ -1975,7 +1975,7 @@ body {font-family: Verdana, sans-serif;}
 .month {
     padding: 15px 31px;
     width: 100%;
-    background: #f68b2d;
+    background: #ed202d;
     text-align: center;
 }
 
@@ -2159,7 +2159,7 @@ button.model-remove1{
     font-size: 16px;
     margin-right: 18px;
     font-weight: 600;
-    color: #f68b2d;
+    color: #ed202d;
 }
 .fs-20{
   font-size: 20px;
@@ -2236,11 +2236,11 @@ p.cardselectedd{
     content:'\2605';
 }
 .stardiv.on {
-    color: #F68B2D;
+    color: #ed202d;
 }
 .stardiv.half:after {
     content: '\2605';
-    color: #F68B2D;
+    color: #ed202d;
     position: absolute;
     margin-left: -15px;
     width: 8px;
