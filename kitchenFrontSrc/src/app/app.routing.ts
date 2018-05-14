@@ -32,6 +32,7 @@ import { AdminCustomerComponent, CustomeraddComponent, CustomerupdateComponent }
 import { AdminHeatmapComponent , AdminHeatmapDashboardComponent} from './admin-heatmap/admin-heatmap.component';
 import { PaymentKeyConfigComponent } from './payment-key-config/payment-key-config.component';
 import { AdminDeliveryChargesComponent } from './admin-delivery-charges/admin-delivery-charges.component';
+import { TestimonialComponent,TestimoniallistComponent,TestimonialaddComponent,TestimonialupdateComponent } from './admin-testimonial/Testimonial.component';
 
 const appRoutes: Routes = [
      {path: '', component: FrontendComponent},
@@ -77,6 +78,11 @@ const appRoutes: Routes = [
         { path: 'list/:restaurantid', component: OfferListComponent, canActivate: [AuthGuard]  },
         { path: 'add/:restaurantid', component: OfferAddComponent, canActivate: [AuthGuard]  },
         { path: 'edit/:id',  component: OfferEditComponent, canActivate: [AuthGuard]  },
+    ]},
+    { path: 'admin/testimonial', component: TestimonialComponent, canActivate: [AuthGuard], children :[
+    { path: 'list', component: TestimoniallistComponent, canActivate: [AuthGuard]  },
+    { path: 'add', component: TestimonialaddComponent, canActivate: [AuthGuard]  },
+    { path: 'edit/:id', component: TestimonialupdateComponent, canActivate: [AuthGuard]  },
     ]},
       { path: 'admin/city', component: CityComponent, canActivate: [AuthGuard],children :[
         { path: 'list', component: CitylistComponent, canActivate: [AuthGuard]  },
@@ -176,6 +182,8 @@ const appRoutes: Routes = [
         { path: 'list-view', component: OwnerListViewComponent, canActivate: [OwnerAuthGuard]  },
 
         ]},
+
+
         { path: 'driver', component: KitchenDriverComponent, canActivate: [OwnerAuthGuard] , children: [
             { path: 'list', component: KitchenDriverListComponent, canActivate: [OwnerAuthGuard]  }
 

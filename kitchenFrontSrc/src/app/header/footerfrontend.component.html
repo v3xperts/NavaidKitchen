@@ -1,5 +1,7 @@
 
-<footer>
+<footer class="footerbg" >
+  
+
 <div class="footer footer3">
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 custom_a" style="margin-bottom: 15px;">
 		
@@ -33,10 +35,10 @@
     <li class=" newcutom_j cor list-inlinei"><a [routerLink]="['/']">Home</a></li>
     <li class=" newcutom_j cor list-inlinei"><a [routerLink]="['/customer/page/about-us']">About us</a></li>
     <li class=" newcutom_j cor list-inlinei"><a [routerLink]="['/customer/contactus']">Contact</a></li>
-    <li class=" newcutom_j cor list-inlinei"><a [routerLink]="['/customer/page/faq']">Faq</a></li>
+    <li class=" newcutom_j cor list-inlinei"><a [routerLink]="['/customer/page/faq']">FAQ</a></li>
     <li class=" newcutom_j cor list-inlinei"><a [routerLink]="['/customer/page/feedback']">Feedback</a></li>
-    <li class=" newcutom_j cor list-inlinei"><a [routerLink]="['/customer/page/how-it-works']">How It Works</a></li>
-    <li *ngIf="!currentOwner" class="newcutom_j cor list-inlinei"><a data-toggle="modal" data-target="#ownerlogin" style="cursor: pointer;" (click)="restlogin('login')">Restaurant Login</a></li>
+   <!--  <li class=" newcutom_j cor list-inlinei"><a [routerLink]="['/customer/page/how-it-works']">How It Works</a></li> -->
+    <li *ngIf="!currentOwner" class="newcutom_j cor list-inlinei"><a data-toggle="modal" data-target="#ownerlogin" style="cursor: pointer;" (click)="restlogin('login')">Chef Login</a></li>
 
     <li *ngIf="currentOwner" class="cor list-inlinei"><a  style="cursor: pointer;" [routerLink]="['/owner/profile']">Goto owner profile</a></li>
 
@@ -49,16 +51,16 @@
 <div class="footer1">
   <div class="container">
   <div class="row">
-    <div class="col-lg-2  col-md-2 col-sm-2 col-xs-12 text-white mtb-15 footer122">Stay Connected</div>
-    <div class="col-lg-5 col-md-4  col-sm-4 col-xs-12 " style="color: white;"> 
+    <div class="col-lg-2  col-md-2 col-sm-2 col-xs-12 colordarkgrey mtb-15 footer122">Stay Connected</div>
+    <div class="col-lg-5 col-md-4  col-sm-4 col-xs-12"> 
     
       <img src="../assets/image/fb.svg" class="social1"/>
       <img src="../assets/image/twitter.png" class="social2"/>
       <img src="../assets/image/youtube.png" class="social2" />
       <img src="../assets/image/blog.png" class="social2"/>
     </div>
-    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 text-white mtb-15">Get mobile App</div>
-    <div class="col-lg-3 col-md-4  col-sm-4 col-xs-12  footer12 footer122" style="color: white;">
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 colordarkgrey mtb-15">Get mobile App</div>
+    <div class="col-lg-3 col-md-4  col-sm-4 col-xs-12  footer12 footer122">
       <img src="../assets/image/appstore.png" class="appadv"/>   
       <img src="../assets/image/googleplay.png" class="appadv appadv2"/>   
     </div>
@@ -82,12 +84,13 @@
 
 </div>
 
+
   <div class="modal fade" id="ownerlogin" role="dialog">
     <div class="modal-dialog modal-md">
       <div class="modal-content" *ngIf="showform == 'register'">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h3 class="modal-title text-center">Create an Account</h3>
+          <h3 class="modal-title text-center">Chef Signup</h3>
         </div>
         <div class="modal-body"*ngIf="this.newo != false">
       			  <form role="form" [formGroup]="loginFormr" (ngSubmit)="register()">
@@ -174,7 +177,7 @@
        <div class="modal-content" *ngIf="showform == 'login'">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h3 class="modal-title text-center">Login</h3>
+          <h3 class="modal-title text-center">Chef Login</h3>
         </div>
         <div class="modal-body">
          <form role="form" [formGroup]="loginForm" (ngSubmit)="login()">
@@ -204,7 +207,7 @@
                             </div>
                             <!-- Change this to a button or input when using this as a form -->
                     <button class="btn btn-lg btn-success btn-block" [disabled]="!loginForm.valid">Login</button>
-                    <h5 class="acc-create">Don't have an account? <a class="pull-right" data-toggle="modal" data-target="#ownerregistion" (click)="restlogin('register')" style="cursor: pointer;">Create your own Restaurant</a></h5>
+                    <h5 class="acc-create">Don't have an account? <a class="pull-right" data-toggle="modal" data-target="#ownerregistion" (click)="restlogin('register')" style="cursor: pointer;">Chef Signup</a></h5>
                     
                    </fieldset>
          </form>           

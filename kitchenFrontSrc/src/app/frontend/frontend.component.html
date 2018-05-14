@@ -1,7 +1,7 @@
 
 <app-headerfrontend (outgoingData)='handleEvent($event)' ></app-headerfrontend>
-<style type="text/css">
-  
+
+<style type="text/css">  
   .carousel-inner>.item>img{
     width: 100%;
     margin: 0px;
@@ -11,13 +11,14 @@
  }
 </style>
 
-
-
 <div style="padding-top: 50px;">
 <div class="section2 container-fluid">
     <div class="container">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10">
+
         <div class="headLine">
-            <h1>Healthy and tasty food, for you and your family.<br>
+            <h1 class="headline-before-search">Healthy and tasty food, for you and your family.<br>
             Carefully cooked by your personal chef, and delivered at your door step. </h1>
         </div>
         <div class="inputField">
@@ -41,8 +42,9 @@
         </span>
         </div> -->
 
-        <div class="col-sm-12 col-lg-3 col-md-3 col-xs-12 classinputserch">
-         <select [(ngModel)]="cityi" id="classinputserchi" class="selectpicker capitalize2" data-live-search="true" data-width="100%" title="Select City" (ngModelChange)="getLatLng(cityi)">         
+        <div class="col-sm-12 col-lg-5 col-md-5 col-xs-12 classinputserch">
+         <select [(ngModel)]="cityi" id="classinputserchi" class="selectpicker capitalize2" data-live-search="true" data-width="100%" title="Select City" (ngModelChange)="getLatLng(cityi)">
+            <option value="">Select City</option>         
             <option  class="capitalize2" *ngFor="let city of items1" [ngValue]="city.cityName">
                 {{city.cityName}}
             </option>  
@@ -63,7 +65,7 @@
 
 
         
-         <div class="col-sm-12 col-lg-3 col-md-3 col-xs-12 classinputserch">
+         <div class="col-sm-12 col-lg-5 col-md-5 col-xs-12 classinputserch">
         <select [(ngModel)]="coui" id="classinputserchi" class="selectpicker capitalize2" multiple data-live-search="true" data-width="100%" title="Choose Cuisine" >              
               <option class="capitalize2" *ngFor="let cou of items2" [ngValue]="cou._id">
                 {{cou.name}}
@@ -85,61 +87,156 @@
 
         </div>
         
-        <div class="col-sm-12 col-lg-3 col-md-3 col-xs-12 classinputserch">
-           <select [(ngModel)]="searchtype" id="classinputserchi" class="selectpicker" data-live-search="true" data-width="100%">
-             <option value="">All restaurants</option>
-             <option value="50">Search nearby</option>
-          </select>
-        </div>
+       <!--  <div class="col-sm-12 col-lg-3 col-md-3 col-xs-12 classinputserch">
+          <select [(ngModel)]="searchtype" id="classinputserchi" class="selectpicker" data-live-search="true" data-width="100%">
+            <option value="">All restaurants</option>
+            <option value="50">Search nearby</option>
+         </select>
+       </div> -->
         <!-- <div class="col-sm-5 col-lg-5 col-md-5 col-xs-5 classinputserch"> 
         <input type="" name="" id="classinputserchi" class="srchr srchl" >
         </div> -->
-        <div class="col-sm-12 col-lg-3 col-md-3 col-xs-12 classinputserch">
-        <button class="classinputserchbtn srchl" (click)="searchdata()" style="padding: 6px;">
-            <i class="fa fa-search" aria-hidden="true"></i>
+        <div class="col-sm-12 col-lg-2 col-md-2 col-xs-12 classinputserch">
+        <button class="classinputserchbtn srchl" (click)="searchdata()" style="    padding: 6px;
+              border: 1px solid lightgrey;
+                border-left: 0;">
+        <b>FIND</b>
+            <!-- <i class="fa fa-search" aria-hidden="true"></i> -->
         </button>
         </div>
         </div> 
-<!--             </center> -->
+<!-- </center> -->
+        </div>
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
+</div>
+
+
+<div class="container-fluid" style="margin: 15px 0px 25px 0px;">
+    <div class="container">
+        <div class="inputField">
+        <div class="col-sm-12 col-lg-12 col-md-12 col-xs-12">   
+        <div class="col-lg-1"></div>
+    <div class="col-lg-10">     
+    <video width="100%" poster="" controls>
+       <source src="/assets/image/movie.mp4" type="video/mp4">
+       <source src="/assets/image/movie.ogg" type="video/ogg">
+       Your browser does not support the video tag.
+    </video>
+        </div> 
+        </div>
+        <div class="col-lg-1"></div> 
         </div>
     </div>
 </div>
 
+
 <div class="section3 container-fluid">
 <!--     <center> -->
         <h1>How it works</h1>
-        <div>Get your favourite food in 4 simple steps</div>
+        <div>Get your favourite food in 3 simple steps</div>
         <div class="orderFlow text-center" style="margin-left: 8%;">
-            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <img src="/assets/image/search.png" class="img-responsive img-target" align="center">
+                    <img src="/assets/image/search.jpg" class="img-responsive img-target food-steps" align="center">
                 </div>
-                <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 step">Find Your Favourite Place</h4>
+                <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 step">Discover Dishes & meal plans in your area </h4>
             </div>
             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 forArrow hidden-xs hidden-sm">
                 <img src="/assets/image/arrow.png" class="img-responsive howit">
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><img src="/assets/image/burger.png" class="img-responsive img-target"></div>
-                <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 step">Select the food you like or build meal plan</h4>
-            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><img src="/assets/image/burger2.jpg" class="img-responsive img-target food-steps"></div>
+                <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 step">Add to Cart Order </h4>
+            </div>            
             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 forArrow hidden-xs hidden-sm">
                 <img src="/assets/image/arrow.png" class="img-responsive howit">
             </div>
-            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><img src="/assets/image/swipe.png" class="img-responsive img-target"></div>
-                <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 step">It's quick, secure and easy</h4>
-            </div>
-            <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 forArrow hidden-xs hidden-sm">
-                <img src="/assets/image/arrow.png" class="img-responsive howit">
-            </div>
-            <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
-                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><img src="/assets/image/face.png" class="img-responsive img-target"></div>
-                <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 step">Food is prepared & delivered to your door</h4>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12"><img src="/assets/image/face.jpg" class="img-responsive img-target food-steps"></div>
+                <h4 class="col-lg-12 col-md-12 col-sm-12 col-xs-12 step">Enjoy Your fresh home cooked meal</h4>
             </div>
         </div>
 <!--     </center> -->
+
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center mt-20">
+  <a href="#loginModel" data-toggle="modal" (click)="showform('login')">
+  <button class="btn btn-default getstart-customcss"> GET STARTED </button>
+  </a>
 </div>
+</div>
+
+<div class="section4 bg" style="position: relative;    margin-bottom: 104px;">
+  <h1 class="text-center mb-2">Meals</h1>
+    <img src="/assets/image/chilli.png" class="chilli">
+    <div id="owl-demo" class="owl-carousel">
+
+        <div class="item">
+            <img src="http://cdn2.stylecraze.com/wp-content/uploads/2014/09/286-Top-15-Indian-Vegetarian-Dinner-Recipes-You-Can-Try-503670337.jpg" alt="Owl Image" height="400px">
+        </div>
+        <div class="item">
+            <img src="http://cdn2.stylecraze.com/wp-content/uploads/2014/09/286-Top-15-Indian-Vegetarian-Dinner-Recipes-You-Can-Try-503670337.jpg" alt="Owl Image" height="400px">
+        </div>
+        <div class="item">
+            <img src="http://cdn2.stylecraze.com/wp-content/uploads/2014/09/286-Top-15-Indian-Vegetarian-Dinner-Recipes-You-Can-Try-503670337.jpg" alt="Owl Image" height="400px">
+        </div>
+        <div class="item">
+            <img src="http://cdn2.stylecraze.com/wp-content/uploads/2014/09/286-Top-15-Indian-Vegetarian-Dinner-Recipes-You-Can-Try-503670337.jpg" alt="Owl Image" height="400px">
+        </div>
+        <div class="item">
+            <img src="http://cdn2.stylecraze.com/wp-content/uploads/2014/09/286-Top-15-Indian-Vegetarian-Dinner-Recipes-You-Can-Try-503670337.jpg" alt="Owl Image" height="400px">
+        </div>
+        <div class="item">
+            <img src="http://cdn2.stylecraze.com/wp-content/uploads/2014/09/286-Top-15-Indian-Vegetarian-Dinner-Recipes-You-Can-Try-503670337.jpg" alt="Owl Image" height="400px">
+        </div>
+        <div class="item">
+            <img src="http://cdn2.stylecraze.com/wp-content/uploads/2014/09/286-Top-15-Indian-Vegetarian-Dinner-Recipes-You-Can-Try-503670337.jpg" alt="Owl Image" height="400px">
+        </div>
+        <div class="item">
+            <img src="http://cdn2.stylecraze.com/wp-content/uploads/2014/09/286-Top-15-Indian-Vegetarian-Dinner-Recipes-You-Can-Try-503670337.jpg" alt="Owl Image" height="400px">
+        </div>
+    </div>
+    <img src="./assets/image/brocoli.png" class="brocoli">
+
+</div>
+
+<section id="carousel" style="padding: 100px 0;">             
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+               
+        <div class="carousel slide" id="fade-quote-carousel" data-ride="carousel" data-interval="3000">
+          <!-- Carousel indicators -->
+        <ol class="carousel-indicators">
+        <li *ngFor="let testim of testimonialList; let i = index; " data-target="#fade-quote-carousel" [attr.data-slide-to]="i" [ngClass]="i == 0 ? 'active' : ''"></li>
+        </ol>
+          <!-- Carousel items -->
+          <div class="carousel-inner">
+            <div *ngFor="let testimonial of testimonialList; let i = index; " [ngClass]="i == 0 ? 'item active' : 'item'">
+              <div class="row ">
+                <div class="col-lg-4">
+
+             <!-- <div class="profile-circle" style="background-color: rgba(0,0,0,.2);"></div> -->
+             <img src="{{imageUrl}}/{{testimonial.image}}" class="img-responsive profile-circle">
+                </div>
+                <div class="col-lg-8">
+ <div class="quote" style="position: absolute;"><i class="fa fa-quote-left fa-4x" ></i></div>
+              <blockquote>
+                <p style="    text-align: -webkit-auto;">{{testimonial.description}}</p>
+                <a href="void:javascript(0);" ><i><small style="color: #e84a64">Hello</small></i></a>
+              </blockquote>
+
+                </div>
+              </div>
+ 
+            </div>
+          </div>
+        </div>
+      </div>              
+    </div>
+  </div>
+</section>
 
 <div class="section4 container-fluid">
 

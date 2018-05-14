@@ -67,12 +67,13 @@ textarea#textarearesize0 {
 
   <ul class="breadcrumb rounded-0">
   <li><a [routerLink]="['/']">Home</a></li>
-  <li><a [routerLink]="['/customer/browse-restaurants']"> Restaurants </a></li>
+  <li><a [routerLink]="['/customer/browse-restaurants']"> Chef </a></li>
   <li class="active capitalize2">{{checkoutsummary.name}}</li>
   <li><a >Checkout</a></li>
   </ul>
 	<!-- <h3 class="pb-10"><b> Order Checkout </b></h3> -->
   <br><br>
+
 	<div class="cust_info_h" *ngIf="checkoutsummary.total != ''">
 		<div class="panel panel-default order-summary" *ngIf="checkoutsummary.items">
 			<div class="panel-heading p5-10 bg-gradian">
@@ -80,6 +81,7 @@ textarea#textarearesize0 {
   </small>
   </h5>
   </div>
+
   <div class="panel-body" >
 <div  class="col-lg-12 pall-0">
 <div class="media">
@@ -225,6 +227,16 @@ textarea#textarearesize0 {
           </div>
           </div> 
           </div>
+          <div class="col-lg-12 text-right" style="padding-right: 63px;">
+            <b>Total </b>  
+            <span>
+              <small>
+              <b style="font-size: 9px;" *ngIf=" newrestaurantsdetail && newrestaurantsdetail.currency"> {{newrestaurantsdetail.currency ? newrestaurantsdetail.currency : ''}} </b>
+               {{checkoutsummary.subtotal}}
+               </small>
+             </span>
+          </div>
+          
 					</div>
 				</div>
 			</div>

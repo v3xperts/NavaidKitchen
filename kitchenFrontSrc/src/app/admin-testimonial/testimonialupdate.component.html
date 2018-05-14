@@ -1,0 +1,50 @@
+<div class="container-fluid">
+<div class="row">
+<div class="col-lg-12">
+    <h1 class="page-header">
+        Testimonial
+    </h1>
+</div>
+</div>
+
+<div class="row">
+<div class="col-lg-12">
+  <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title"><i class="fa fa-list"></i> Testimonial Update</h3>
+        </div>
+        <div class="panel-body">
+            <form [formGroup]="userAddModel" (ngSubmit)="userUpdate()">
+
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input formControlName="name" type="text" class="form-control" id="name" placeholder="Name" required>
+                </div>
+                <div *ngIf="updateimg">
+                <img src="{{imageUrl}}/{{currentimg}}" class="testimonialimg">
+                <a href="javascript:void(0)" (click)="upimg('show')">Upload New Image</a>
+                </div>
+                <div *ngIf="!updateimg">
+                    <label for="img">Image Upload</label>
+                     <input id="img" type="file" class="form-control" name="single" ng2FileSelect [uploader]="uploader" accept="image/*" (change)="onChangeImg($event)"/>
+                      <a href="javascript:void(0)" (click)="upimg('hide')">Cancel</a>
+                </div>  
+               <div class="progress progress-barn" *ngIf="progress > 0 && progress < 100">
+              <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="50"
+              aria-valuemin="0" aria-valuemax="100" [ngStyle]="{'width': progress + '%'}">
+              {{progress }}%
+              </div>
+              </div> 
+              <div class="form-group">
+              <label for="desc">Description</label>
+              <textarea id="desc" formControlName="description" rows="4" style="width:100%"></textarea>
+              </div>
+              <a class="btn btn-danger pull-right" [routerLink]="['/admin/testimonial/list']"> Cancel</a>
+              <button type="submit" class="btn btn-success pull-right btnmargin1" [disabled]="!userAddModel.valid">Update</button>
+              
+            </form>
+        </div>
+    </div>
+</div>
+</div>
+</div>

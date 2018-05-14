@@ -530,10 +530,10 @@ export class OwnerprofileComponent implements OnInit {
 
     validationMessages = {
         'ownerfirstname' : {
-            'required':      'Email is required.'
+            'required':      'Firstname is required.'
         },
         'ownerlastname' : {
-            'required':      'Email is required.'
+            'required':      'Lastname is required.'
         },
         'username': {
             'required':      'Username is required.',
@@ -548,7 +548,7 @@ export class OwnerprofileComponent implements OnInit {
         'ownerphoneno' : {
             'required':   'Phone no. is required.',
             'minlength' : 'Phone no. should minimum 4 digit.',
-            'pattern'   : 'Password use only Numbers Digits'
+            'pattern'   : 'Phone no. use only Numbers Digits'
         }  
     };
 }
@@ -1124,10 +1124,10 @@ export class KitchenupdateComponent implements OnInit {
 
     validationMessages = {
         'restaurantname': {
-            'required':      'Username is required.',
-            'minlength':     'Username must be at least 4 and maximum 64 characters long.',
-            'maxlength':     'Username cannot be more than 64 characters long.',
-            'pattern'   :    'Username cannot use Numberic, Special characters, Space Etc. '
+            'required':      'Restaurant name is required.',
+            'minlength':     'Restaurant name must be at least 4 and maximum 64 characters long.',
+            'maxlength':     'Restaurant name cannot be more than 64 characters long.',
+            'pattern'   :    'Restaurant name cannot use Numberic, Special characters, Space Etc. '
         },
 
         'phoneno1' : {

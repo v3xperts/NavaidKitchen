@@ -20,5 +20,6 @@ export * from './rating.service';
 export * from './driver.service';
 export * from './paymentconfig.service';
 export * from './deliverycharges.service';
+export * from './testimonial.service';
 export * from './localjson.service';
 

@@ -4,7 +4,7 @@
     <div class="panel panel-default rounded-0 shadow accont-panel">
         <ul class="breadcrumb rounded-0">
             <li><a [routerLink]="['/']">Home</a></li>
-            <li><a [routerLink]="['/customer/browse-restaurants']">Restaurant</a></li>
+            <li><a [routerLink]="['/customer/browse-restaurants']">Chef</a></li>
             <li class="active capitalize2">{{restaurantsdetail.restaurantname}}</li>
         </ul>
         <div class="panel-body">
@@ -120,47 +120,57 @@
                                         </a>
                                     </h4>
                                 </div>
-                                <div id="{{menu._id}}" class="panel-collapse collapse" [ngClass]="menui == 0 ? 'in' : ''" aria-expanded="false">
-                                    <ul class="list-group">
-                                        <span *ngFor="let item of activeitems"> 
-                                            <li class="list-group-item cust_list" *ngIf="menu._id == item.menuId._id" style="border-bottom: 1px solid lightgray;">
-                                                <div class="row">
-                                                    <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11" style="padding-right: 0px;">
-                                                        <div class="media">
-                                                            <div class="media-left">
-                                                                <img  *ngIf="item.image" src="{{imgurl2}}/{{item.image}}" class="media-object combo-img3 border-radius-img1" />
-                                                                <img *ngIf="!item.image" src="./assets/image/menu.jpg" class="media-object combo-img3 border-radius-img1" />
-                                                            </div>
-                                                            <div class="media-body">
-                                                                <h4 class="media-heading"> {{item.name | ellipsis:50}} &nbsp; 
-                                                                    <i *ngIf="custid">
-                                                                        <img [src]="(favouriteir.items.indexOf(item._id) != -1) ? '../assets/image/heart_anim.gif' : '../assets/image/heart1.png'" [ngStyle]="(favouriteir.items.indexOf(item._id) != -1) ? {'width' : '17px'} : {'width' : '17px'}" (click)="addFavouritesItem(item,restaurantsdetail._id)"/>
-                                                                    </i>
-                                                                    <i style="float: right; margin-right: 15px; padding-top: 3px;">
-                                                                        <span *ngIf="itemsRatingIndex.indexOf(item._id) != -1">
-                                                                            <b [innerHTML]="ShowItemRatingStar(itemsRatingIndex.indexOf(item._id))"></b>
-                                                                        </span> 
-                                                                        <span *ngIf="itemsRatingIndex.indexOf(item._id) == -1">
-                                                                            <span class="stardiv"></span>
-                                                                            <span class="stardiv"></span>
-                                                                            <span class="stardiv"></span>
-                                                                            <span class="stardiv"></span>
-                                                                            <span class="stardiv"></span>
-                                                                        </span>
-                                                                    </i>
-                                                                </h4>
-                                                                <p><small>Price : <b *ngIf="item.price"> <small style="font-size: 10px;"><b>{{restaurantsdetail.currency}}</b></small></b>{{item.price}} </small></p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 padding-remove12">
-                                                        <h4 class="margin-remove12"><i (click)="addInOrder('menu', item)" class="fa fa-plus-circle list-pointer12" aria-hidden="true"></i></h4>  
-                                                    </div>
-                                                </div>
-                                            </li> 
-                                        </span>                         
-                                    </ul>
-                                </div>
+                <div id="{{menu._id}}" class="panel-collapse collapse" [ngClass]="menui == 0 ? 'in' : ''" aria-expanded="false">
+                <ul class="list-group">
+                <span *ngFor="let item of activeitems"> 
+                <li class="list-group-item cust_list" *ngIf="menu._id == item.menuId._id" style="border-bottom: 1px solid lightgray;">
+                <div class="row">
+                <div class="col-lg-11 col-md-11 col-sm-11 col-xs-11" style="padding-right: 0px;">
+                <div class="media">
+                <div class="media-left">
+                <img  *ngIf="item.image" src="{{imgurl2}}/{{item.image}}" class="media-object combo-img3 border-radius-img1" />
+                <img *ngIf="!item.image" src="./assets/image/menu.jpg" class="media-object combo-img3 border-radius-img1" />
+                </div>
+                <div class="media-body">
+                <h4 class="media-heading"> {{item.name | ellipsis:50}} &nbsp; 
+                <i *ngIf="custid">
+                <img [src]="(favouriteir.items.indexOf(item._id) != -1) ? '../assets/image/heart_anim.gif' : '../assets/image/heart1.png'" [ngStyle]="(favouriteir.items.indexOf(item._id) != -1) ? {'width' : '17px'} : {'width' : '17px'}" (click)="addFavouritesItem(item,restaurantsdetail._id)"/>
+                </i>
+                <!-- <i style="float: right; margin-right: 15px; padding-top: 3px;">
+                <span *ngIf="itemsRatingIndex.indexOf(item._id) != -1">
+                <b [innerHTML]="ShowItemRatingStar(itemsRatingIndex.indexOf(item._id))"></b>
+                </span> 
+                <span *ngIf="itemsRatingIndex.indexOf(item._id) == -1">
+                <span class="stardiv"></span>
+                <span class="stardiv"></span>
+                <span class="stardiv"></span>
+                <span class="stardiv"></span>
+                <span class="stardiv"></span>
+                </span>
+                </i> -->
+                </h4>
+                <p>
+                    <small>
+                    <b *ngIf="item.price">
+                    <small style="font-size: 10px;">
+                    <b>{{restaurantsdetail.currency}}</b>
+                    </small>
+                    </b>
+                    &nbsp; 
+                    {{item.price}} 
+                    </small>
+                </p>
+                </div>
+                </div>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1 padding-remove12">
+                <h4 class="margin-remove12"><i (click)="addInOrder('menu', item)" class="fa fa-plus-circle list-pointer12" aria-hidden="true"></i></h4>  
+                </div>
+                </div>
+                </li> 
+                </span>                         
+                </ul>
+                </div>
                             </div> 
                         </span>              
                     </div>
@@ -324,7 +334,7 @@
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 reviewRestaurant reviewtext-center" *ngIf="reviewRating.review.length == 0">
                     <i class="fa fa-star-o" aria-hidden="true" style="font-size: 900%;"></i>
-                    <h4><b> There are currently no reviews available for this restaurant </b></h4>
+                    <h4><b> There are currently no reviews available for this chef </b></h4>
                 </div>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 reviewRestaurant " *ngIf="reviewRating.review && reviewRating.review.length > 0">
                     <div class="panel panel-default" style="margin-top: 20px;" *ngFor="let comment of reviewRating.review">

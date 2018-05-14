@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, Validators,  FormControl , ReactiveFormsModule 
 import { ReCaptchaComponent } from 'angular2-recaptcha';
 import { SearchPipe } from "../filter2.pipe";
 import { SearchPipeRestaurant } from "../filter4.pipe";
-import { AlertService, AuthService, FrontendService, PaymentConfigService, DeliveryChargesService, SlidesService, RatingService, KitchenMenuService, KitchenItemService, FrontendRestaurantService, PageService, MasterService, OrderService, KitchenService , ComboService,IntroService, WeekMonthService, OfferService, CustomerReferralService, DriverService,UsersService} from '../service/index';
+import { AlertService, AuthService, FrontendService, PaymentConfigService, DeliveryChargesService, SlidesService, RatingService, KitchenMenuService, KitchenItemService, FrontendRestaurantService, PageService, MasterService, OrderService, KitchenService , ComboService,IntroService, WeekMonthService, OfferService, CustomerReferralService, DriverService,UsersService, TestimonialService} from '../service/index';
 import * as globalVariable from "../global";
 import { AgmCoreModule, MapsAPILoader } from 'angular2-google-maps/core';
 import {OrderPipe} from "../order.pipe";
@@ -58,23 +58,40 @@ export class FrontendComponent implements OnInit {
     public coui : any = "";
     public searchtype : any = "";
     public slidesList: any = [];
+    public testimonialList: any = [];
     public introImagesList: any = [];
     imageUrl: string = globalVariable.url+'uploads/';
 
-    constructor(public slidesService :SlidesService, public introService : IntroService, public frontendService : FrontendService,  public masterService : MasterService, public route : Router) {
+    constructor(public testimonial: TestimonialService, public slidesService :SlidesService, public introService : IntroService, public frontendService : FrontendService,  public masterService : MasterService, public route : Router) {
         this.getIntroImages();
         this.slides();
+        this.getTestimonial();
     }
 
     ngOnInit() {
+        $(document).ready(function(){
+        $("#owl-demo").owlCarousel({
+                autoPlay: 3000,
+                items: 5,
+                itemsDesktop: [1199, 3],
+                itemsDesktopSmall: [979, 3]
+            });
+            })  ;            
         this.refreshSelectPicker();
 
         setTimeout(() =>{
             this.getcclist();
             this.getcousines();        
-        }, 2000);       
+        }, 2000); 
+        this.getTestimonials();      
     } 
 
+    
+    public getTestimonial(){
+        this.testimonial.getTestimonial().subscribe((data)=>{
+            this.testimonialList = data.message;
+        })
+    }
 
     public slides(){
         this.slidesService.getAll().subscribe((data)=>{
@@ -91,7 +108,13 @@ export class FrontendComponent implements OnInit {
         })
     }
 
-
+    public getTestimonials() {
+        console.log('thist')
+        this.testimonial.getTestimonial().subscribe((data) => {
+            console.log('data');
+            console.log(data);
+        });
+    }
     public handleEvent(childData){
        // console.log("New dEmitted");
        // console.log(childData);
@@ -3294,7 +3317,12 @@ export class CustomerAccountInfoComponent implements OnInit {
             visible: true,
             draggable: true
         });
-
+        google.maps.event.addListenerOnce(map, 'idle', () => {
+            var loadlat = marker.position.lat();
+            var loadlng = marker.position.lng();
+            console.log("loadlat, loadlng", loadlat, loadlng);
+            this.getgeo(loadlat, loadlng);
+        });
         google.maps.event.addListener(
             marker,
             'dragend',
@@ -3303,6 +3331,7 @@ export class CustomerAccountInfoComponent implements OnInit {
                 var mlng = marker.position.lng();
                 this.getgeo(mlat, mlng);
             });
+
         autocomplete.addListener('place_changed', () => {
             marker.setVisible(true);
             var place = autocomplete.getPlace();
@@ -4363,6 +4392,12 @@ export class FrontendCheckoutComponent implements OnInit {
             position: {lat: parseFloat(this.userinfo.lat), lng: parseFloat(this.userinfo.lng)},
             visible: true,
             draggable: true
+        });
+        google.maps.event.addListenerOnce(map, 'idle', () => {
+            var loadlat = marker.position.lat();
+            var loadlng = marker.position.lng();
+            console.log("loadlat, loadlng", loadlat, loadlng);
+            this.getgeo(loadlat, loadlng);
         });
         google.maps.event.addListener(
             marker,

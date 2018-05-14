@@ -87,7 +87,7 @@ text-align: center;
 .custom_need
 { 
   font-size: 16px;
-  border-bottom: 1px solid #F68B2D; 
+  border-bottom: 1px solid #ed202d; 
 }
 .form-ata{
   margin-top: 10px;
@@ -97,7 +97,7 @@ text-align: center;
           font-size: 14px;
 }
 .orange{
-  color: #F68B2D;
+  color: #ed202d;
 }
 .form-7{
   margin: 12px;
@@ -106,7 +106,7 @@ text-align: center;
   color: green;
 }
 .cor > a{
-color: white;
+color: #333;
 text-transform: capitalize;
 
 }
@@ -123,7 +123,7 @@ text-transform: capitalize;
     text-align: left;
     font-size: 18px;
     font-weight: bold; 
-    color: #f68b2d;   
+    color: #ed202d;   
 }
 
 .mycartdetail{
@@ -228,7 +228,7 @@ text-transform: capitalize;
       background: white;
     }
     .footer1{
-      height: 80px; background: black !important; padding:0px; 
+      height: 80px; color: #333 !important; padding:0px; 
     }
     .footer11{
       padding-left: 53px;
@@ -236,6 +236,9 @@ text-transform: capitalize;
     .footer12{
       text-align: right;
 
+    }
+    .colordarkgrey{
+      color: #333 !important;
     }
     .appadv{
       width: 120px;
@@ -453,16 +456,16 @@ text-transform: capitalize;
 }
 
 .navcustom>li.active>a, .navcustom > li >a{
-    color: #f68b2d;
+    color: #ed202d;
     background-color: #d2b48c05;
     font-size: 17px;
 }
 .navcustom>li.active>a{
-   background-color: #f68b2d !important;
+   background-color: #ed202d !important;
    color: white !important;
 }
 .navcustom > li>a:hover, .navcustom > li>a:focus{
-   background-color: #f68b2d;
+   background-color: #ed202d;
    color: white;
 }
 .navcustom {
@@ -471,7 +474,7 @@ text-transform: capitalize;
 
 .navcustom > li >a:hover{
   background: #f5f5f5 !important;
-  color: #f68b2d !important;
+  color: #ed202d !important;
 }
 .listing{
     padding-top: 1rem;
@@ -830,7 +833,7 @@ p.payment-icons > img {
     right: 0;
 }
 .cartheader{
-    background: #F68B2D;
+    background: #ed202d;
     padding: 10px;
     margin-top: 0px;
     color: white;
@@ -1972,7 +1975,7 @@ body {font-family: Verdana, sans-serif;}
 .month {
     padding: 15px 31px;
     width: 100%;
-    background: #f68b2d;
+    background: #ed202d;
     text-align: center;
 }
 
@@ -2156,7 +2159,7 @@ button.model-remove1{
     font-size: 16px;
     margin-right: 18px;
     font-weight: 600;
-    color: #f68b2d;
+    color: #ed202d;
 }
 .fs-20{
   font-size: 20px;
@@ -2233,11 +2236,11 @@ p.cardselectedd{
     content:'\2605';
 }
 .stardiv.on {
-    color: #F68B2D;
+    color: #ed202d;
 }
 .stardiv.half:after {
     content: '\2605';
-    color: #F68B2D;
+    color: #ed202d;
     position: absolute;
     margin-left: -15px;
     width: 8px;
@@ -2255,4 +2258,83 @@ p.cardselectedd{
 }
 .pd-t-10{
   padding-top: 10px;
+}
+
+.footerbg{
+            background-image: url('../../assets/image/footer-background.png');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            margin: 0;
+            color: white;
+            text-align: center;
+            padding:5% 0 5% 0;
+            line-height: 2;
+}
+div#owl-demo {
+    padding: 50px 0;
+}
+.bg{
+    background-image: url('./img/meal-bg.png');
+}
+.chilli{
+    height: 250px;
+    position: absolute;
+    right: 0;
+    top: -110px;
+}
+.brocoli{
+        position: absolute;
+    height: 250px;
+    bottom: -125px;
+}
+
+.quote {
+    color: rgba(0,0,0,.1);
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/*-------------------------------*/
+/*    Carousel Fade Transition   */
+/*-------------------------------*/
+
+#fade-quote-carousel.carousel {
+  padding-bottom: 60px;
+}
+#fade-quote-carousel.carousel .carousel-inner .item {
+  opacity: 0;
+  -webkit-transition-property: opacity;
+      -ms-transition-property: opacity;
+          transition-property: opacity;
+}
+#fade-quote-carousel.carousel .carousel-inner .active {
+  opacity: 1;
+  -webkit-transition-property: opacity;
+      -ms-transition-property: opacity;
+          transition-property: opacity;
+}
+#fade-quote-carousel.carousel .carousel-indicators {
+  bottom: 10px;
+}
+#fade-quote-carousel.carousel .carousel-indicators > li {
+  background-color: #e84a64;
+  border: none;
+}
+#fade-quote-carousel blockquote {
+    text-align: center;
+    border: none;
+}
+#fade-quote-carousel .profile-circle {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto;
+    border-radius: 100px;
+}
+.btnmargin1{
+  margin-right: 10px;
+}
+
+.testimonialimg{
+    width: 110px;
+    height: 78px;
 }

@@ -14,7 +14,7 @@ import { HeaderComponent,HeaderownerComponent,HeaderfrontendComponent,Footerfron
 import { HomeComponent } from './home/home.component';
 import { LoginComponent,ForgetComponent,ResetPasswordAdminComponent } from './login/login.component';
 import { AlertComponent } from './directives/index';
-import { AlertService, AuthService, UsersService, RatingService, PageService, PaymentConfigService,DeliveryChargesService, MasterService, KitchenService, KitchenMenuService,KitchenItemService,FrontendService, WeekMonthService, ComboService, OfferService, ReferralService, CustomerReferralService, FrontendRestaurantService, OrderService, SlidesService, IntroService, DriverService, LocalJsonService} from './service/index';
+import { AlertService, AuthService, UsersService, RatingService, PageService, PaymentConfigService,DeliveryChargesService, MasterService, KitchenService, KitchenMenuService,KitchenItemService,FrontendService, WeekMonthService, ComboService, OfferService, ReferralService, CustomerReferralService, FrontendRestaurantService, OrderService, SlidesService, IntroService, DriverService, TestimonialService, LocalJsonService} from './service/index';
 import { AuthGuard,OwnerAuthGuard } from './guards/index';
 import { DashboardComponent, DashboardprofileComponent, DashboardsettingComponent} from './dashboard/dashboard.component';
 import { PasswordComponent,PasswordComplexityComponent, PasswordChangeComponent } from './passwordcomplexity/password.component';
@@ -36,16 +36,17 @@ import { KitchenComponent,KitchenlistComponent,KitchenaddComponent,Kitchenupdate
 import { KitchenmenuComponent, KitchenMenuListComponent, KitchenMenuAddComponent, KitchenMenuUpdateComponent } from './kitchenmenu/kitchenmenu.component';
 import { KitchenitemComponent,KitchenMenuItemUpdateComponent } from './kitchenitem/kitchenitem.component';
 import { FrontendComponent,CustomermailactivateComponent,FrontendLoginComponent,FrontendForgetPasswordComponent, FrontendRegisterComponent,FrontendProfileComponent, FrontendResetPasswordComponent, FrontendChangePasswordComponent, FrontendCustomerComponent, FrontendBrowseRestaurantsComponent, CustomerRestaurantDetailComponent, CustomerAccountInfoComponent, FrontendPageComponent, FrontendContactUsComponent, FrontendCheckoutComponent, FrontendThankYouComponent, CustomerDrivermailactivateComponent, FrontendDriverResetPasswordComponent } from './frontend/frontend.component';
+import { TestimonialComponent,TestimoniallistComponent,TestimonialaddComponent,TestimonialupdateComponent } from './admin-testimonial/Testimonial.component';
 import { OwnerCuisinesComponent } from './ownercuisines/ownercuisines.component'
 import { WeeklyComponent, WeeklyDayAddComponent, WeeklyDayEditComponent, WeeklyDayListComponent} from './weekly/weekly.component';
 import { MonthlyComponent, MonthlyDayAddComponent, MonthlyDayEditComponent, MonthlyDayListComponent } from './monthly/monthly.component';
 import { ComboComponent,  ComboEditComponent, ComboListComponent } from './combo/combo.component';
 import { OfferComponent, OfferAddComponent,  OfferEditComponent, OfferListComponent } from './offer/offer.component';
 import { ReferralComponent,ReferralRegisterComponent, ReferralListComponent } from './referral/referral.component';
-import {  CustomerReferralComponent, CustomerReferralRegisterComponent} from './customerreferral/referral.component';
-import {NgPipesModule} from 'ngx-pipes';
-import { SliderComponent , SliderListComponent } from './slider/slider.component';
-import { IntroComponent , IntroListComponent } from './intro/slider.component';
+import { CustomerReferralComponent, CustomerReferralRegisterComponent} from './customerreferral/referral.component';
+import { NgPipesModule } from 'ngx-pipes';
+import { SliderComponent,SliderListComponent } from './slider/slider.component';
+import { IntroComponent,IntroListComponent } from './intro/slider.component';
 import { CartComponent } from './cart/cart.component';
 import { RatingComponent } from './rating/rating.component';
 import { ShowRatingComponent } from './showrating/rating.component';
@@ -60,13 +61,13 @@ import { PaymentKeyConfigComponent } from './payment-key-config/payment-key-conf
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabase } from 'angularfire2/database'
 
-
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from "firebase";
 import { AdminDeliveryChargesComponent } from './admin-delivery-charges/admin-delivery-charges.component';
+
 
 var config = {
   apiKey: "AIzaSyD_12VUR8SMmflh7_LCffPhwP-VyCgqVqY",
@@ -85,7 +86,8 @@ let providers = {
       "apiVersion": "v2.4" //like v2.4 
     }
   };
-  
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -114,7 +116,9 @@ let providers = {
     ComboComponent, ComboEditComponent, ComboListComponent,OfferComponent, OfferAddComponent, OfferEditComponent, OfferListComponent, ReferralComponent, ReferralRegisterComponent,CustomerReferralComponent, CustomerReferralRegisterComponent,OwnerCuisinesComponent,FrontendCheckoutComponent, FrontendThankYouComponent, OwnerKitchenServicesComponent,
     PasswordComponent,PasswordComplexityComponent,PasswordChangeComponent,OwnerTaxComponent,OwnerActivateOfferingComponent, SliderComponent ,IntroComponent , IntroListComponent, CartComponent, RatingComponent,ShowRatingComponent, 
     KitchenReportComponent,KitchenReportOrderComponent,KitchenReportDashboardComponent,KitchenReportOrderListComponent, KitchenReportCustomersComponent, KitchenDriverComponent, KitchenDriverListComponent,ReferralListComponent,
-    DriverupdateComponent, DriveraddComponent, AdmindriverComponent, DriverRestaurantComponent, AdminCustomerComponent,CustomeraddComponent, CustomerupdateComponent, AdminHeatmapComponent, AdminHeatmapDashboardComponent, KitchenServicesOrderListComponent, PaymentKeyConfigComponent, CustomerDrivermailactivateComponent, FrontendDriverResetPasswordComponent, OwnerRestaurantBasicComponent,OwnerMenuSetupComponent, OwnerBonusPointComponent, OwnerMyDriverComponent, OwnerEssentialsComponent, OwnerListViewComponent, AdminDeliveryChargesComponent],
+    DriverupdateComponent, DriveraddComponent, AdmindriverComponent, DriverRestaurantComponent, AdminCustomerComponent,CustomeraddComponent, CustomerupdateComponent, AdminHeatmapComponent, AdminHeatmapDashboardComponent, KitchenServicesOrderListComponent, PaymentKeyConfigComponent, CustomerDrivermailactivateComponent, FrontendDriverResetPasswordComponent, OwnerRestaurantBasicComponent,OwnerMenuSetupComponent, OwnerBonusPointComponent, OwnerMyDriverComponent, OwnerEssentialsComponent, OwnerListViewComponent, AdminDeliveryChargesComponent,
+    TestimonialComponent,TestimoniallistComponent,TestimonialaddComponent,TestimonialupdateComponent,
+    ],
   imports: [ 
     BrowserModule,   
     FormsModule,
@@ -137,7 +141,7 @@ let providers = {
   ],
  exports: [FileUploadModule],
   // tslint:disable-next-line:max-line-length
-  providers: [AngularFireDatabase,LocalJsonService,RatingService, PaymentConfigService, DeliveryChargesService, AuthGuard, OwnerAuthGuard, AlertService, AuthService, UsersService, PageService, MasterService, KitchenService, KitchenMenuService,KitchenItemService, FrontendService, WeekMonthService,ComboService, OfferService, ReferralService, CustomerReferralService, FrontendRestaurantService, OrderService,SlidesService, IntroService, DriverService],
+  providers: [AngularFireDatabase,LocalJsonService,RatingService, PaymentConfigService, DeliveryChargesService, AuthGuard, OwnerAuthGuard, AlertService, AuthService, UsersService, PageService, MasterService, KitchenService, KitchenMenuService,KitchenItemService, FrontendService, WeekMonthService,ComboService, OfferService, ReferralService, CustomerReferralService, FrontendRestaurantService, OrderService,SlidesService, IntroService, DriverService, TestimonialComponent,TestimoniallistComponent,TestimonialaddComponent,TestimonialService],
   bootstrap: [AppComponent]
   })
 
