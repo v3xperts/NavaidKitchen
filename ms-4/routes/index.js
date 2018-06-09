@@ -1,29 +1,94 @@
 var express = require('express');
 var router = express.Router();
 var orderModel  =  require("../model/Order.js");
+
+var ConvergeLib = require('converge-lib');
+
+var convergeLib = new ConvergeLib('008104', 'webpage', 'UT2FNY', 'false');
+
 var StripeConfigModel  =  require("../model/StripeConfig.js");
 var keyPublishable = '';
 var keySecret = '';
 var stripe;
 
 
+/*-------------------------------Start ConvergeLib--------------------------------------------------------*/
+router.post('/collect-payment', function(req, res, next) {
+	convergeLib.collectPayment(req.body.fname,req.body.lname,req.body.email,req.body.cardnumber, req.body.expirymonth, req.body.expiryyear, req.body.cvv,req.body.amount,req.body.custid,'payment done')
+	.then(function(response){
+		console.log("response");
+		console.log(response);
+		res.json({"error" : false,"message" : response});
+	})
+	.catch(function(err){
+		console.error('error',err);
+		res.json({"error" : true,"message" : err});
+	});
+});
+
+router.post('/verify-card', function(req, res, next) {
+	convergeLib.verifyCard(req.body.cardnumber, req.body.expirymonth, req.body.expiryyear, req.body.cvv, req.body.city, req.body.postalcode)
+    .then(function(response){
+        console.log('response ',response);
+        res.json({"error" : false,"message" : response});
+    })
+    .catch(function(err){
+        console.error('error',err);
+        res.json({"error" : true,"message" : err});
+    });
+});
+/*
+router.post('/apply-generated-token', function(req, res, next) {
+	convergeLib.collectPaymentByToken(req.body.cardno, req.body.expmonth, req.body.expdate, req.body.cvv,1.99 ,'1234','this is what i sold')
+	.then(function(response){
+		console.log('response ',response);
+	})
+	.catch(function(err){
+		console.error('error',err);
+	});
+});*/
+
+
+
+router.post('/generate-card-token', function(req, res, next) {
+	convergeLib.generateToken(req.body.fname,req.body.lname,req.body.email,req.body.cardnumber, req.body.expirymonth, req.body.expiryyear, req.body.cvv)
+	.then(function(response){
+		console.log('response ',response);
+		res.json({"error" : false,"message" : response});
+	})
+	.catch(function(err){
+		console.error('error',err);
+		res.json({"error" : true,"message" : err});
+	});
+});
+
+
+
+/*-------------------------------End ConvergeLib--------------------------------------------------------*/
+
+
+
+
+
+
+
 /*-------------------------------Start Stripe--------------------------------------------------------*/
 
 function setValues(){
 	StripeConfigModel.find({},function(err,data){
-	if (err) {
-		console.log("error");
-	} else{
-		console.log("ff", data);
-		if(data.length == 1){
-		keyPublishable = data[0].keypublishable;
-		keySecret = data[0].keysecret;
-		stripe = require("stripe")(keySecret);
-		console.log("keyAssign");
+		if (err) {
+			console.log("error");
+		} else{
+			console.log("ff", data);
+			if(data.length == 1){
+				keyPublishable = data[0].keypublishable;
+				keySecret = data[0].keysecret;
+				stripe = require("stripe")(keySecret);
+				console.log("keyAssign");
+			}
 		}
-	  };
 	});
-  }
+}
 
 setValues();
 
@@ -48,10 +113,10 @@ router.post('/stripeconfig', function(req, res, next) {
 			if(fdata.length == 1){
             StripeConfigModel.findByIdAndUpdate(fdata[0]._id, req.body, {new:true}, (err, udata)=>{
             	if(err){
-				res.json({"error" : true,"message" : err});
+					res.json({"error" : true,"message" : err});
             	}else{
             		setValues();
-            	res.json({"error" : false,"message" : udata});
+            		res.json({"error" : false,"message" : udata});
             	}
             });
 			}else{
