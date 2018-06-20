@@ -125,7 +125,7 @@ router.get('/weekmonth', function(req, res, next) {
 
 router.get('/weekmonth-limited', function(req, res, next) {
 	var response={};
-	weekmonthModel.find({}, null, {sort: {created_at: 1}}, {limit : 15},function(err,data){
+	weekmonthModel.find({}, null, {sort: {created_at: 1}, limit : 15},function(err,data){
 		if (err) {
 			response = {"error" : true,"message" : "Error fetching data"};
 		} else{
@@ -224,7 +224,7 @@ router.get('/item', function(req, res, next) {
 
 router.get('/item-limited', function(req, res, next) {
 	var response={};
-	itemModel.find({}, null, {sort: {created_at: 1}}, {limit : 15},function(err,data){
+	itemModel.find({}, null, {sort: {created_at: 1}, limit : 15},function(err,data){
 		if (err) {
 			response = {"error" : true,"message" : "Error fetching data"};
 		} else{
