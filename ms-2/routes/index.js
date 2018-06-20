@@ -123,6 +123,18 @@ router.get('/weekmonth', function(req, res, next) {
 	});	
 });
 
+router.get('/weekmonth-limited', function(req, res, next) {
+	var response={};
+	weekmonthModel.find({}, null, {sort: {created_at: 1}}, {limit : 15},function(err,data){
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			response = {"error" : false,"message" : data};
+		};
+		res.json(response);
+	});	
+});
+
 router.get('/weekmonth-list/:id', function(req, res, next) {
 	var response={};
 	weekmonthModel.find({kitchenId: req.params.id}, null, {sort: {created_at: 1}},function(err,data){
@@ -200,6 +212,19 @@ router.delete('/weekmonth/:id',function(req,res){
 router.get('/item', function(req, res, next) {
 	var response={};
 	itemModel.find({}, null, {sort: {created_at: 1}},function(err,data){
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			response = {"error" : false,"message" : data};
+		};
+		res.json(response);
+	});	
+});
+
+
+router.get('/item-limited', function(req, res, next) {
+	var response={};
+	itemModel.find({}, null, {sort: {created_at: 1}}, {limit : 15},function(err,data){
 		if (err) {
 			response = {"error" : true,"message" : "Error fetching data"};
 		} else{
