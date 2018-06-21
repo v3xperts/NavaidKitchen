@@ -85,8 +85,8 @@ router.delete('/menu/:id/:kitchenId',function(req,res){
 			itemModel.remove({menuId: req.params.id}, function (err) {           
             if (err) return handleError(err);
               // removed!
-                 });
-          weekmonthModel.find({kitchenId : req.params.kitchenId}, function(err, data){                 
+        	});
+			weekmonthModel.find({kitchenId : req.params.kitchenId}, function(err, data){                 
                 for(var i=0; i<data.length; i++){                  
                   for(var j = 0; j<data[i].dayandmenus.length; j++){                      
                       var index = data[i].dayandmenus[j].menuids.findIndex(item  => item.mid == req.params.id); 
@@ -125,7 +125,7 @@ router.get('/weekmonth', function(req, res, next) {
 
 router.get('/weekmonth-limited', function(req, res, next) {
 	var response={};
-	weekmonthModel.find({}, null, {sort: {created_at: 1}, limit : 15},function(err,data){
+	weekmonthModel.find({}, null, {sort: {created_at: 1}, limit : 12},function(err,data){
 		if (err) {
 			response = {"error" : true,"message" : "Error fetching data"};
 		} else{
@@ -224,7 +224,7 @@ router.get('/item', function(req, res, next) {
 
 router.get('/item-limited', function(req, res, next) {
 	var response={};
-	itemModel.find({}, null, {sort: {created_at: 1}, limit : 15},function(err,data){
+	itemModel.find({}, null, {sort: {created_at: 1}, limit : 12},function(err,data){
 		if (err) {
 			response = {"error" : true,"message" : "Error fetching data"};
 		} else{
