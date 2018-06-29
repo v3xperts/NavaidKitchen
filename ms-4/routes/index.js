@@ -30,7 +30,7 @@ function setValues(){
 				sslUserID = data[0].ssl_user_id;
 				sslPin = data[0].ssl_pin;
 
-				convergeLib = new ConvergeLib( sslMerchantID, sslUserID, sslPin);
+				convergeLib = new ConvergeLib( sslMerchantID, sslUserID, sslPin, 'false');
 				
 				/*convergeLib = new ConvergeLib('878295', 'mealwebpage', 'FJJBKYOZF2WV34E1EZCJOINKER5D6U4Q0WUIOC9KEKX5JIAM7Q4DOKOUBPPQSSQF', 'false');*/
 				/*stripe = require("stripe")(keySecret);*/
