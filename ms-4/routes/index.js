@@ -17,9 +17,11 @@ var keyPublishable = '';
 var keySecret = '';
 var stripe;
 
+var convergeLib = new ConvergeLib('008104', 'webpage', 'UT2FNY', 'false');
+
 
 /*-------------------------------Start ConvergeLib--------------------------------------------------------*/
-function setValues(){
+/*function setValues(){
 	CoverageConfigModel.find({},function(err,data){
 		if (err) {
 			console.log("error");
@@ -32,8 +34,8 @@ function setValues(){
 
 				convergeLib = new ConvergeLib( sslMerchantID, sslUserID, sslPin, 'false');
 				
-				/*convergeLib = new ConvergeLib('878295', 'mealwebpage', 'FJJBKYOZF2WV34E1EZCJOINKER5D6U4Q0WUIOC9KEKX5JIAM7Q4DOKOUBPPQSSQF', 'false');*/
-				/*stripe = require("stripe")(keySecret);*/
+				// convergeLib = new ConvergeLib('878295', 'mealwebpage', 'FJJBKYOZF2WV34E1EZCJOINKER5D6U4Q0WUIOC9KEKX5JIAM7Q4DOKOUBPPQSSQF', 'false');
+				// stripe = require("stripe")(keySecret);
 
 				console.log("keyAssign", sslPin, sslUserID, sslMerchantID);
 			}
@@ -83,7 +85,7 @@ router.post('/coverage-config-add', function(req, res, next) {
 			}
 		};
 	});	
-});
+});*/
 
 router.post('/collect-payment', function(req, res, next) {
 	convergeLib.collectPayment(req.body.fname,req.body.lname,req.body.email,req.body.cardnumber, req.body.expirymonth, req.body.expiryyear, req.body.cvv,req.body.amount,req.body.custid,'payment done')
