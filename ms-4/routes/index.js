@@ -5,7 +5,12 @@ var orderModel  =  require("../model/Order.js");
 var ConvergeLib = require('converge-lib');
 
 /*var convergeLib = new ConvergeLib('008104', 'webpage', 'UT2FNY', 'false');*/
-var convergeLib = new ConvergeLib('878295', 'mealwebpage', 'FJJBKYOZF2WV34E1EZCJOINKER5D6U4Q0WUIOC9KEKX5JIAM7Q4DOKOUBPPQSSQF', 'false');
+var convergeLib;
+
+var CoverageConfigModel  =  require("../model/CoverageConfig.js");
+var sslMerchantID = '';
+var sslUserID = '';
+var sslPin = '';
 
 var StripeConfigModel  =  require("../model/StripeConfig.js");
 var keyPublishable = '';
@@ -75,7 +80,7 @@ router.post('/generate-card-token', function(req, res, next) {
 
 /*-------------------------------Start Stripe--------------------------------------------------------*/
 
-function setValues(){
+/*function setValues(){
 	StripeConfigModel.find({},function(err,data){
 		if (err) {
 			console.log("error");
@@ -86,6 +91,28 @@ function setValues(){
 				keySecret = data[0].keysecret;
 				stripe = require("stripe")(keySecret);
 				console.log("keyAssign");
+			}
+		}
+	});
+}*/
+
+function setValues(){
+	CoverageConfigModel.find({},function(err,data){
+		if (err) {
+			console.log("error");
+		} else{
+			console.log("coveragelib data", data);
+			if(data.length == 1){
+				sslMerchantID = data[0].ssl_merchant_id;
+				sslUserID = data[0].ssl_user_id;
+				sslPin = data[0].ssl_pin;
+
+				convergeLib = new ConvergeLib( sslMerchantID, sslUserID, sslPin, 'false');
+				
+				/*convergeLib = new ConvergeLib('878295', 'mealwebpage', 'FJJBKYOZF2WV34E1EZCJOINKER5D6U4Q0WUIOC9KEKX5JIAM7Q4DOKOUBPPQSSQF', 'false');*/
+				/*stripe = require("stripe")(keySecret);*/
+
+				console.log("keyAssign", sslPin, sslUserID, sslMerchantID);
 			}
 		}
 	});
