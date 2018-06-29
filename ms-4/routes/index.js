@@ -4,7 +4,8 @@ var orderModel  =  require("../model/Order.js");
 
 var ConvergeLib = require('converge-lib');
 
-var convergeLib = new ConvergeLib('008104', 'webpage', 'UT2FNY', 'false');
+/*var convergeLib = new ConvergeLib('008104', 'webpage', 'UT2FNY', 'false');*/
+var convergeLib = new ConvergeLib('878295', 'mealwebpage', 'FJJBKYOZF2WV34E1EZCJOINKER5D6U4Q0WUIOC9KEKX5JIAM7Q4DOKOUBPPQSSQF', 'false');
 
 var StripeConfigModel  =  require("../model/StripeConfig.js");
 var keyPublishable = '';
@@ -96,13 +97,13 @@ setValues();
 router.get('/stripeconfig', function(req, res, next) {
  	var response={};
  	StripeConfigModel.find({},function(err,data){
-	if (err) {
-		res.json({error: true, message: err});
-	} else{
-		res.json({error: false, message: data});
-	};
+		if (err) {
+			res.json({error: true, message: err});
+		} else{
+			res.json({error: false, message: data});
+		}
 	});
-  });
+});
 
 router.post('/stripeconfig', function(req, res, next) {
  	var response={};
