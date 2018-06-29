@@ -5,7 +5,7 @@ var orderModel  =  require("../model/Order.js");
 var ConvergeLib = require('converge-lib');
 
 /*var convergeLib = new ConvergeLib('008104', 'webpage', 'UT2FNY', 'false');*/
-var convergeLib;
+/*var convergeLib;*/
 
 var CoverageConfigModel  =  require("../model/CoverageConfig.js");
 var sslMerchantID = '';
@@ -17,7 +17,7 @@ var keyPublishable = '';
 var keySecret = '';
 var stripe;
 
-var convergeLib = new ConvergeLib('008104', 'webpage', 'UT2FNY', 'false');
+var convergeLib = new ConvergeLib('878295', 'mealwebpage', 'FJJBKYOZF2WV34E1EZCJOINKER5D6U4Q0WUIOC9KEKX5JIAM7Q4DOKOUBPPQSSQF', 'false');
 
 
 /*-------------------------------Start ConvergeLib--------------------------------------------------------*/
