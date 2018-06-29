@@ -19,6 +19,72 @@ var stripe;
 
 
 /*-------------------------------Start ConvergeLib--------------------------------------------------------*/
+function setValues(){
+	CoverageConfigModel.find({},function(err,data){
+		if (err) {
+			console.log("error");
+		} else{
+			console.log("coveragelib data", data);
+			if(data.length == 1){
+				sslMerchantID = data[0].ssl_merchant_id;
+				sslUserID = data[0].ssl_user_id;
+				sslPin = data[0].ssl_pin;
+
+				convergeLib = new ConvergeLib( sslMerchantID, sslUserID, sslPin, 'false');
+				
+				/*convergeLib = new ConvergeLib('878295', 'mealwebpage', 'FJJBKYOZF2WV34E1EZCJOINKER5D6U4Q0WUIOC9KEKX5JIAM7Q4DOKOUBPPQSSQF', 'false');*/
+				/*stripe = require("stripe")(keySecret);*/
+
+				console.log("keyAssign", sslPin, sslUserID, sslMerchantID);
+			}
+		}
+	});
+}
+
+setValues();
+
+router.get('/coverage-config', function(req, res, next) {
+ 	var response={};
+ 	CoverageConfigModel.find({},function(err,data){
+		if (err) {
+			res.json({error: true, message: err});
+		} else{
+			res.json({error: false, message: data});
+		}
+	});
+});
+
+router.post('/coverage-config-add', function(req, res, next) {
+ 	var response={};
+	CoverageConfigModel.find({},function(err,fdata){
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			if(fdata.length == 1){
+	            CoverageConfigModel.findByIdAndUpdate(fdata[0]._id, req.body, {new:true}, (err, udata)=>{
+	            	if(err){
+						res.json({"error" : true,"message" : err});
+	            	}else{
+	            		setValues();
+	            		res.json({"error" : false,"message" : udata});
+	            	}
+	            });
+			}else{
+				var ConfigModel = new CoverageConfigModel(req.body);
+				ConfigModel.save(function(err, sdata){
+					if(err) {
+						response = {"error" : true,"message" : err};
+					} else {
+						setValues();
+						response = {"error" : false,"message" : sdata};
+					}
+					res.json(response);
+				});			
+			}
+		};
+	});	
+});
+
 router.post('/collect-payment', function(req, res, next) {
 	convergeLib.collectPayment(req.body.fname,req.body.lname,req.body.email,req.body.cardnumber, req.body.expirymonth, req.body.expiryyear, req.body.cvv,req.body.amount,req.body.custid,'payment done')
 	.then(function(response){
@@ -43,6 +109,7 @@ router.post('/verify-card', function(req, res, next) {
         res.json({"error" : true,"message" : err});
     });
 });
+
 /*
 router.post('/apply-generated-token', function(req, res, next) {
 	convergeLib.collectPaymentByToken(req.body.cardno, req.body.expmonth, req.body.expdate, req.body.cvv,1.99 ,'1234','this is what i sold')
@@ -94,28 +161,6 @@ router.post('/generate-card-token', function(req, res, next) {
 			}
 		}
 	});
-}*/
-
-function setValues(){
-	CoverageConfigModel.find({},function(err,data){
-		if (err) {
-			console.log("error");
-		} else{
-			console.log("coveragelib data", data);
-			if(data.length == 1){
-				sslMerchantID = data[0].ssl_merchant_id;
-				sslUserID = data[0].ssl_user_id;
-				sslPin = data[0].ssl_pin;
-
-				convergeLib = new ConvergeLib( sslMerchantID, sslUserID, sslPin, 'false');
-				
-				/*convergeLib = new ConvergeLib('878295', 'mealwebpage', 'FJJBKYOZF2WV34E1EZCJOINKER5D6U4Q0WUIOC9KEKX5JIAM7Q4DOKOUBPPQSSQF', 'false');*/
-				/*stripe = require("stripe")(keySecret);*/
-
-				console.log("keyAssign", sslPin, sslUserID, sslMerchantID);
-			}
-		}
-	});
 }
 
 setValues();
@@ -161,7 +206,7 @@ router.post('/stripeconfig', function(req, res, next) {
 			}
 		};
 	});	
-});
+});*/
 
 /*-------------------------------END Stripe--------------------------------------------------------*/
 
