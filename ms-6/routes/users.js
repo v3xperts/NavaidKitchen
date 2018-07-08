@@ -150,7 +150,6 @@ router.post('/forget-password',function(req,res,next){
     }); 
 });
 
-
 router.get('/', function(req, res, next) {
     // if (!req.isAuthenticated()) {
     //     return res.status(200).json({
@@ -176,6 +175,17 @@ router.get('/', function(req, res, next) {
     }); 
 });
 
+router.get('/all-users', function(req, res, next) {
+    var response={};
+    User.find({}, null, {sort: {created_at: 1}},function(err,data){
+        if (err) {
+            response = {"error" : true,"message" : "Error fetching data"};
+        } else{
+            response = {"error" : false,"message" : data};
+        }
+        res.json(response);
+    });
+});
 
 router.get('/complexity', function(req, res, next) {
 
