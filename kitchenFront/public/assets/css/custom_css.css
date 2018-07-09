@@ -1,3 +1,7 @@
+.cursorPointer{
+  cursor: pointer;
+}
+
 
 .custom_thumbna{    
     border: 1px solid grey;
@@ -527,10 +531,14 @@ margin-bottom: 18px;
   margin-top: 5px;
 }
 .menu_category > div{
-    padding: 4% 0 4% 7%;
+    padding: 1rem 2.5rem;
     cursor: pointer;
     color: #333;
     margin-bottom: 10px;
+}
+
+.menu_category{
+  display: flex;
 }
 .menuCatHeading
 {   
