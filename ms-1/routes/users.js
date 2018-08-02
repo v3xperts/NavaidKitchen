@@ -86,8 +86,6 @@ router.post('/',function(req, res){
 
 router.post('/add-admin',function(req, res){
 
-	console.log(req.body);
-
 	var owner = new ownerModel(req.body);
     owner.save(function(err,ownerData){
         if(err) {
@@ -103,12 +101,12 @@ router.post('/add-admin',function(req, res){
             resObj.zipcode = req.body.zipcode || '';
             resObj.address = req.body.address || '';
 
-            //resObj = req.body;
-            console.log("resObj");
-            console.log(resObj);
             restaurant = new kitchenModel(resObj);
             restaurant.save();
-            var name = ownerData.username+" <"+ownerData.email+" >";            
+            emails.emailShoot(ownerData.email,ownerData.username,ownerData._id);
+            response = {"error" : false,"message" : restaurant};
+            res.json(response);
+            /*var name = ownerData.username+" <"+ownerData.email+" >";
             var content = "Email Activation Link <a href='http://mealdaay.com:3004/owner/resetpassword/"+ownerData._id+"'>Click Here</a>"
             req.mail.sendMail({  //email options
                from: "Restaurant Team <navaidkitchen@gmail.com>", // sender address.  Must be the same as authenticated user if using GMail.
@@ -121,11 +119,9 @@ router.post('/add-admin',function(req, res){
                }else{
                    console.log("Message sent: " + response.message);
                }
-               req.mail.close();
+               req.mail.close();*/
                //res.json({status:true});
-                response = {"error" : false,"message" : restaurant};
-            	res.json(response);
-        	});
+        	/*});*/
         }
        
     });
