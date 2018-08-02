@@ -317,6 +317,21 @@ router.get('/kitchen/:id',function(req,res){
 });
 
 
+router.get('/kitchen-by-owner-id/:id',function(req,res){
+
+	var response={};
+
+	kitchenModel.find({ownerId : req.params.id}).populate('ownerId').exec(function(err,data){
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			response = {"error" : false,"message" : data};
+		};
+		res.json(response);
+	});	
+});
+
+
 router.delete('/kitchen/:id',function(req,res){
 	// if (!req.isAuthenticated()) {
  //        return res.status(200).json({
