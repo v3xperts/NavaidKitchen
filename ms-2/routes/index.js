@@ -105,6 +105,38 @@ router.delete('/menu/:id/:kitchenId',function(req,res){
 		res.json(response);
 	});	
 });
+
+
+router.delete('/delete-all-kitchen-menus/:id',function(req,res){
+	var response={};
+	kitchenMenuModel.remove({kitchenId:req.params.id},function(err,data){
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			weekmonthModel.remove({kitchenId : req.params.id}, function(err2, data2){
+				if (err2) {
+					response = {"error" : true,"message" : "Error fetching data"};
+				}else{
+					ComboModel.remove({kitchenId : req.params.id}, function(err3, data3){
+						if (err3) {
+							response = {"error" : true,"message" : "Error fetching data"};
+						}else{
+							OfferModel.remove({kitchenId : req.params.id}, function(err4, data4){
+								if (err4) {
+									response = {"error" : true,"message" : "Error fetching data"};
+								}else{
+									response = {"error" : false,"message" : "Deleted Successfully"};
+								}
+							});
+						}
+					});
+					response = {"error" : false,"message" : "Deleted Successfully"};
+				}
+			});
+		}
+		res.json(response);
+	});
+}
 /*-------------------------------END MENU--------------------------------------------------------*/
 
 
@@ -316,6 +348,19 @@ router.delete('/item/:id',function(req,res){
 	var response={};
 	console.log(req.params.id);
 	itemModel.remove({_id:req.params.id},function(err,data){
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			response = {"error" : false,"message" : "Deleted Successfully"};
+		};
+		res.json(response);
+	});	
+});
+
+router.delete('/delete-all-kitchen-items/:id',function(req,res){
+	var response={};
+	console.log(req.params.id);
+	itemModel.remove({kitchenId:req.params.id},function(err,data){
 		if (err) {
 			response = {"error" : true,"message" : "Error fetching data"};
 		} else{
