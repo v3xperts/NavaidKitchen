@@ -2191,8 +2191,8 @@ button.model-remove1{
   display: inline-block !important;
 }
 .itemslist{
-  padding: 5px;
-  border: 1px;
+  padding: 5px 16px;
+  border: 1px solid lightgray;
 }
 .pt-15{
   padding-top: 15px;
