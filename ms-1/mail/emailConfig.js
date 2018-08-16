@@ -2,7 +2,7 @@ var nodemailer = require('nodemailer');
 var ejs = require('ejs');
 var randomstring = require("randomstring");
 
-var emailFrom = 'navaidkitchen@gmail.com';
+var emailFrom = 'customersupport@mealdaay.com';
 
 var templateDir = '/NavaidKitchen/ms-1/email_template';
 //var templateDir = '../ms-3/email_template';
@@ -10,8 +10,8 @@ var templateDir = '/NavaidKitchen/ms-1/email_template';
 var transporter = nodemailer.createTransport("SMTP", {
    service: "Gmail",  // sets automatically host, port and connection security settings
    auth: {
-       user: "navaidkitchen@gmail.com",
-       pass: "navaidkitchennavaidkitchen"
+       user: "customersupport@mealdaay.com",
+       pass: "mealdaay123"
    }
 });
 
