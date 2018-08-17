@@ -136,7 +136,7 @@ router.delete('/delete-all-kitchen-menus/:id',function(req,res){
 		}
 		res.json(response);
 	});
-}
+});
 /*-------------------------------END MENU--------------------------------------------------------*/
 
 
