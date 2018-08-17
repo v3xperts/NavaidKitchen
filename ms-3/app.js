@@ -29,7 +29,7 @@ allowCrossDomain = function(req, res, next) {
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept');
   if ('OPTIONS' === req.method) {
-    res.send(200);
+    res.sendStatus(200);
   } else {
     next();
   }
@@ -70,8 +70,8 @@ var nodemailer = require("nodemailer");
 var smtpTransport = nodemailer.createTransport({
    service: "Gmail",  // sets automatically host, port and connection security settings
    auth: {
-       user: "customersupport@mealdaay.com",
-       pass: "mealdaay123"
+       user: "navaidkitchen@gmail.com",
+       pass: "navaidkitchennavaidkitchen"
    }
 });
 app.use(function(req, res, next) {

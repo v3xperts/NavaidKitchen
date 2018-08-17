@@ -2,7 +2,7 @@ var nodemailer = require('nodemailer');
 var ejs = require('ejs');
 var randomstring = require("randomstring");
 
-var emailFrom = 'customersupport@mealdaay.com';
+var emailFrom = 'navaidkitchen@gmail.com';
 
 var templateDir = '/NavaidKitchen/ms-3/email_template';
 //var templateDir = '../ms-3/email_template';
@@ -10,8 +10,8 @@ var templateDir = '/NavaidKitchen/ms-3/email_template';
 var transporter = nodemailer.createTransport({
    service: "Gmail",  // sets automatically host, port and connection security settings
    auth: {
-       user: "customersupport@mealdaay.com",
-       pass: "mealdaay123"
+       user: "navaidkitchen@gmail.com",
+       pass: "navaidkitchennavaidkitchen"
    }
 });
 
@@ -20,7 +20,7 @@ module.exports = {
 
     emailShoot: function(emailTo, username, id) {
 
-        console.log(emailTo, username, id);
+        /*console.log(emailTo, username, id);*/
 
         // rendering html template (same way can be done for subject, text)
         var html = ejs.renderFile(templateDir + '/register.ejs', { username: username , token: id},
