@@ -24,7 +24,7 @@ function setValues(){
 		if (err) {
 			console.log("error");
 		} else{
-			console.log("coveragelib data", data);
+			/*console.log("coveragelib data", data);*/
 			if(data.length == 1){
 				sslMerchantID = data[0].ssl_merchant_id;
 				sslUserID = data[0].ssl_user_id;
