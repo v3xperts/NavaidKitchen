@@ -3,6 +3,7 @@ var router = express.Router();
 var NodeGeocoder = require('node-geocoder');
 var kitchenModel  =  require("../model/Kitchen.js");
 var referralModel  =  require("../model/referral.js");
+var subscriptionModel  =  require("../model/subscription.js");
 var ownerModel  =  require("../model/Owner.js");
 var partnerModel  =  require("../model/Partner.js");
 var emails = require('../mail/emailConfig.js');
@@ -506,13 +507,6 @@ router.post('/ownerreferral',function(req,res,next) {
 });
 
 router.get('/ownerreferral/:id',function(req,res){
-	// if (!req.isAuthenticated()) {
- //        return res.status(200).json({
- //            status: false,
- //            message:'Access Denied'
- //        });
- //    }
-
 	var response={};	
 	referralModel.findById(req.params.id , function (err, data) {
 		console.log(data);
@@ -541,22 +535,29 @@ router.get('/ownerreferral-ownerlist/:id',function(req,res){
 
 
 router.put('/ownerreferral/:id',function(req, res){
-	// if (!req.isAuthenticated()) {
- //        return res.status(200).json({
- //            status: false,
- //            message:'Access Denied'
- //        });
- //    } 
 	var response={};
-		referralModel.findByIdAndUpdate(req.params.id, req.body, function(err, kitchen) {
-	    	if(err) {
-	            response = {"error" : true,"message" : err};
-	        } else {
-	            response = {"error" : false,"message" : "Data Update"};
-	        }
-	        res.json(response);
-        });
-      });
+	referralModel.findByIdAndUpdate(req.params.id, req.body, function(err, kitchen) {
+    	if(err) {
+            response = {"error" : true,"message" : err};
+        } else {
+            response = {"error" : false,"message" : "Data Update"};
+        }
+        res.json(response);
+    });
+});
+
+
+router.delete('/ownerreferral/:id',function(req, res){
+	var response={};
+	referralModel.remove({_id: req.params.id},function(err,data){
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			response = {"error" : false,"message" : "Deleted Successfully"};
+		};
+		res.json(response);
+	});
+});
 
 
 router.post('/kitchenfiltersstr',function(req,res){
@@ -617,6 +618,70 @@ router.post('/order-cancel-email',function(req,res,next){
 });
 
 /*-------------------------------End Email for successfully-----------------------------------------------------------*/
+
+
+
+
+
+
+
+router.get('/subscription-by-id/:id',function(req,res){
+    var response={};
+    subscriptionModel.findById(req.params.id,function(err,data){
+        if (err) {
+            response = {"error" : true,"message" : "Error fetching data"};
+        } else{
+            response = {"error" : false,"message" : data};
+        };
+        res.json(response);
+    }); 
+});
+
+
+router.delete('/subscription-delete/:id',function(req,res){
+    var response={};
+    subscriptionModel.remove({_id:req.params.id},function(err,data){
+        if (err) {
+            response = {"error" : true,"message" : "Error fetching data"};
+        } else{
+            response = {"error" : false,"message" : "Deleted Successfully"};
+        };
+        res.json(response);
+    }); 
+});
+
+router.get('/subscription-all', function(req, res, next) {
+    var response={};
+    subscriptionModel.find({}, null, {sort: {created_at: 1}},function(err,data){
+        if (err) {
+            response = {"error" : true,"message" : "Error fetching data"};
+        } else{
+            response = {"error" : false,"message" : data};
+        };
+        res.json(response);
+    }); 
+});
+
+
+router.post('/subscription-add',function(req, res){
+	var response={};
+    var subscription = new subscriptionModel(req.body);
+    subscription.save(function(err){
+    	if(err) {
+            response = {"error" : true,"message" : err};
+        } else {
+            response = {"error" : false,"message" : "Subscribed!"};
+        }
+        res.json(response);
+    });
+});
+
+
+
+
+
+
+
 
 
 
