@@ -35,7 +35,7 @@ router.post('/customerreferral',function(req,res,next) {
                         var content = "Referral Link <a href='http://mealdaay.com/customer/referralregister/"+data._id+"'>Click Here</a>"
                         console.log(content);
                         req.mail.sendMail({  //email options 
-                            from: "Restaurant Team <customersupport@mealdaay.com>", // sender address.  Must be the same as authenticated user if using GMail.
+                            from: "Restaurant Team <no-reply@mealdaay.com>", // sender address.  Must be the same as authenticated user if using GMail.
                            to: req.body.emailto, // receiver                                     
                            subject: "Sign Up by Referral", // subject
                            html: content
@@ -295,7 +295,7 @@ router.post('/contactus',function(req,res,next){
                 var content = "<html><head></head><body><table> <tr> <td>Name :</td><td>"+req.body.name+"</td></tr><tr><td>Email : </td><td>"+req.body.email+"</td></tr><tr><td>Phone : </td><td>"+req.body.phone+"</td></tr><tr><td>Message : </td><td>"+req.body.message+"</td></tr></table></body></html>";
                 //console.log(content);
                 req.mail.sendMail({  //email options
-                   from: "Restaurant Team <customersupport@mealdaay.com>", // sender address.  Must be the same as authenticated user if using GMail.
+                   from: "Restaurant Team <no-reply@mealdaay.com>", // sender address.  Must be the same as authenticated user if using GMail.
                    to: "Restaurant Team <ankur@v3xperts.com>", // receiver
                    subject: "Any Query to Customer (" + req.body.name + ' )', // subject
                    //text: "Email Example with nodemailer" // body
