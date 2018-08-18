@@ -20,7 +20,7 @@ module.exports = {
     
     emailShoot: function(emailTo, username, id) {
 
-        console.log(emailTo, username, id);
+        /*console.log(emailTo, username, id);*/
 
         // rendering html template (same way can be done for subject, text)
         var html = ejs.renderFile(templateDir + '/register.ejs', { username: username , token: id},
