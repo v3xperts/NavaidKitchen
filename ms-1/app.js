@@ -30,7 +30,7 @@ allowCrossDomain = function(req, res, next) {
   res.setHeader('Access-Control-Allow-Credentials', 'true');
   res.header('Content-Type', 'application/json');
   if ('OPTIONS' === req.method) {
-    res.send(200);
+    res.sendStatus(200);
   } else {
     next();
   }
@@ -71,9 +71,10 @@ var nodemailer = require("nodemailer");
 var smtpTransport = nodemailer.createTransport("SMTP",{
    service: "Gmail",  // sets automatically host, port and connection security settings
    auth: {
-       user: "customersupport@mealdaay.com",
+       user: "no-reply@mealdaay.com",
        pass: "Mealdaay786"
    }
+
 });
 app.use(function(req, res, next) {
     req.mail = smtpTransport;
