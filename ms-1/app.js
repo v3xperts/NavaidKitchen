@@ -69,15 +69,11 @@ app.post('/upload', function(req, res) {
 /*mail configure start*/
 var nodemailer = require("nodemailer");
 var smtpTransport = nodemailer.createTransport("SMTP",{
-    service: "Gmail",  // sets automatically host, port and connection security settings
-    auth: {
-       /*user: "customersupport@mealdaay.com",
-       pass: "Mealdaay786"*/
-
-      user: "navaidkitchen@gmail.com",
-      pass: "navaidkitchennavaidkitchen"
-
-    }
+   service: "Gmail",  // sets automatically host, port and connection security settings
+   auth: {
+       user: "customersupport@mealdaay.com",
+       pass: "Mealdaay786"
+   }
 });
 app.use(function(req, res, next) {
     req.mail = smtpTransport;
