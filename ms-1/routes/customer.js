@@ -44,7 +44,7 @@ router.post('/forget-password', function(req,res,next){
                 var name = data[0].firstname+" <"+data[0].email+" >";
                 var content = "Password reset Link <a href='http://mealdaay.com/reset-password/"+data[0]._id+"'>Click Here</a>"
                 req.mail.sendMail({  //email options
-                   from: "Restaurant Team <no-reply@mealdaay.com>", // sender address.  Must be the same as authenticated user if using GMail.
+                   from: "Restaurant Team <no_reply@mealdaay.com>", // sender address.  Must be the same as authenticated user if using GMail.
                    to: name, // receiver
                    subject: "Reset Password", // subject
                    //text: "Email Example with nodemailer" // body

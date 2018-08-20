@@ -9,7 +9,7 @@ var RefSchema = new Schema({
     status :  { type: Boolean, default: false },
     emailto : { type : String, lowercase: true },
     type : String
-    });
+});
 
 // the schema is useless so far
 // we need to create a model using it

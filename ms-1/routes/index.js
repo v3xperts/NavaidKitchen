@@ -473,8 +473,6 @@ router.post('/ownerreferral',function(req,res,next) {
 								if(err) {
 									res.status(403).json({ "error" : true,"message" : err});	
 								} else{
-									console.log("sdata");
-									console.log(sdata);
 									emails.referalShoot(req.body.emailto, sdata._id);
 									res.status(200).json({ "error" : false,"message" : "Refferral has been Send Sucessfully!"});
 								}
