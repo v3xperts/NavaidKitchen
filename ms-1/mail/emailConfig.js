@@ -11,7 +11,7 @@ var transporter = nodemailer.createTransport("SMTP", {
    service: "Gmail",  // sets automatically host, port and connection security settings
    auth: {
        user: "no_reply@mealdaay.com",
-       pass: "Me@@lD@@y786"
+       pass: "Me@lD@@y786"
    }
 });
 
