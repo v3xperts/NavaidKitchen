@@ -450,60 +450,41 @@ router.post('/filterKitchen',function(req,res){
 router.post('/ownerreferral',function(req,res,next) {
     var response={};
     
-     referralModel.find({emailto : req.body.emailto}, function(err, data) {
-    if(err){
-		res.status(403).json({"error" : true,"message" : err});
-    }else if(data.length > 0){
-		res.status(200).json({"error" : true,"message" : 'Email Already exist'});
-    }else{
-    	 ownerModel.find({email:req.body.emailto},function (err,data2) {
-    	if(err){
-			res.status(403).json({ "error" : true,"message" : err});		
-    	}else if(data2.length>0){
-    		res.status(200).json({"error" : true,"message" : 'Email Already exist'});
-    	}else{
-    		partnerModel.find({email:req.body.emailto},function (err,data3) {
-					if(err){
-					res.status(403).json({ "error" : true,"message" : err});		
-					}else if(data3.length>0){
-    						res.status(200).json({"error" : true,"message" : 'Email Already exist'});
-    					}else{
-						var referral = new referralModel(req.body);
-						referral.save(function(err, sdata){   
-							if(err) {
-							res.status(403).json({ "error" : true,"message" : err});	
-							} else if(sdata) {		             
-							emails.referalShoot(req.body.emailto, sdata._id);
-							res.status(200).json({ "error" : false,"message" : "Refferral has been Send Sucessfully!"});
-
-							/* var content = "Referral Link <a href='http://mealdaay.com:3004/owner/referralregister/"+data._id+"'>Click Here</a>"
-							console.log(content);
-							req.mail.sendMail({  //email options 
-							    from: "Restaurant Team <navaidkitchen@gmail.com>", // sender address.  Must be the same as authenticated user if using GMail.
-							   to: req.body.emailto, // receiver                                     
-							   subject: "Sign Up by Referral", // subject
-							   html: content
-							}, function(error, response){  //callback
-							   if(error){
-							       console.log(error);
-							   }else{
-							       console.log("Message sent: " + response.message);
-							   }
-							   req.mail.close(); // shut down the connection pool, no more messages.  Comment this line out to continue sending emails.
-							   //res.json({error:false});                  
-							});*/	
-
-							}		        
-						});
-
-					}
-				});
-		    
-    	}
-    });
-
-    }
-});
+    referralModel.find({emailto : req.body.emailto, referralfrom : req.body.referralfrom}, function(err, data) {
+	    if(err){
+			res.status(403).json({"error" : true,"message" : err});
+	    }else if(data.length > 0){
+			res.status(200).json({"error" : true,"message" : 'Email Already exist'});
+	    }else{
+	    	ownerModel.find({email:req.body.emailto},function (err,data2) {
+		    	if(err){
+					res.status(403).json({ "error" : true,"message" : err});
+		    	}else if(data2.length > 0){
+		    		res.status(200).json({"error" : true,"message" : 'Already Owner of any restaurant'});
+		    	}else{
+		    		partnerModel.find({email:req.body.emailto},function (err,data3) {
+						if(err){
+							res.status(403).json({ "error" : true,"message" : err});		
+						}else if(data3.length>0){
+							res.status(200).json({"error" : true,"message" : 'Already Partner of any restaurant'});
+						}else{
+							var referral = new referralModel(req.body);
+							referral.save(function(err, sdata){
+								if(err) {
+									res.status(403).json({ "error" : true,"message" : err});	
+								} else{
+									console.log("sdata");
+									console.log(sdata);
+									emails.referalShoot(req.body.emailto, sdata._id);
+									res.status(200).json({ "error" : false,"message" : "Refferral has been Send Sucessfully!"});
+								}
+							});
+						}
+					});
+		    	}
+		    });
+	    }
+	});
 });
 
 router.get('/ownerreferral/:id',function(req,res){
