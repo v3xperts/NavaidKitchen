@@ -520,6 +520,19 @@ router.get('/ownerreferral/:id',function(req,res){
 
 });
 
+router.get('/all-referral',function(req,res){
+	var response={};	
+	referralModel.find({} , function (err, data) {
+		if (err) {
+			response = {"error" : true,"message" : "Error fetching data"};
+		} else{
+			response = {"error" : false,"message" : data};
+		};
+		res.json(response);
+	});	
+
+});
+
 router.get('/ownerreferral-ownerlist/:id',function(req,res){
 	var response={};	
 	referralModel.find({"referralfrom":req.params.id}).populate('referralfrom').exec((err, data)=>{
