@@ -79,7 +79,7 @@ router.post('/coverage-config-add', function(req, res, next) {
 });
 
 router.post('/collect-payment', function(req, res, next) {
-	convergeLib.collectPayment(req.body.fname,req.body.lname,req.body.email,req.body.cardnumber, req.body.expirymonth, req.body.expiryyear, req.body.cvv,req.body.amount,req.body.orderId,'Payment for Mealdaay Order')
+	convergeLib.collectPayment(req.body.fname,req.body.lname,req.body.email,req.body.cardnumber, req.body.expirymonth, req.body.expiryyear, req.body.cvv,req.body.amount,req.body.custid,'Payment for Mealdaay Order')
 	.then(function(response){
 		console.log("response");
 		console.log(response);
