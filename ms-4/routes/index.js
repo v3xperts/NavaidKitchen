@@ -92,7 +92,7 @@ router.post('/collect-payment', function(req, res, next) {
 });
 
 router.post('/verify-card', function(req, res, next) {
-	convergeLib.verifyCard(req.body.cardnumber, req.body.expirymonth, req.body.expiryyear, req.body.cvv, req.body.city, req.body.postalcode)
+	convergeLib.verifyCard(req.body.cardnumber, req.body.expirymonth, req.body.expiryyear, req.body.cvv)
     .then(function(response){
         console.log('response ',response);
         res.json({"error" : false,"message" : response});
