@@ -12,10 +12,10 @@ var sslMerchantID = '';
 var sslUserID = '';
 var sslPin = '';
 
-var StripeConfigModel  =  require("../model/StripeConfig.js");
+/*var StripeConfigModel  =  require("../model/StripeConfig.js");
 var keyPublishable = '';
 var keySecret = '';
-var stripe;
+var stripe;*/
 
 
 /*-------------------------------Start ConvergeLib--------------------------------------------------------*/
@@ -24,18 +24,11 @@ function setValues(){
 		if (err) {
 			console.log("error");
 		} else{
-			/*console.log("coveragelib data", data);*/
 			if(data.length == 1){
 				sslMerchantID = data[0].ssl_merchant_id;
 				sslUserID = data[0].ssl_user_id;
 				sslPin = data[0].ssl_pin;
-
 				convergeLib = new ConvergeLib( sslMerchantID, sslUserID, sslPin, false);
-				
-				/*convergeLib = new ConvergeLib('878295', 'mealwebpage', 'FJJBKYOZF2WV34E1EZCJOINKER5D6U4Q0WUIOC9KEKX5JIAM7Q4DOKOUBPPQSSQF', 'false');*/
-				/*stripe = require("stripe")(keySecret);*/
-
-				/*console.log("keyAssign", sslPin, sslUserID, sslMerchantID);*/
 			}
 		}
 	});
@@ -86,7 +79,7 @@ router.post('/coverage-config-add', function(req, res, next) {
 });
 
 router.post('/collect-payment', function(req, res, next) {
-	convergeLib.collectPayment(req.body.fname,req.body.lname,req.body.email,req.body.cardnumber, req.body.expirymonth, req.body.expiryyear, req.body.cvv,req.body.amount,req.body.custid,'payment done')
+	convergeLib.collectPayment(req.body.fname,req.body.lname,req.body.email,req.body.cardnumber, req.body.expirymonth, req.body.expiryyear, req.body.cvv,req.body.amount,req.body.orderId,'Payment for Mealdaay Order')
 	.then(function(response){
 		console.log("response");
 		console.log(response);
@@ -123,7 +116,7 @@ router.post('/apply-generated-token', function(req, res, next) {
 
 
 
-router.post('/generate-card-token', function(req, res, next) {
+/*router.post('/generate-card-token', function(req, res, next) {
 	convergeLib.generateToken(req.body.fname,req.body.lname,req.body.email,req.body.cardnumber, req.body.expirymonth, req.body.expiryyear, req.body.cvv)
 	.then(function(response){
 		console.log('response ',response);
@@ -133,7 +126,7 @@ router.post('/generate-card-token', function(req, res, next) {
 		console.error('error',err);
 		res.json({"error" : true,"message" : err});
 	});
-});
+});*/
 
 
 
