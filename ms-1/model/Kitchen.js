@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 // create a schema
 var KitchenSchema = new Schema({
   restaurantname: String,
+  restaurantDescription: String,
   address: String,
   city: { type : String, lowercase: true, trim: true},
   ownerId : {type: Schema.Types.ObjectId, ref:'Owner', required: true},
