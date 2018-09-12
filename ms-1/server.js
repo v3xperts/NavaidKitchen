@@ -9,7 +9,7 @@ const app = express();
 // Certificate
 const privateKey = fs.readFileSync('/etc/httpd/ssl/mealdaay.key', 'utf8');
 const certificate = fs.readFileSync('/etc/httpd/ssl/mealdaay.crt', 'utf8');
-const ca = fs.readFileSync('/etc/letsencrypt/live/yourdomain.com/chain.pem', 'utf8');
+const ca = fs.readFileSync('/etc/httpd/ssl/mealdaay-int.crt', 'utf8');
 
 const credentials = {
 	key: privateKey,
