@@ -14,8 +14,26 @@ const ca = fs.readFileSync('/etc/httpd/ssl/mealdaay-int.crt', 'utf8');
 const credentials = {
 	key: privateKey,
 	cert: certificate,
-	ca: ca
+	ca: ca,
+    passphrase: 'Mealdaay123',
+    requestCert: false,
+    rejectUnauthorized: false
 };
+
+
+
+
+
+/*var options = {
+    key: fs.readFileSync('/etc/apache2/ssl/server.key'),
+    cert: fs.readFileSync('/etc/apache2/ssl/server.crt'),
+    passphrase: '<the password you used for the certificate>',
+    requestCert: false,
+    rejectUnauthorized: false
+};*/
+
+
+
 
 app.use((req, res) => {
 	res.send('Hello there !');
