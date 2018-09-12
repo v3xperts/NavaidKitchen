@@ -19,7 +19,7 @@ const chainFile = fs.readFileSync('/etc/httpd/ssl/mealdaay-int.crt', 'utf8');
 const credentials = {
   key: privateKey,
   cert: certificate,
-  ca: ca,
+  ca: chainFile,
   passphrase: 'Mealdaay123',
   requestCert: false,
   rejectUnauthorized: false
