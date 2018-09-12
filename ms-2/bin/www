@@ -6,8 +6,32 @@
 
 var app = require('../app');
 var debug = require('debug')('naved2:server');
-var http = require('http');
 
+const fs = require('fs');
+var https = require('https');
+const privateKey = fs.readFileSync('/etc/httpd/ssl/mealdaay.key', 'utf8');
+const certificate = fs.readFileSync('/etc/httpd/ssl/mealdaay.crt', 'utf8');
+const chainFile = fs.readFileSync('/etc/httpd/ssl/mealdaay-int.crt', 'utf8');
+
+
+/*var credentials = {key: privateKey, cert: certificate};*/
+
+const credentials = {
+  key: privateKey,
+  cert: certificate,
+  ca: chainFile,
+  passphrase: 'Mealdaay123',
+  requestCert: false,
+  rejectUnauthorized: false
+};
+
+
+/*SSLCertificateFile /etc/httpd/ssl/mealdaay.crt
+SSLCertificateKeyFile /etc/httpd/ssl/mealdaay.key
+SSLCertificateChainFile /etc/httpd/ssl/mealdaay-int.crt*/
+
+/*const httpsServer = https.createServer(credentials, app);*/
+var server = https.createServer(credentials, app);
 /**
  * Get port from environment and store in Express.
  */
