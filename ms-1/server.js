@@ -1,6 +1,6 @@
 // Dependencies
 const fs = require('fs');
-const http = require('http');
+/*const http = require('http');*/
 const https = require('https');
 const express = require('express');
 
@@ -40,12 +40,12 @@ app.use((req, res) => {
 });
 
 // Starting both http & https servers
-const httpServer = http.createServer(app);
+/*const httpServer = http.createServer(app);*/
 const httpsServer = https.createServer(credentials, app);
 
-httpServer.listen(80, () => {
+/*httpServer.listen(80, () => {
 	console.log('HTTP Server running on port 80');
-});
+});*/
 
 httpsServer.listen(5000, () => {
 	console.log('HTTPS Server running on port 443');
