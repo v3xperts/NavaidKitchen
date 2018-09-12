@@ -9,9 +9,9 @@ var debug = require('debug')('naved2:server');
 /*var http = require('http');*/
 
 var https = require('https');
-privateKey = fs.readFileSync('/etc/httpd/ssl/mealdaay.key', 'utf8');
-certificate = fs.readFileSync('/etc/httpd/ssl/mealdaay.crt', 'utf8');
-chainFile = fs.readFileSync('/etc/httpd/ssl/mealdaay-int.crt', 'utf8');
+const privateKey = fs.readFileSync('/etc/httpd/ssl/mealdaay.key', 'utf8');
+const certificate = fs.readFileSync('/etc/httpd/ssl/mealdaay.crt', 'utf8');
+const chainFile = fs.readFileSync('/etc/httpd/ssl/mealdaay-int.crt', 'utf8');
 
 
 /*var credentials = {key: privateKey, cert: certificate};*/
