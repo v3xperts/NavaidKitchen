@@ -69,10 +69,10 @@ emailAdminShoot: function(emailTo, username, id, password) {
     forgetEmailShoot: function(customer, type) {
         console.log(customer);
         if (type == 'cust') {
-            customer['resetPassLink'] = 'http://mealdaay.com/customers/reset-password/'+customer._id;
+            customer['resetPassLink'] = 'https://mealdaay.com/customers/reset-password/'+customer._id;
             /*customer['resetPassLink'] = 'http://localhost:4200/customer/reset-password/'+customer._id;*/
         }else{
-            customer['resetPassLink'] = 'http://mealdaay.com/admin/reset-password/'+customer._id;
+            customer['resetPassLink'] = 'https://mealdaay.com/admin/reset-password/'+customer._id;
             /*customer['resetPassLink'] = 'http://localhost:4200/admin/reset-password/'+customer._id;*/
         }
 

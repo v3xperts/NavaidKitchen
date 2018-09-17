@@ -178,7 +178,7 @@ emailAdminDriverShoot: function(username) {
 
     forgetEmailShoot: function(customer, type) {
 
-            customer['resetPassLink'] = 'http://mealdaay.com:3004/owner/reset-password/'+customer._id;
+            customer['resetPassLink'] = 'https://mealdaay.com:3004/owner/reset-password/'+customer._id;
 
         // rendering html template (same way can be done for subject, text)
         var html = ejs.renderFile(templateDir + '/forgetPassword.ejs', {customer : customer},
@@ -200,7 +200,7 @@ emailAdminDriverShoot: function(username) {
         sendmail(options);
     },
     driverForgetEmailShoot: function(emailTo, username, token) {
-            var customer = {'resetPassLink': 'http://mealdaay.com:3004/customer/driver/reset-password/'+token};
+            var customer = {'resetPassLink': 'https://mealdaay.com:3004/customer/driver/reset-password/'+token};
             // customer['resetPassLink'] = 'http://mealdaay.com:3004/customer/driver/reset-password/'+token;
 
         // rendering html template (same way can be done for subject, text)

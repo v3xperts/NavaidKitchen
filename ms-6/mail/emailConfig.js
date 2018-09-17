@@ -20,7 +20,7 @@ module.exports = {
 
     forgetEmailShoot: function(customer) {
         console.log(customer);
-        customer['resetPassLink'] = 'http://mealdaay.com:3004/admin/reset-password/'+customer._id;
+        customer['resetPassLink'] = 'https://mealdaay.com:3004/admin/reset-password/'+customer._id;
         // rendering html template (same way can be done for subject, text)
         var html = ejs.renderFile(templateDir + '/forgetPassword.ejs', {customer : customer},
             function(err, data) {
