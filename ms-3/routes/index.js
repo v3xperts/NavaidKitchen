@@ -32,7 +32,7 @@ router.post('/customerreferral',function(req,res,next) {
                     response = {"error" : true,"message" : err};
                 } else {
                      if (data) {
-                        var content = "Referral Link <a href='http://mealdaay.com/customer/referralregister/"+data._id+"'>Click Here</a>"
+                        var content = "Referral Link <a href='https://mealdaay.com/customer/referralregister/"+data._id+"'>Click Here</a>"
                         console.log(content);
                         req.mail.sendMail({  //email options 
                             from: "Restaurant Team <no_reply@mealdaay.com>", // sender address.  Must be the same as authenticated user if using GMail.

@@ -42,7 +42,7 @@ router.post('/forget-password', function(req,res,next){
         } else{
             if (data.length>0) {
                 var name = data[0].firstname+" <"+data[0].email+" >";
-                var content = "Password reset Link <a href='http://mealdaay.com/reset-password/"+data[0]._id+"'>Click Here</a>"
+                var content = "Password reset Link <a href='https://mealdaay.com/reset-password/"+data[0]._id+"'>Click Here</a>"
                 req.mail.sendMail({  //email options
                    from: "Restaurant Team <no_reply@mealdaay.com>", // sender address.  Must be the same as authenticated user if using GMail.
                    to: name, // receiver

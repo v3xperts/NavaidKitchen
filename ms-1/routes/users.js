@@ -137,7 +137,7 @@ router.post('/account-confirms',function(req, res){
         } else {            
             var loggedUser = dataq;
             var name = loggedUser.firstname+" <"+loggedUser.email+" >";            
-            var content = "Email Activation Link <a href='http://mealdaay.com:3005/customer/mailactivate/"+loggedUser._id+"'>Click Here</a>"
+            var content = "Email Activation Link <a href='https://mealdaay.com:3005/customer/mailactivate/"+loggedUser._id+"'>Click Here</a>"
             req.mail.sendMail({  //email options
                from: "Restaurant Team <no_reply@mealdaay.com>", // sender address.  Must be the same as authenticated user if using GMail.
                to: name, // receiver
