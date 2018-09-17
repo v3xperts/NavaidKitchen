@@ -198,7 +198,7 @@ module.exports = {
         sendmail(options);
     },
 
-emailAdminDriverShoot: function(username) {
+    emailAdminDriverShoot: function(username) {
 
         // rendering html template (same way can be done for subject, text)
         var html = ejs.renderFile(templateDir + '/adminfordriver.ejs', { username: username },
@@ -222,7 +222,7 @@ emailAdminDriverShoot: function(username) {
 
     forgetEmailShoot: function(customer, type) {
 
-            customer['resetPassLink'] = 'https://mealdaay.com:3004/owner/reset-password/'+customer._id;
+        customer['resetPassLink'] = 'https://mealdaay.com/owner/resetpassword/'+customer._id;
 
         // rendering html template (same way can be done for subject, text)
         var html = ejs.renderFile(templateDir + '/forgetPassword.ejs', {customer : customer},
@@ -244,8 +244,8 @@ emailAdminDriverShoot: function(username) {
         sendmail(options);
     },
     driverForgetEmailShoot: function(emailTo, username, token) {
-            var customer = {'resetPassLink': 'https://mealdaay.com:3004/customer/driver/reset-password/'+token};
-            // customer['resetPassLink'] = 'http://mealdaay.com:3004/customer/driver/reset-password/'+token;
+            var customer = {'resetPassLink': 'https://mealdaay.com/customer/driver/reset-password/'+token};
+            // customer['resetPassLink'] = 'http://mealdaay.com/customer/driver/reset-password/'+token;
 
         // rendering html template (same way can be done for subject, text)
         var html = ejs.renderFile(templateDir + '/driverForgetPassword.ejs', {"customer" : customer, "username": username},
