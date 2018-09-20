@@ -196,10 +196,6 @@ router.post('/customer-address/:id',function(req, res){
   var response = {};
   var fullAddress = req.body.address+" "+req.body.zipcode+" "+req.body.city+" "+req.body.country;
   geocoder.geocode(fullAddress, function(err, gResponse) {
-    
-    console.log("err, gResponse");
-    console.log(err, gResponse);
-
     if(err){
       response = {"error" : true,"message" : err};
       res.json(response);
