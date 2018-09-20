@@ -9,7 +9,7 @@ var referralModel = require('../model/referral.js');
 var options = {
     provider: 'google',
     httpAdapter: 'https', // Default 
-    apiKey: null, // for Mapquest, OpenCage, Google Premier 
+    apiKey: 'AIzaSyB1IsrsMN22HB_fgAxG0i3Twes60dPF2EA', // for Mapquest, OpenCage, Google Premier 
     formatter: null         // 'gpx', 'string', ... 
 };
  
