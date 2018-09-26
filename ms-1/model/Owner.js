@@ -8,6 +8,7 @@ var OwnerSchema = new Schema({
   ownerlastname: String,
   ownergovids : [{"documentname": { type: String , default: ""}, "filename":{ type: String, default: ""}}],
   owneraddress : String,
+  type : 'owner',
   ownerphoneno : String,
   username: { type: String, lowercase: true, required: true, unique: true },
   email: { type: String, lowercase: true, required: true, unique: true },
