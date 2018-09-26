@@ -7,7 +7,7 @@ var OwnerSchema = new Schema({
   ownerfirstname: String,
   ownerlastname: String,  
   owneraddress : String,
-  userType : 'partner',
+  userType : { type: String, default: 'partner'},
   ownerphoneno : String,
   username: { type: String, lowercase: true, required: true, unique: true },
   email: { type: String, lowercase: true, required: true, unique: true },
