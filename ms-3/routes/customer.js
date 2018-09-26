@@ -20,25 +20,66 @@ router.post('/multiple', function(req, res, next) {
 
 
 
-router.post('/signup',function(req, res) {
-	
+/*router.post('/signup',function(req, res) {
+    
     var response = {};
     req.body.username = req.body.username.toLowerCase();
-	var cust = new Customer(req.body);
+    var cust = new Customer(req.body);
 
-	cust.save(function (err, data) {
-		if (err) {
+    cust.save(function (err, data) {
+        if (err) {
 
-			response = {"error": true, "message": err};
-		} else {
+            response = {"error": true, "message": err};
+        } else {
             if(req.body.accounttype){
             }else{
             emails.emailShoot(req.body.email, req.body.username, data._id);
             }
-			response = {"error": false, "message": "Registration successful"};
-		}
-		res.json(response);
-	});
+            response = {"error": false, "message": "Registration successful"};
+        }
+        res.json(response);
+    });
+});
+*/
+
+
+
+router.post('/signup',function(req, res) {
+    // if (typeof req.body.accounttype == 'undefined' || req.body.accounttype == null || req.body.accounttype.trim() == '') {
+    //     req.body.accounttype = 'customer'
+    // }
+
+	Customer.find({ username: req.body.username.toLowerCase()},function(err,customer) {
+        if (err) {
+            res.json({error:true, message: 'Error fetching data'});
+        }else{
+            if(customer && customer.length > 0){
+                if (customer[0]['accounttype'] == 'customer') {
+                    res.json({error:true, message: 'Customer already exists.'});
+                }else{
+                    res.json({error:false, message: customer[0]});
+                }
+            }else{
+                var response = {};
+                req.body.username = req.body.username.toLowerCase();
+            	var cust = new Customer(req.body);
+
+            	cust.save(function (err, data) {
+            		if (err) {
+
+            			response = {"error": true, "message": err};
+            		} else {
+                        if(req.body.accounttype){
+                        }else{
+                        emails.emailShoot(req.body.email, req.body.username, data._id);
+                        }
+            			response = {"error": false, "message": "Registration successful"};
+            		}
+            		res.json(response);
+            	});
+            }
+        };
+    });
 });
 
 
