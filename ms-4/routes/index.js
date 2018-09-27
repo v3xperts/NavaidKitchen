@@ -79,6 +79,8 @@ router.post('/coverage-config-add', function(req, res, next) {
 });
 
 router.post('/collect-payment', function(req, res, next) {
+	req.body.fname = req.body.fname || 'guest';
+	req.body.lname = req.body.lname || 'customer';
 	convergeLib.collectPayment(req.body.fname,req.body.lname,req.body.email,req.body.cardnumber, req.body.expirymonth, req.body.expiryyear, req.body.cvv,req.body.amount,req.body.custid,'Payment for Mealdaay Order')
 	.then(function(response){
 		console.log("response");
